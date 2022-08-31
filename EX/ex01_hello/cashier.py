@@ -10,3 +10,4 @@ coins = ((amount - coin1) / 50) + ((coin1 - coin2) / 20) + ((coin2 - coin3) / 10
         ((coin3 - coin4) / 5) + ((coin4 - coin5) / 1)
 
 print(f"Amount of coins needed: {coins}")
+"""Cashier."""
