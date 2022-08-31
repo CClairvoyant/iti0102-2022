@@ -1,6 +1,4 @@
-"""
-A customisable poem.
-"""
+"""A customisable poem."""
 
 colour = input("Hello! To begin with creating your poem, enter a colour: ")
 items = input("Nice! Now enter a plural noun: ")

@@ -1,6 +1,4 @@
-"""
-Calculates the change needed to give.
-"""
+"""Calculates the change needed to give."""
 
 amount = int(input("Enter a sum: "))
 

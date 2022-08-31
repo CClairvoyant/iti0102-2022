@@ -1,6 +1,4 @@
-"""
-Adds together any two numbers.
-"""
+"""Adds together any two numbers."""
 
 name = input("What is your name? ")
 num1 = int(input(f"Hello {name}! Enter a random number: "))

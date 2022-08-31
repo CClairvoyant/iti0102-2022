@@ -1,6 +1,4 @@
-"""
-Greets anyone.
-"""
+"""Greets anyone."""
 
 greeting = input("Enter a greeting: ")
 recipient = input("Enter a recipient: ")
