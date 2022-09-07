@@ -63,9 +63,9 @@ def if_else(a: int, b: int, c: int, d: int) -> float:
     Multiply parameters 1-2 (multiply a by b) by each other and divide parameters 3-4 (divide c by d) by each other.
     Next check and return the greater value. If both values are the same then return 0 (number zero).
     """
-    if (a * b) > (c - d):
+    if (a * b) > (c / d):
         return a * b
-    elif (a * b) < (c - d):
+    elif (a * b) < (c / d):
         return c - d
     else:
         return 0
