@@ -66,7 +66,7 @@ def if_else(a: int, b: int, c: int, d: int) -> float:
     if (a * b) > (c / d):
         return a * b
     elif (a * b) < (c / d):
-        return c - d
+        return c / d
     else:
         return 0
 
