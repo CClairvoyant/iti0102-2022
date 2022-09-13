@@ -154,3 +154,65 @@ if __name__ == '__main__':
     print(is_valid_birth_number(0))  # -> False
     print(is_valid_birth_number(1))  # -> True
     print(is_valid_birth_number(850))  # -> True
+
+
+def is_leap_year(year_number: int) -> bool:
+    if year_number % 400 == 0:
+        return True
+    elif year_number % 4 == 0 and year_number % 100 != 0:
+        return True
+    else:
+        return False
+
+
+def get_full_year(gender_number: int, year_number: int) -> int:
+    """Define the 4-digit year when given person was born."""
+    year = 0
+    if gender_number in (1, 2):
+        year = year_number + 1800
+    elif gender_number in (3, 4):
+        year = year_number + 1900
+    elif gender_number in (5, 6):
+        year = year_number + 2000
+    return year
+
+
+def get_birth_place(birth_number: int) -> str:
+    """Find the place where the person was born."""
+    if birth_number in range(1, 11):
+        return "Kuressaare"
+    elif birth_number in range(11, 21):
+        return "Tartu"
+    elif birth_number in range(21, 221):
+        return "Tallinn"
+    elif birth_number in range(221, 271):
+        return "Kohtla-Järve"
+    elif birth_number in range(271, 371):
+        return "Tartu"
+    elif birth_number in range(371, 421):
+        return "Narva"
+    elif birth_number in range(421, 471):
+        return "Pärnu"
+    elif birth_number in range(471, 711):
+        return "Tallinn"
+    elif birth_number < 1:
+        return "Wrong input!"
+    else:
+        return "undefined"
+
+
+if __name__ == '__main__':
+    print("\nLeap year:")
+    print(is_leap_year(1804))  # -> True
+    print(is_leap_year(1800))  # -> False
+
+    print("\nGet full year:")
+    print(get_full_year(1, 28))  # -> 1828
+    print(get_full_year(4, 85))  # -> 1985
+    print(get_full_year(5, 1))  # -> 2001
+
+    print("\nChecking where the person was born")
+    print(get_birth_place(0))  # -> "Wrong input!"
+    print(get_birth_place(1))  # -> "Kuressaare"
+    print(get_birth_place(273))  # -> "Tartu"
+    print(get_birth_place(220))  # -> "Tallinn"
