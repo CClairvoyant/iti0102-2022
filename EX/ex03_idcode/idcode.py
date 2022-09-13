@@ -61,10 +61,15 @@ def the_first_control_number_algorithm(text: str) -> str:
         return "Incorrect ID code!"
     elif len(idcode) > 11:
         return "Incorrect ID code!"
-    elif len(idcode) == 11 and (int(idcode[0]) + int(idcode[1]) * 2 + int(idcode[2]) * 3 + int(idcode[3]) * 4 +
-                                int(idcode[4]) * 5 + int(idcode[5]) * 6 + int(idcode[6]) * 7 + int(idcode[7]) * 8 +
-                                int(idcode[8]) * 9 + int(idcode[9])) % 11 == int(idcode[-1]):
+
+    control_number = (int(idcode[0]) + int(idcode[1]) * 2 + int(idcode[2]) * 3 + int(idcode[3]) * 4 +
+                      int(idcode[4]) * 5 + int(idcode[5]) * 6 + int(idcode[6]) * 7 + int(idcode[7]) * 8 +
+                      int(idcode[8]) * 9 + int(idcode[9])) % 11
+
+    if len(idcode) == 11 and control_number == int(idcode[-1]):
         return idcode
+    elif control_number < 10 and control_number != int(idcode[-1]):
+        return "Incorrect ID code!"
     else:
         return "Needs the second algorithm!"
 
