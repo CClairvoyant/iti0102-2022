@@ -99,7 +99,7 @@ def is_valid_gender_number(gender_number: int) -> bool:
 
 
 def get_gender(gender_number: int) -> str:
-    """Checks the gender of the ID code."""
+    """Check the gender of the ID code."""
     if gender_number in (1, 3, 5):
         return "male"
     elif gender_number in (2, 4, 6):
@@ -108,7 +108,7 @@ def get_gender(gender_number: int) -> str:
 
 def is_valid_year_number(year_number: int) -> bool:
     """Check if given value is correct for year number in ID code."""
-    if len(str(year_number)) == 2:
+    if 0 < year_number < 100:
         return True
     else:
         return False
