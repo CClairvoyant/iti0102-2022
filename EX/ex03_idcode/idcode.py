@@ -217,3 +217,95 @@ if __name__ == '__main__':
     print(get_birth_place(1))  # -> "Kuressaare"
     print(get_birth_place(273))  # -> "Tartu"
     print(get_birth_place(220))  # -> "Tallinn"
+
+
+def is_valid_control_number(id_code: str) -> bool:
+    """Check if given value is correct for control number in ID code."""
+    second_control_number = (int(id_code[0]) * 3 + int(id_code[1]) * 4 + int(id_code[2]) * 5 + int(id_code[3]) * 6 +
+                      + int(id_code[4]) * 7 + int(id_code[5]) * 8 + int(id_code[6]) * 9 + int(id_code[7]) * 1 +
+                      + int(id_code[8]) * 2 + int(id_code[9]) * 3) % 11
+
+    if the_first_control_number_algorithm(id_code) == "Incorrect ID code!":
+        return False
+    elif the_first_control_number_algorithm(id_code) == id_code:
+        return True
+    elif the_first_control_number_algorithm(id_code) == "Needs the second algorithm!":
+        if second_control_number == id_code[-1]:
+            return True
+        else:
+            return False
+
+
+def is_valid_day_number(gender_number: int, year_number: int, month_number: int, day_number: int) -> bool:
+    """Check if given value is correct for day number in ID code."""
+    if month_number in (1, 3, 5, 7, 8, 10, 12):
+        if 0 < day_number < 32:
+            return True
+        else:
+            return False
+    elif month_number in (4, 6, 9, 11):
+        if 0 < day_number < 31:
+            return True
+        else:
+            return False
+    elif month_number == 2:
+        if is_leap_year(get_full_year(gender_number, year_number)):
+            if 0 < day_number < 30:
+                return True
+            else:
+                return False
+        else:
+            if 0 < day_number < 29:
+                return True
+            else:
+                return False
+
+
+def is_id_valid(id_code: str) -> bool:
+    """Check if given ID code is valid and return the result (True or False)."""
+    id_code = find_id_code(id_code)
+    if is_valid_gender_number(int(id_code[0])):
+        if is_valid_year_number(int(id_code[1] + id_code[2])):
+            if is_valid_month_number(int(id_code[3] + id_code[4])):
+                if is_valid_day_number(int(id_code[0]), int(id_code[1] + id_code[2]), int(id_code[3] + id_code[4]),
+                                       int(id_code[5] + id_code[6])):
+                    if is_valid_birth_number(int(id_code[7] + id_code[8] + id_code[9])):
+                        if is_valid_control_number(id_code):
+                            return True
+    return False
+
+
+def get_data_from_id(id_code: str) -> str:
+    """Get possible information about the person."""
+    # Write your code here
+
+
+if __name__ == '__main__':
+    print("\nControl number:")
+    print(is_valid_control_number("49808270244"))  # -> True
+    print(is_valid_control_number("60109200187"))  # -> False, it must be 6
+
+    print("\nDay number:")
+    print(is_valid_day_number(4, 5, 12, 25))  # -> True
+    print(is_valid_day_number(3, 10, 8, 32))  # -> False
+    print("\nFebruary check:")
+    print(
+        is_valid_day_number(4, 96, 2, 30))  # -> False (February cannot contain more than 29 days in any circumstances)
+    print(is_valid_day_number(4, 99, 2, 29))  # -> False (February contains 29 days only during leap year)
+    print(is_valid_day_number(4, 8, 2, 29))  # -> True
+    print("\nMonth contains 30 or 31 days check:")
+    print(is_valid_day_number(4, 22, 4, 31))  # -> False (April contains max 30 days)
+    print(is_valid_day_number(4, 18, 10, 31))  # -> True
+    print(is_valid_day_number(4, 15, 9, 31))  # -> False (September contains max 30 days)
+
+    print("\nOverall ID check::")
+    print(is_id_valid("49808270244"))  # -> True
+    print(is_id_valid("12345678901"))  # -> False
+
+    print("\nFull message:")
+    print(get_data_from_id("49808270244"))  # -> "This is a female born on 27.08.1998 in Tallinn."
+    print(get_data_from_id("60109200187"))  # -> "Given invalid ID code!"
+
+    # print("\nTest now your own ID code:")
+    # personal_id = input()  # type your own id in command prompt
+    # print(is_id_valid(personal_id))  # -> True
