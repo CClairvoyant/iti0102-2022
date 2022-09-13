@@ -196,6 +196,8 @@ def get_birth_place(birth_number: int) -> str:
         return "Pärnu"
     elif birth_number in range(471, 711):
         return "Tallinn"
+    elif birth_number in range(711, 1000):
+        return "undefined"
     else:
         return "Wrong input!"
 
