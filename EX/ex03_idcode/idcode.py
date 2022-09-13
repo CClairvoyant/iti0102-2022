@@ -230,9 +230,9 @@ def is_valid_control_number(id_code: str) -> bool:
     elif the_first_control_number_algorithm(id_code) == id_code:
         return True
     elif the_first_control_number_algorithm(id_code) == "Needs the second algorithm!":
-        if second_control_number == id_code[-1]:
+        if second_control_number == int(id_code[-1]):
             return True
-        elif second_control_number >= 10 and id_code[-1] == 0:
+        elif second_control_number >= 10 and int(id_code[-1]) == 0:
             return True
         else:
             return False
