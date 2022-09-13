@@ -222,15 +222,15 @@ if __name__ == '__main__':
 def is_valid_control_number(id_code: str) -> bool:
     """Check if given value is correct for control number in ID code."""
     second_control_number = (int(id_code[0]) * 3 + int(id_code[1]) * 4 + int(id_code[2]) * 5 + int(id_code[3]) * 6 +
-                      + int(id_code[4]) * 7 + int(id_code[5]) * 8 + int(id_code[6]) * 9 + int(id_code[7]) * 1 +
-                      + int(id_code[8]) * 2 + int(id_code[9]) * 3) % 11
+                             + int(id_code[4]) * 7 + int(id_code[5]) * 8 + int(id_code[6]) * 9 + int(id_code[7]) * 1 +
+                             + int(id_code[8]) * 2 + int(id_code[9]) * 3) % 11
 
     if the_first_control_number_algorithm(id_code) == "Incorrect ID code!":
         return False
     elif the_first_control_number_algorithm(id_code) == id_code:
         return True
     elif the_first_control_number_algorithm(id_code) == "Needs the second algorithm!":
-        if second_control_number == id_code[-1]:
+        if second_control_number == id_code[-1] or second_control_number == 10 and id_code[-1] == 0:
             return True
         else:
             return False
