@@ -157,6 +157,7 @@ if __name__ == '__main__':
 
 
 def is_leap_year(year_number: int) -> bool:
+    """Check if given year is a leap year or not."""
     if year_number % 400 == 0:
         return True
     elif year_number % 4 == 0 and year_number % 100 != 0:
@@ -195,10 +196,8 @@ def get_birth_place(birth_number: int) -> str:
         return "Pärnu"
     elif birth_number in range(471, 711):
         return "Tallinn"
-    elif birth_number < 1:
-        return "Wrong input!"
     else:
-        return "undefined"
+        return "Wrong input!"
 
 
 if __name__ == '__main__':
