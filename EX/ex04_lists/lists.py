@@ -13,7 +13,7 @@ def list_of_cars(all_cars: str) -> list:
     if all_cars == "":
         return []
     else:
-        return [all_cars.split(",")]
+        return all_cars.split(",")
 
 
 def car_makes(all_cars: str) -> list:
