@@ -50,9 +50,10 @@ def car_models(all_cars: str) -> list:
         all_cars_list = all_cars.split(",")
         list_of_models = []
         for car in all_cars_list:
-            car_model = car.split(" ")
-            if car_model[1:] not in list_of_models:
-                list_of_models.append(" ".join(car_model[1:]))
+            car_model = car.split(" ")[1:]
+            if " ".join(car_model) not in list_of_models:
+                list_of_models.append(" ".join(car_model))
+                print(list_of_models)
         return list_of_models
 
 
