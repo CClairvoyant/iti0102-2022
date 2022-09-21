@@ -58,26 +58,26 @@ def car_models(all_cars: str) -> list:
 
 
 def search_by_make(all_cars: str, make: str):
-    """Find all cars of the mentioned make"""
+    """Find all cars of the mentioned make."""
     found_list = []
     if make.lower() not in all_cars.lower():
         return found_list
     else:
-        all_cars_list = all_cars.split(",")
-        for n in all_cars_list:
-            if make.lower() in n.lower():
-                found_list.append(n)
+        for car in all_cars.split(","):
+            all_cars_makes = [car.lower().split(" ")[0]]
+            if make.lower() in all_cars_makes:
+                found_list.append(car)
         return found_list
 
 
 def search_by_model(all_cars: str, model: str):
+    """Find all cars of the mentioned model."""
     found_list = []
-    if model.lower() not in all_cars.lower():
+    if model.lower() not in all_cars.lower():  # if model isn't in the string of cars then it returns an empty list
         return found_list
     else:
-        all_cars_list = all_cars.split(",")
-        for n in all_cars_list:
-            f = n.lower().split(" ")
-            if model.lower() in f:
-                found_list.append(n)
+        for car in all_cars.split(","):  # checks each car's full title in the list with the following code
+            all_cars_models = car.lower().split(" ")[1:]  # the new variable is a list with all the models of all_cars
+            if model.lower() in all_cars_models:  # if the searched model is in the list mentioned above,...
+                found_list.append(car)  # ...then add the car's full title to the found_list
         return found_list
