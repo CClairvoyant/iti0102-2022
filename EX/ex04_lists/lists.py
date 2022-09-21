@@ -10,7 +10,10 @@ def list_of_cars(all_cars: str) -> list:
 
     "Audi A4,Skoda Superb,Audi A4" => ["Audi A4", "Skoda Superb", "Audi A4"]
     """
-    return [all_cars.split(",")]
+    if all_cars == "":
+        return []
+    else:
+        return [all_cars.split(",")]
 
 
 def car_makes(all_cars: str) -> list:
@@ -21,13 +24,16 @@ def car_makes(all_cars: str) -> list:
 
     "Audi A4,Skoda Superb,Audi A4" => ["Audi", "Skoda"]
     """
-    all_cars_list = all_cars.split(",")
-    list_of_makes = []
-    for car in all_cars_list:
-        car_make = car.split(" ")
-        if car_make[0] not in list_of_makes:
-            list_of_makes.append(car_make[0])
-    return list_of_makes
+    if all_cars == "":
+        return []
+    else:
+        all_cars_list = all_cars.split(",")
+        list_of_makes = []
+        for car in all_cars_list:
+            car_make = car.split(" ")
+            if car_make[0] not in list_of_makes:
+                list_of_makes.append(car_make[0])
+        return list_of_makes
 
 
 def car_models(all_cars: str) -> list:
@@ -38,10 +44,13 @@ def car_models(all_cars: str) -> list:
 
     "Audi A4,Skoda Superb,Audi A4,Audi A6" => ["A4", "Superb", "A6"]
     """
-    all_cars_list = all_cars.split(",")
-    list_of_models = []
-    for car in all_cars_list:
-        car_model = car.split(" ")
-        if car_model[-1] not in list_of_models:
-            list_of_models.append(car_model[-1])
-    return list_of_models
+    if all_cars == "":
+        return []
+    else:
+        all_cars_list = all_cars.split(",")
+        list_of_models = []
+        for car in all_cars_list:
+            car_model = car.split(" ")
+            if car_model[-1] not in list_of_models:
+                list_of_models.append(car_model[-1])
+        return list_of_models
