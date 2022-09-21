@@ -51,6 +51,32 @@ def car_models(all_cars: str) -> list:
         list_of_models = []
         for car in all_cars_list:
             car_model = car.split(" ")
-            if car_model[-1] not in list_of_models:
-                list_of_models.append(car_model[-1])
+            if car_model[1:] not in list_of_models:
+                list_of_models.append(" ".join(car_model[1:]))
         return list_of_models
+
+
+def search_by_make(all_cars: str, make: str):
+    """Find all cars of the mentioned make"""
+    found_list = []
+    if make.lower() not in all_cars.lower():
+        return found_list
+    else:
+        all_cars_list = all_cars.split(",")
+        for n in all_cars_list:
+            if make.lower() in n.lower():
+                found_list.append(n)
+        return found_list
+
+
+def search_by_model(all_cars: str, model: str):
+    found_list = []
+    if model.lower() not in all_cars.lower():
+        return found_list
+    else:
+        all_cars_list = all_cars.split(",")
+        for n in all_cars_list:
+            f = n.lower().split(" ")
+            if model.lower() in f:
+                found_list.append(n)
+        return found_list
