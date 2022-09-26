@@ -109,7 +109,7 @@ def car_make_and_models(all_cars: str) -> list:
     for car in cars_list:
         for x in range(len(final_list)):
             if car.split(" ")[0] in final_list[x] and " ".join(car.split(" ")[1:]) not in final_list[x][1]:
-                final_list[x][1].append("".join(car.split(" ")[1:]))
+                final_list[x][1].append(" ".join(car.split(" ")[1:]))
     return final_list
 
 
@@ -133,5 +133,5 @@ def add_cars(car_list: list, all_cars: str) -> list:
     """
 
 
-
-print(add_cars([['Audi', ['A4']], ['Skoda', ['Superb']]], "Audi A6,BMW A B C,Audi A4"))
+print(car_make_and_models("Audi A4 2021"))
+# print(add_cars([['Audi', ['A4']], ['Skoda', ['Superb']]], "Audi A6,BMW A B C,Audi A4"))
