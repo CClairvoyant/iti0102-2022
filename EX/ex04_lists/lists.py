@@ -108,7 +108,7 @@ def car_make_and_models(all_cars: str) -> list:
             final_list.append([car_make, []])
     for car in cars_list:
         for x in range(len(final_list)):
-            if car.split(" ")[0] in final_list[x] and "".join(car.split(" ")[1:]) not in final_list[x][1]:
+            if car.split(" ")[0] in final_list[x] and " ".join(car.split(" ")[1:]) not in final_list[x][1]:
                 final_list[x][1].append("".join(car.split(" ")[1:]))
     return final_list
 
