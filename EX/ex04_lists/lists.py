@@ -125,18 +125,17 @@ def car_list_as_string(cars: list) -> str:
     """
     word = []
     last_list = []
-    for i in cars:
-        for n in i[1:]:
-            word += [i[0], n]
-    for i in range(len(word)):
-        if type(word[i]) == list:
-            word[i] = (" ".join(word[i]))
-    for i in range(len(word)):
-        word2 = " ".join(word[i:i + 2])
-        if i % 2 == 0:
-            last_list.append(word2)
-    long_string = ",".join(last_list)
-    return long_string
+    if cars:
+        for i in cars:
+            for n in i[1:]:
+                for x in range(len(n)):
+                    word += [i[0], n[x]]
+        for i in range(len(word)):
+            word2 = " ".join(word[i:i + 2])
+            if i % 2 == 0:
+                last_list.append(word2)
+        long_string = ",".join(last_list)
+        return long_string
 
 
 def add_cars(car_list: list, all_cars: str) -> list:
@@ -180,3 +179,6 @@ def number_of_cars(all_cars: str) -> list:
     for i in range(len(unique_makes)):
         count_of_makes.append((unique_makes[i], makes.count(unique_makes[i])))
     return count_of_makes
+
+
+
