@@ -136,7 +136,8 @@ def car_list_as_string(cars: list) -> str:
                 last_list.append(word2)
         long_string = ",".join(last_list)
         return long_string
-
+    else:
+        return ""
 
 def add_cars(car_list: list, all_cars: str) -> list:
     """
