@@ -133,15 +133,18 @@ def add_cars(car_list: list, all_cars: str) -> list:
     """
     word = []
     last_list = []
-    for i in car_list:
-        for n in i[1:]:
-            word += [i[0], n]
-    for i in range(len(word)):
-        if type(word[i]) == list:
-            word[i] = ("".join(word[i]))
-    for i in range(len(word)):
-        word2 = " ".join(word[i:i + 2])
-        if i % 2 == 0:
-            last_list.append(word2)
-    long_string = ",".join(last_list) + f",{all_cars}"
+    if car_list:
+        for i in car_list:
+            for n in i[1:]:
+                word += [i[0], n]
+        for i in range(len(word)):
+            if type(word[i]) == list:
+                word[i] = ("".join(word[i]))
+        for i in range(len(word)):
+            word2 = " ".join(word[i:i + 2])
+            if i % 2 == 0:
+                last_list.append(word2)
+        long_string = ",".join(last_list) + f",{all_cars}"
+    else:
+        long_string = all_cars
     return car_make_and_models(long_string)
