@@ -131,7 +131,17 @@ def add_cars(car_list: list, all_cars: str) -> list:
 
     [['Audi', ['A4', 'A6']], ['Skoda', ['Superb']], ['BMW', ['A B C']]]
     """
-
-
-print(car_make_and_models("Audi A4 2021"))
-# print(add_cars([['Audi', ['A4']], ['Skoda', ['Superb']]], "Audi A6,BMW A B C,Audi A4"))
+    word = []
+    last_list = []
+    for i in car_list:
+        for n in i[1:]:
+            word += [i[0], n]
+    for i in range(len(word)):
+        if type(word[i]) == list:
+            word[i] = ("".join(word[i]))
+    for i in range(len(word)):
+        word2 = " ".join(word[i:i + 2])
+        if i % 2 == 0:
+            last_list.append(word2)
+    long_string = ",".join(last_list) + f",{all_cars}"
+    return car_make_and_models(long_string)
