@@ -130,7 +130,7 @@ def car_list_as_string(cars: list) -> str:
             word += [i[0], n]
     for i in range(len(word)):
         if type(word[i]) == list:
-            word[i] = ("".join(word[i]))
+            word[i] = (" ".join(word[i]))
     for i in range(len(word)):
         word2 = " ".join(word[i:i + 2])
         if i % 2 == 0:
