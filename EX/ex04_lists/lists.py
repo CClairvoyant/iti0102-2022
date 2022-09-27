@@ -139,6 +139,7 @@ def car_list_as_string(cars: list) -> str:
     else:
         return ""
 
+
 def add_cars(car_list: list, all_cars: str) -> list:
     """
     Add cars from the list into the existing car list.
@@ -157,7 +158,6 @@ def add_cars(car_list: list, all_cars: str) -> list:
 
     [['Audi', ['A4', 'A6']], ['Skoda', ['Superb']], ['BMW', ['A B C']]]
     """
-
     if car_list:
         return car_make_and_models(car_list_as_string(car_list) + f",{all_cars}")
     else:
@@ -167,6 +167,7 @@ def add_cars(car_list: list, all_cars: str) -> list:
 def number_of_cars(all_cars: str) -> list:
     """
     Create a list of tuples with make quantities.
+
     The result is a list of tuples.
     Each tuple is in the form: (make_name: str, quantity: int).
     The order of the tuples (makes) is the same as the first appearance in the list.
@@ -180,6 +181,3 @@ def number_of_cars(all_cars: str) -> list:
     for i in range(len(unique_makes)):
         count_of_makes.append((unique_makes[i], makes.count(unique_makes[i])))
     return count_of_makes
-
-
-
