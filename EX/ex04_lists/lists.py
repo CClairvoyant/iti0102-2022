@@ -86,6 +86,7 @@ def search_by_model(all_cars: str, model: str):
 def car_make_and_models(all_cars: str) -> list:
     """
     Create a list of structured information about makes and models.
+
     For each different car make in the input string an element is created in the output list.
     The element itself is a list, where the first position is the name of the make (string),
     the second element is a list of models for the given make (list of strings).
@@ -113,6 +114,31 @@ def car_make_and_models(all_cars: str) -> list:
     return final_list
 
 
+def car_list_as_string(cars: list) -> str:
+    """
+    Create a list of cars.
+
+    The input list is in the same format as the result of car_make_and_models function.
+    The order of the elements in the string is the same as in the list.
+    [['Audi', ['A4']], ['Skoda', ['Superb']]] =>
+    "Audi A4,Skoda Superb"
+    """
+    word = []
+    last_list = []
+    for i in cars:
+        for n in i[1:]:
+            word += [i[0], n]
+    for i in range(len(word)):
+        if type(word[i]) == list:
+            word[i] = ("".join(word[i]))
+    for i in range(len(word)):
+        word2 = " ".join(word[i:i + 2])
+        if i % 2 == 0:
+            last_list.append(word2)
+    long_string = ",".join(last_list)
+    return long_string
+
+
 def add_cars(car_list: list, all_cars: str) -> list:
     """
     Add cars from the list into the existing car list.
@@ -131,20 +157,26 @@ def add_cars(car_list: list, all_cars: str) -> list:
 
     [['Audi', ['A4', 'A6']], ['Skoda', ['Superb']], ['BMW', ['A B C']]]
     """
-    word = []
-    last_list = []
+
     if car_list:
-        for i in car_list:
-            for n in i[1:]:
-                word += [i[0], n]
-        for i in range(len(word)):
-            if type(word[i]) == list:
-                word[i] = ("".join(word[i]))
-        for i in range(len(word)):
-            word2 = " ".join(word[i:i + 2])
-            if i % 2 == 0:
-                last_list.append(word2)
-        long_string = ",".join(last_list) + f",{all_cars}"
+        return car_make_and_models(car_list_as_string(car_list) + f",{all_cars}")
     else:
-        long_string = all_cars
-    return car_make_and_models(long_string)
+        return car_make_and_models(all_cars)
+
+
+def number_of_cars(all_cars: str) -> list:
+    """
+    Create a list of tuples with make quantities.
+    The result is a list of tuples.
+    Each tuple is in the form: (make_name: str, quantity: int).
+    The order of the tuples (makes) is the same as the first appearance in the list.
+    """
+    cars_list = all_cars.split(",")
+    makes = []
+    count_of_makes = []
+    for i in cars_list:
+        makes += i.split(" ")[0:1]
+    unique_makes = car_makes(all_cars)
+    for i in range(len(unique_makes)):
+        count_of_makes.append((unique_makes[i], makes.count(unique_makes[i])))
+    return count_of_makes
