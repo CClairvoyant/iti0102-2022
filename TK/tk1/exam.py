@@ -68,7 +68,7 @@ def caught_speeding(speed, is_birthday):
 
 def first_half(text: str) -> str:
     """
-    Return the first half of an string.
+    Return the first half of a string.
 
     The length of the string is even.
 
@@ -76,7 +76,7 @@ def first_half(text: str) -> str:
     first_half('HelloThere') => 'Hello'
     first_half('abcdef') => 'abc'
     """
-    pass
+    return text[:len(text) // 2]
 
 
 def num_as_index(nums: list) -> int:
@@ -93,7 +93,12 @@ def num_as_index(nums: list) -> int:
     :param nums: list of non-negative integers.
     :return: element value in the specific index.
     """
-    pass
+    if nums[0] <= nums[-1] and nums[0] < len(nums):
+        return nums[nums[0]]
+    elif nums[0] > nums[-1] and nums[-1] < len(nums):
+        return nums[nums[-1]]
+    else:
+        return min([nums[0], nums[-1]])
 
 
 def remove_in_middle(text, to_remove):
