@@ -39,7 +39,9 @@ def lucky_guess(n: int) -> bool:
         return True
     elif n < 0:
         for x in str(n):
-            if x not in (5, 6):
+            if x in ("5", "6"):
+                return False
+            else:
                 return True
     else:
         return False
@@ -94,3 +96,4 @@ def max_duplicate(nums: list) -> int | None:
     pass
 
 
+print(lucky_guess(-5))
