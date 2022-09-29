@@ -41,8 +41,7 @@ def lucky_guess(n: int) -> bool:
         for x in str(n):
             if x in ("5", "6"):
                 return False
-            else:
-                return True
+        return True
     else:
         return False
 
