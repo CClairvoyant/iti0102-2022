@@ -1,5 +1,6 @@
 """TK2."""
 
+
 def middle_value(a: int, b: int, c: int) -> int:
     """
     Return the middle value out of three values.
@@ -76,7 +77,7 @@ def non_decreasing_list(nums: list) -> bool:
     :param nums:
     :return:
     """
-    pass
+    return sorted(nums) == nums
 
 
 def max_duplicate(nums: list) -> int | None:
@@ -92,7 +93,11 @@ def max_duplicate(nums: list) -> int | None:
     :param nums: List of integers
     :return: Maximum element with duplicate. None if no duplicate found.
     """
-    pass
-
-
-print(without_end('Hello'))
+    dupe_list = []
+    for i in nums:
+        if nums.count(i) > 1:
+            dupe_list.append(i)
+    if dupe_list:
+        return max(dupe_list)
+    else:
+        return None
