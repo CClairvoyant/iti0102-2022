@@ -59,7 +59,7 @@ def without_end(s: str) -> str:
     :param s: String
     :return: String without first and last char.
     """
-    return str[1:-1]
+    return s[1:-1]
 
 
 def non_decreasing_list(nums: list) -> bool:
@@ -95,4 +95,4 @@ def max_duplicate(nums: list) -> int | None:
     pass
 
 
-print(lucky_guess(-5))
+print(without_end('Hello'))
