@@ -50,7 +50,20 @@ def caught_speeding(speed, is_birthday):
     :param is_birthday: Whether it is your birthday (boolean).
     :return: Which category speeding ticket you would get (0, 1, 2).
     """
-    pass
+    if is_birthday:
+        if speed <= 65:
+            return 0
+        elif 65 < speed <= 85:
+            return 1
+        else:
+            return 2
+    else:
+        if speed <= 60:
+            return 0
+        elif 60 < speed <= 80:
+            return 1
+        else:
+            return 2
 
 
 def first_half(text: str) -> str:
