@@ -116,4 +116,14 @@ def remove_in_middle(text, to_remove):
     :param to_remove: substring to be removed.
     :return: string with middle substrings removed.
     """
-    pass
+    occurrences = text.count(to_remove)
+    if to_remove and occurrences > 2:
+        removed_list = text.split(to_remove)
+        removed_list.insert(1, to_remove)
+        removed_list.insert(-1, to_remove)
+        for i in removed_list:
+            if i == '':
+                removed_list.remove(i)
+        return "".join(removed_list)
+    else:
+        return text
