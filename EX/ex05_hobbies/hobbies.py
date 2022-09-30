@@ -57,6 +57,8 @@ def create_dictionary_with_hobbies(data: str) -> dict:
             people_hobbies.get(person.split(":")[1]).append(person.split(":")[0])
     for hobbies in people_hobbies.keys():
         people_hobbies[hobbies] = list(set(people_hobbies.get(hobbies)))
+    for key in people_hobbies:
+        people_hobbies[key] = sorted(people_hobbies.get(key))
     return people_hobbies
 
 
