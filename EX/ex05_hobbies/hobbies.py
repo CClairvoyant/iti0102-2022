@@ -7,7 +7,7 @@ def create_dictionary(data: str) -> dict:
 
     There should be no duplicate hobbies on 1 person.
 
-    :param data: given string from database
+    :param: data: given string from database
     :return: dictionary where keys are people and values are lists of hobbies
     """
     data_list = data.split("\n")
@@ -65,7 +65,7 @@ def create_dictionary_with_hobbies(data: str) -> dict:
 def find_people_with_most_hobbies(data: str) -> list:
     """
     Find the people who have the most hobbies.
-    :param data: given string from database
+    :param: data: given string from database
     :return: list of people with most hobbies. Sorted alphabetically.
     """
     people_with_hobbies = create_dictionary(data)
@@ -84,8 +84,8 @@ def find_least_popular_hobbies(data: str) -> list:
     """
     Find the least popular hobbies.
 
-    :param data: given string from database
-    :return: list of least popular hobbies. Sorted alphabetically.
+    :param: data: given string from database
+    :return: list of the least popular hobbies. Sorted alphabetically.
     """
     hobby_list = create_dictionary_with_hobbies(data)
     counts_of_people = []
@@ -114,20 +114,21 @@ def sort_names_and_hobbies(data: str) -> tuple:
     and the second element is an ordered tuple of hobbies (ordered alphabetically).
     All those person-tuples are ordered by the name of the person and are inside a tuple.
     """
-    cars_list = data.split("\n")
+    hobbies_list = data.split("\n")
     final_list = []
     if data == "":
         return tuple(final_list)
-    for car in cars_list:
-        car_make = car.split(":")[0:1]
-        car_make = "".join(car_make)
-        if [car_make, []] not in final_list:
-            final_list.append([car_make, []])
-    for car in cars_list:
+    for person_hobby in hobbies_list:
+        person = person_hobby.split(":")[0:1]
+        person = "".join(person)
+        if [person, []] not in final_list:
+            final_list.append([person, []])
+    for person_hobby in hobbies_list:
         for x in range(len(final_list)):
-            if car.split(":")[0] in final_list[x] and " ".join(car.split(":")[1:]) not in final_list[x][1]:
-                final_list[x][1].append(" ".join(car.split(":")[1:]))
+            if person_hobby.split(":")[0] in final_list[x] and " ".join(person_hobby.split(":")[1:]) not in final_list[x][1]:
+                final_list[x][1].append(" ".join(person_hobby.split(":")[1:]))
     for n in range(len(final_list)):
+        # noinspection PyTypeChecker
         final_list[n][1] = tuple(sorted(final_list[n][1]))
         final_list[n] = tuple(final_list[n])
     final_list = tuple(sorted(final_list))
@@ -135,7 +136,7 @@ def sort_names_and_hobbies(data: str) -> tuple:
 
 
 def find_people_with_hobbies(data: str, hobbies: list) -> set:
-    r"""
+    """
     Find all the different people with certain hobbies.
 
     It is recommended to use set here.
@@ -146,7 +147,12 @@ def find_people_with_hobbies(data: str, hobbies: list) -> set:
     Result:
         {"John", "Mary", "Jack"}
     """
-    return set()
+    people_set = set()
+    list_people_hobbies = data.split("\n")
+    for i in list_people_hobbies:
+        if i.split(":")[1] in hobbies:
+            people_set.add(i.split(":")[0])
+    return people_set
 
 
 def find_two_people_with_most_common_hobbies(data: str) -> tuple:
@@ -179,28 +185,13 @@ def find_two_people_with_most_common_hobbies(data: str) -> tuple:
 
     If there are less than 2 people in the input, return None.
     """
-    return ()
+    # dict_hobbies = create_dictionary(sample_data)
+    # for i in dict_hobbies:
+    #     for n in dict_hobbies.get(i):
+
+
 
 
 if __name__ == '__main__':
-    sample_data = """Jack:crafting\nPeter:hiking\nWendy:gaming\nMonica:tennis\nChris:origami\nSophie:sport\nMonica:design\nCarmen:sport\nChris:sport\nMonica:skateboarding\nCarmen:cooking\nWendy:photography\nMonica:tennis\nCooper:yoga\nWendy:sport\nCooper:movies\nMonica:theatre\nCooper:yoga\nChris:gaming\nMolly:fishing\nJack:skateboarding\nWendy:fishing\nJack:drawing\nMonica:baking\nSophie:baking\nAlfred:driving\nAlfred:shopping\nAlfred:crafting\nJack:drawing\nCarmen:shopping\nCarmen:driving\nPeter:drawing\nCarmen:shopping\nWendy:fitness\nAlfred:travel\nJack:origami\nSophie:design\nJack:pets\nCarmen:dance\nAlfred:baking\nSophie:sport\nPeter:gaming\nJack:skateboarding\nCooper:football\nAlfred:sport\nCooper:fitness\nChris:yoga\nWendy:football\nMolly:design\nJack:hiking\nMonica:pets\nCarmen:photography\nJack:baking\nPeter:driving\nChris:driving\nCarmen:driving\nPeter:theatre\nMolly:hiking\nWendy:puzzles\nJack:crafting\nPeter:photography\nCarmen:theatre\nSophie:crafting\nCarmen:cooking\nAlfred:gaming\nPeter:theatre\nCooper:hiking\nChris:football\nChris:pets\nJack:football\nMonica:skateboarding\nChris:driving\nCarmen:pets\nCooper:gaming\nChris:hiking\nJack:cooking\nPeter:fishing\nJack:gaming\nPeter:origami\nCarmen:movies\nSophie:driving\nJack:sport\nCarmen:theatre\nWendy:shopping\nCarmen:pets\nWendy:gaming\nSophie:football\nWendy:theatre\nCarmen:football\nMolly:theatre\nPeter:theatre\nMonica:flowers\nMolly:skateboarding\nPeter:driving\nSophie:travel\nMonica:photography\nCooper:cooking\nJack:fitness\nPeter:cooking\nChris:gaming"""
-    print(sort_names_and_hobbies(sample_data))
-#     sort_result = sort_names_and_hobbies(sample_data)
-#     # if the condition after assert is False, error will be thrown
-#     assert isinstance(sort_result, tuple)
-#     assert len(sort_result) == 10
-#     assert sort_result[0][0] == 'Alfred'
-#     assert len(sort_result[0][1]) == 7
-#     assert sort_result[-1] == ('Wendy', ('fishing', 'fitness', 'football', 'gaming', 'photography', 'puzzles', 'shopping', 'sport', 'theatre'))
-#     # if you see this line below, then everything seems to be ok!
-#     print("sorting works!")
-
-    # sample_data = """Jack:painting\nPeter:painting\nJack:running\nMary:running\nSmith:walking"""
-    # print(find_people_with_hobbies(sample_data, ["running", "painting"]))
-    # print(find_people_with_hobbies(
-    #     "John:running\nMary:running\nJohn:dancing\nJack:dancing\nJack:painting\nSmith:painting",
-    #     ["running", "dancing"]
-    # ))  # {"John", "Mary", "Jack"}
-    #
-    # sample_data = """John:running\nJohn:walking\nMary:dancing\nMary:running\nNora:running\nNora:singing\nNora:dancing"""
-    # print(find_two_people_with_most_common_hobbies(sample_data))  # ('Mary', 'Nora')
+    sample_data = """John:running\nJohn:walking\nMary:dancing\nMary:running\nNora:running\nNora:singing\nNora:dancing"""
+    print(find_two_people_with_most_common_hobbies(sample_data))  # ('Mary', 'Nora')
