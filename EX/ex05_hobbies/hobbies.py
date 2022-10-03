@@ -194,9 +194,9 @@ def find_two_people_with_most_common_hobbies(data: str) -> tuple | None:
             p2_hobbies = list(d.values())[i-1]
             hobbies = p1_hobbies + p2_hobbies
             s = set(hobbies)
-            common_hobbies = len(hobbies) - len(s) + 1
-            different_hobbies = len(s) - common_hobbies + 1
-            ratios.append(common_hobbies / different_hobbies)
+            common_hobbies = len(hobbies) - len(s)
+            different_hobbies = len(s) - common_hobbies
+            ratios.append((common_hobbies + 1) / (different_hobbies + 1))
         for i in range(len(list(d))):
             p1_hobbies = list(d.values())[i]
             p2_hobbies = list(d.values())[i-1]
@@ -204,7 +204,7 @@ def find_two_people_with_most_common_hobbies(data: str) -> tuple | None:
             s = set(hobbies)
             common_hobbies = len(hobbies) - len(s) + 1
             different_hobbies = len(s) - common_hobbies + 1
-            if max(ratios) == common_hobbies / different_hobbies:
+            if max(ratios) == (common_hobbies + 1) / (different_hobbies + 1):
                 return list(d)[i-1], list(d)[i]
     else:
         return None
