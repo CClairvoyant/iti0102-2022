@@ -125,7 +125,8 @@ def sort_names_and_hobbies(data: str) -> tuple:
             final_list.append([person, []])
     for person_hobby in hobbies_list:
         for x in range(len(final_list)):
-            if person_hobby.split(":")[0] in final_list[x] and " ".join(person_hobby.split(":")[1:]) not in final_list[x][1]:
+            if person_hobby.split(":")[0] in final_list[x] and\
+                    " ".join(person_hobby.split(":")[1:]) not in final_list[x][1]:
                 final_list[x][1].append(" ".join(person_hobby.split(":")[1:]))
     for n in range(len(final_list)):
         # noinspection PyTypeChecker
@@ -155,7 +156,7 @@ def find_people_with_hobbies(data: str, hobbies: list) -> set:
     return people_set
 
 
-def find_two_people_with_most_common_hobbies(data: str) -> tuple:
+def find_two_people_with_most_common_hobbies(data: str) -> tuple | None:
     """
     Find a pair of people who have the highest ratio of common hobbies to different hobbies.
 
@@ -185,13 +186,25 @@ def find_two_people_with_most_common_hobbies(data: str) -> tuple:
 
     If there are less than 2 people in the input, return None.
     """
-    # dict_hobbies = create_dictionary(sample_data)
-    # for i in dict_hobbies:
-    #     for n in dict_hobbies.get(i):
-
-
-
-
-if __name__ == '__main__':
-    sample_data = """John:running\nJohn:walking\nMary:dancing\nMary:running\nNora:running\nNora:singing\nNora:dancing"""
-    print(find_two_people_with_most_common_hobbies(sample_data))  # ('Mary', 'Nora')
+    ratios = []
+    d = create_dictionary(data)
+    if len(d) >= 2:
+        for i in range(len(list(d))):
+            p1_hobbies = list(d.values())[i]
+            p2_hobbies = list(d.values())[i-1]
+            hobbies = p1_hobbies + p2_hobbies
+            s = set(hobbies)
+            common_hobbies = len(hobbies) - len(s)
+            different_hobbies = len(s) - common_hobbies
+            ratios.append(common_hobbies / different_hobbies)
+        for i in range(len(list(d))):
+            p1_hobbies = list(d.values())[i]
+            p2_hobbies = list(d.values())[i-1]
+            hobbies = p1_hobbies + p2_hobbies
+            s = set(hobbies)
+            common_hobbies = len(hobbies) - len(s)
+            different_hobbies = len(s) - common_hobbies
+            if max(ratios) == common_hobbies / different_hobbies:
+                return list(d)[i-1], list(d)[i]
+    else:
+        return None
