@@ -97,7 +97,7 @@ def mirror_ends(s: str) -> str:
 
     For example, the string "abXYZba" has the mirror end "ab".
 
-    mirrorEnds("gabXYZba") → "ab"
+    mirrorEnds("abXYZba") → "ab"
     mirrorEnds("abca") → "a"
     mirrorEnds("aba") → "aba"
 
