@@ -82,7 +82,7 @@ def min_index_value(nums: list) -> int:
     :param nums: List of non-negative integers.
     :return: Minimum value of two elements at positions of the first and the last element value.
     """
-    if nums[0] and nums[-1] in range(len(nums)):
+    if (nums[0] and nums[-1]) in range(len(nums)):
         return min(nums[nums[0]], nums[nums[-1]])
     else:
         return -1
