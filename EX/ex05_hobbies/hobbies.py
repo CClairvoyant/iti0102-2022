@@ -158,7 +158,7 @@ def find_people_with_hobbies(data: str, hobbies: list) -> set:
 
 def find_two_people_with_most_common_hobbies(data: str) -> tuple | None:
     """
-    Find a pair of people who have the highest ratio of common hobbies to different hobbies.
+    Find the pair of people who have the highest ratio of common hobbies to different hobbies.
 
     Common hobbies are the ones which both people have.
     Different hobbies are the ones, which only one person has.
