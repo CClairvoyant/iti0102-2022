@@ -74,22 +74,6 @@ def the_first_control_number_algorithm(text: str) -> str:
         return "Needs the second algorithm!"
 
 
-if __name__ == '__main__':
-    print("\nFind ID code:")
-    print(find_id_code(""))  # -> "Not enough numbers!"
-    print(find_id_code("123456789123456789"))  # -> "Too many numbers!"
-    print(find_id_code("ID code is: 49403136526"))  # -> "49403136526"
-    print(find_id_code("efs4  9   #4aw0h 3r 1a36g5j2!!6-"))  # -> "49403136526"
-
-    print(the_first_control_number_algorithm(""))  # -> "Incorrect ID code!"
-    print(the_first_control_number_algorithm("123456789123456789"))  # -> "Incorrect ID code!"
-    print(the_first_control_number_algorithm("ID code is: 49403136526"))  # -> "49403136526"
-    print(the_first_control_number_algorithm("efs4  9   #4aw0h 3r 1a36g5j2!!6-"))  # -> "49403136526"
-    print(the_first_control_number_algorithm("50412057633"))  # -> "50412057633"
-    print(the_first_control_number_algorithm("Peeter's ID is euf50weird2fs0fsk51ef6t0s2yr7fyf4"))  # -> "Needs
-    # the second algorithm!"
-
-
 def is_valid_gender_number(gender_number: int) -> bool:
     """Check if given value is correct for gender number in ID code."""
     if 0 < gender_number < 7:
@@ -128,32 +112,6 @@ def is_valid_birth_number(birth_number: int) -> bool:
         return True
     else:
         return False
-
-
-if __name__ == '__main__':
-    print("\nGender number:")
-    for i in range(9):
-        print(f"{i} {is_valid_gender_number(i)}")
-        # 0 -> False
-        # 1...6 -> True
-        # 7...8 -> False
-
-    print("\nGet gender:")
-    print(get_gender(2))  # -> "female"
-    print(get_gender(5))  # -> "male"
-
-    print("\nYear number:")
-    print(is_valid_year_number(100))  # -> False
-    print(is_valid_year_number(50))  # -> True
-
-    print("\nMonth number:")
-    print(is_valid_month_number(2))  # -> True
-    print(is_valid_month_number(15))  # -> False
-
-    print("\nBorn order number:")
-    print(is_valid_birth_number(0))  # -> False
-    print(is_valid_birth_number(1))  # -> True
-    print(is_valid_birth_number(850))  # -> True
 
 
 def is_leap_year(year_number: int) -> bool:
@@ -202,23 +160,6 @@ def get_birth_place(birth_number: int) -> str:
         return "Wrong input!"
 
 
-if __name__ == '__main__':
-    print("\nLeap year:")
-    print(is_leap_year(1804))  # -> True
-    print(is_leap_year(1800))  # -> False
-
-    print("\nGet full year:")
-    print(get_full_year(1, 28))  # -> 1828
-    print(get_full_year(4, 85))  # -> 1985
-    print(get_full_year(5, 1))  # -> 2001
-
-    print("\nChecking where the person was born")
-    print(get_birth_place(0))  # -> "Wrong input!"
-    print(get_birth_place(1))  # -> "Kuressaare"
-    print(get_birth_place(273))  # -> "Tartu"
-    print(get_birth_place(220))  # -> "Tallinn"
-
-
 def is_valid_control_number(id_code: str) -> bool:
     """Check if given value is correct for control number in ID code."""
     second_control_number = (int(id_code[0]) * 3 + int(id_code[1]) * 4 + int(id_code[2]) * 5 + int(id_code[3]) * 6 +
@@ -241,40 +182,23 @@ def is_valid_control_number(id_code: str) -> bool:
 def is_valid_day_number(gender_number: int, year_number: int, month_number: int, day_number: int) -> bool:
     """Check if given value is correct for day number in ID code."""
     if month_number in (1, 3, 5, 7, 8, 10, 12):
-        if 0 < day_number < 32:
-            return True
-        else:
-            return False
+        return 0 < day_number < 32
     elif month_number in (4, 6, 9, 11):
-        if 0 < day_number < 31:
-            return True
-        else:
-            return False
+        return 0 < day_number < 31
     elif month_number == 2:
         if is_leap_year(get_full_year(gender_number, year_number)):
-            if 0 < day_number < 30:
-                return True
-            else:
-                return False
+            return 0 < day_number < 30
         else:
-            if 0 < day_number < 29:
-                return True
-            else:
-                return False
+            return 0 < day_number < 29
 
 
 def is_id_valid(id_code: str) -> bool:
     """Check if given ID code is valid and return the result (True or False)."""
     id_code = find_id_code(id_code)
-    if len(id_code) == 11:
-        if is_valid_gender_number(int(id_code[0])):
-            if is_valid_year_number(int(id_code[1:3])):
-                if is_valid_month_number(int(id_code[3:5])):
-                    if is_valid_day_number(int(id_code[0]), int(id_code[1:3]), int(id_code[3:5]), int(id_code[5:7])):
-                        if is_valid_birth_number(int(id_code[7:10])):
-                            if is_valid_control_number(id_code):
-                                return True
-    return False
+    return len(id_code) == 11 and is_valid_gender_number(int(id_code[0])) and is_valid_year_number(int(id_code[1:3]))\
+        and is_valid_month_number(int(id_code[3:5])) and\
+        is_valid_day_number(int(id_code[0]), int(id_code[1:3]), int(id_code[3:5]), int(id_code[5:7])) and\
+        is_valid_birth_number(int(id_code[7:10])) and is_valid_control_number(id_code)
 
 
 def get_data_from_id(id_code: str) -> str:
@@ -291,6 +215,59 @@ def get_data_from_id(id_code: str) -> str:
 
 
 if __name__ == '__main__':
+    print("\nFind ID code:")
+    print(find_id_code(""))  # -> "Not enough numbers!"
+    print(find_id_code("123456789123456789"))  # -> "Too many numbers!"
+    print(find_id_code("ID code is: 49403136526"))  # -> "49403136526"
+    print(find_id_code("efs4  9   #4aw0h 3r 1a36g5j2!!6-"))  # -> "49403136526"
+
+    print(the_first_control_number_algorithm(""))  # -> "Incorrect ID code!"
+    print(the_first_control_number_algorithm("123456789123456789"))  # -> "Incorrect ID code!"
+    print(the_first_control_number_algorithm("ID code is: 49403136526"))  # -> "49403136526"
+    print(the_first_control_number_algorithm("efs4  9   #4aw0h 3r 1a36g5j2!!6-"))  # -> "49403136526"
+    print(the_first_control_number_algorithm("50412057633"))  # -> "50412057633"
+    print(the_first_control_number_algorithm("Peeter's ID is euf50weird2fs0fsk51ef6t0s2yr7fyf4"))  # -> "Needs
+    # the second algorithm!"
+
+    print("\nGender number:")
+    for i in range(9):
+        print(f"{i} {is_valid_gender_number(i)}")
+        # 0 -> False
+        # 1...6 -> True
+        # 7...8 -> False
+
+    print("\nGet gender:")
+    print(get_gender(2))  # -> "female"
+    print(get_gender(5))  # -> "male"
+
+    print("\nYear number:")
+    print(is_valid_year_number(100))  # -> False
+    print(is_valid_year_number(50))  # -> True
+
+    print("\nMonth number:")
+    print(is_valid_month_number(2))  # -> True
+    print(is_valid_month_number(15))  # -> False
+
+    print("\nBorn order number:")
+    print(is_valid_birth_number(0))  # -> False
+    print(is_valid_birth_number(1))  # -> True
+    print(is_valid_birth_number(850))  # -> True
+
+    print("\nLeap year:")
+    print(is_leap_year(1804))  # -> True
+    print(is_leap_year(1800))  # -> False
+
+    print("\nGet full year:")
+    print(get_full_year(1, 28))  # -> 1828
+    print(get_full_year(4, 85))  # -> 1985
+    print(get_full_year(5, 1))  # -> 2001
+
+    print("\nChecking where the person was born")
+    print(get_birth_place(0))  # -> "Wrong input!"
+    print(get_birth_place(1))  # -> "Kuressaare"
+    print(get_birth_place(273))  # -> "Tartu"
+    print(get_birth_place(220))  # -> "Tallinn"
+
     print("\nControl number:")
     print(is_valid_control_number("49808270244"))  # -> True
     print(is_valid_control_number("60109200187"))  # -> False, it must be 6
