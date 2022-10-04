@@ -45,6 +45,7 @@ def sort_dictionary(dic: dict) -> dict:
 def create_dictionary_with_hobbies(data: str) -> dict:
     """
     Create dictionary about hobbies and their hobbyists ie. {hobby1: [name1, name2, ...], hobby2: [...]}.
+
     :param data: given string from database
     :return: dictionary, where keys are hobbies and values are lists of people. Values are sorted alphabetically
     """
@@ -65,6 +66,7 @@ def create_dictionary_with_hobbies(data: str) -> dict:
 def find_people_with_most_hobbies(data: str) -> list:
     """
     Find the people who have the most hobbies.
+
     :param: data: given string from database
     :return: list of people with most hobbies. Sorted alphabetically.
     """
@@ -137,7 +139,7 @@ def sort_names_and_hobbies(data: str) -> tuple:
 
 
 def find_people_with_hobbies(data: str, hobbies: list) -> set:
-    """
+    r"""
     Find all the different people with certain hobbies.
 
     It is recommended to use set here.
@@ -186,39 +188,24 @@ def find_two_people_with_most_common_hobbies(data: str) -> tuple | None:
 
     If there are less than 2 people in the input, return None.
     """
-    d = create_dictionary(data)
-    l = []
-    for p1 in d:
-        for p2 in d:
-            if p1 != p2:
-                hobby_list = d[p1] + d[p2]
+    hobby_dict = create_dictionary(data)
+    ratio = []
+    for person1 in hobby_dict:
+        for person2 in hobby_dict:
+            if person1 != person2:
+                hobby_list = hobby_dict[person1] + hobby_dict[person2]
                 common_hobbies = len(hobby_list) - len(set(hobby_list))
                 different_hobbies = len(set(hobby_list)) - common_hobbies
                 if different_hobbies == 0:
                     different_hobbies += 0.000000000000000000000000000000001
-                l.append(common_hobbies / different_hobbies)
-    for p1 in d:
-        for p2 in d:
-            if p1 != p2:
-                hobby_list = d[p1] + d[p2]
+                ratio.append(common_hobbies / different_hobbies)
+    for person1 in hobby_dict:
+        for person2 in hobby_dict:
+            if person1 != person2:
+                hobby_list = hobby_dict[person1] + hobby_dict[person2]
                 common_hobbies = len(hobby_list) - len(set(hobby_list))
                 different_hobbies = len(set(hobby_list)) - common_hobbies
                 if different_hobbies == 0:
                     different_hobbies += 0.000000000000000000000000000000001
-                if common_hobbies / different_hobbies == max(l):
-                    return p1, p2
-
-
-
-print(find_two_people_with_most_common_hobbies("John:running\nJohn:walking\nMary:dancing\nMary:running\nNora:running\nNora:singing\nNora:dancing"))  # ('Mary', 'Nora')
-# print(find_two_people_with_most_common_hobbies("name8:hobby1\nname13:hobby6\nname3:hobby1\nname10:hobby9\nname2:hobby9\nname14:hobby5\nname12:hobby0\nname5:hobby6\nname8:hobby4\nname11:hobby2"))      # [{'name5', 'name13'}, {'name10', 'name2'}, {'name10', 'name2'}, {'name5', 'name13'}]
-# print(find_two_people_with_most_common_hobbies("name3:hobby10\nname3:hobby11\nname0:hobby1\nname10:hobby8\nname10:hobby0\nname2:hobby1\nname12:hobby8\nname1:hobby5\nname1:hobby5\nname8:hobby8"))      # [{'name2', 'name0'}, {'name2', 'name0'}, {'name8', 'name12'}, {'name8', 'name12'}]
-# print(find_two_people_with_most_common_hobbies("name12:hobby3\nname11:hobby1\nname9:hobby6\nname1:hobby3\nname12:hobby5\nname3:hobby0\nname7:hobby5\nname0:hobby6\nname8:hobby3\nname9:hobby6\nname11:hobby3\nname8:hobby0\nname11:hobby1\nname3:hobby3"))      # [{'name8', 'name3'}, {'name8', 'name3'}]
-# print(find_two_people_with_most_common_hobbies("name0:hobby8\nname2:hobby1\nname2:hobby2\nname4:hobby10\nname0:hobby9\nname1:hobby4\nname0:hobby4\nname0:hobby6\nname2:hobby2\nname4:hobby2"))      # [{'name2', 'name4'}, {'name2', 'name4'}]
-# print(find_two_people_with_most_common_hobbies("name0:hobby1\nname2:hobby5\nname2:hobby6\nname2:hobby5\nname5:hobby3\nname5:hobby4\nname0:hobby5\nname2:hobby6\nname5:hobby1\nname5:hobby1\nname4:hobby1"))     # [{'name0', 'name4'}, {'name0', 'name4'}]
-# print(find_two_people_with_most_common_hobbies("name5:hobby2\nname0:hobby0\nname4:hobby9\nname4:hobby10\nname5:hobby10\nname2:hobby2\nname3:hobby0\nname4:hobby2\nname2:hobby0\nname4:hobby5\nname5:hobby2\nname2:hobby10"))        #[{'name0', 'name3'}, {'name0', 'name3'}]
-# print(find_two_people_with_most_common_hobbies("name4:hobby0\nname2:hobby2\nname1:hobby2\nname5:hobby2\nname3:hobby1\nname1:hobby5\nname2:hobby1\nname0:hobby4\nname3:hobby3\nname4:hobby0"))       # [{'name5', 'name2'}, {'name5', 'name1'}, {'name5', 'name2'}, {'name5', 'name1'}]
-# print(find_two_people_with_most_common_hobbies("name9:hobby3\nname9:hobby4name7:hobby6\nname9:hobby10\nname12:hobby9\nname13:hobby9\nname7:hobby8\nname8:hobby3\nname0:hobby3\nname8:hobby4"))      # [{'name13', 'name12'}, {'name13', 'name12'}]
-# print(find_two_people_with_most_common_hobbies("name3:hobby3\nname9:hobby4\nname13:hobby7\nname5:hobby6\nname4:hobby6\nname4:hobby5\nname9:hobby0\nname0:hobby2\nname10:hobby6\nname3:hobby7"))     # [{'name10', 'name5'}, {'name10', 'name5'}]
-# print(find_two_people_with_most_common_hobbies("name3:hobby0\nname5:hobby4\nname3:hobby0\nname4:hobby8\nname3:hobby4\nname3:hobby9\nname4:hobby6\nname3:hobby3\nname5:hobby7\nname0:hobby10\nname1:hobby3"))        # [{'name1', 'name3'}, {'name1', 'name3'}]
-# print(find_two_people_with_most_common_hobbies("name3:hobby4\nname1:hobby1\nname5:hobby0\nname5:hobby2\nname5:hobby4\nname4:hobby0\nname6:hobby0\nname3:hobby1\nname3:hobby1\nname7:hobby2\nname3:hobby3\nname3:hobby3\nname6:hobby0\nname7:hobby0\nname7:hobby1\nname1:hobby0"))       # [{'name4', 'name6'}, {'name4', 'name6'}]
+                if common_hobbies / different_hobbies == max(ratio):
+                    return person1, person2
