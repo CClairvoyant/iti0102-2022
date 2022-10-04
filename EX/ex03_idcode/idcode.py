@@ -171,12 +171,7 @@ def is_valid_control_number(id_code: str) -> bool:
     elif the_first_control_number_algorithm(id_code) == id_code:
         return True
     elif the_first_control_number_algorithm(id_code) == "Needs the second algorithm!":
-        if second_control_number == int(id_code[-1]):
-            return True
-        elif second_control_number >= 10 and int(id_code[-1]) == 0:
-            return True
-        else:
-            return False
+        return second_control_number == int(id_code[-1]) or second_control_number >= 10 and int(id_code[-1]) == 0
 
 
 def is_valid_day_number(gender_number: int, year_number: int, month_number: int, day_number: int) -> bool:
