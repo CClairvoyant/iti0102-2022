@@ -75,7 +75,7 @@ def find_words_from_sentence(sentence: str) -> list:
     :return: list of words found in given sentence
     """
     words = []
-    for match in re.finditer(r"[A-ZÕÄÖÜŽŠa-zõäöüšž]+", sentence):
+    for match in re.finditer(r"[A-ZÕÄÖÜŽŠa-zõäöüšž\d]+", sentence):
         words.append(match.group())
     return words
 
