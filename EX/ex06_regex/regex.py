@@ -137,12 +137,12 @@ def find_phone_numbers(text: str) -> dict:
     :return: dict containing the numbers
     """
     phone_numbers = {}
-    for number in re.finditer(r"(\+\d{1,})? ?(\d{7,8})(?!\d)", text):
+    for number in re.finditer(r"(\+\d{1,})? ?([5]\d{6,7})(?!\d)", text):
         if number.group(1) is None:
             phone_numbers[""] = []
         else:
             phone_numbers[number.group(1)] = []
-    for number in re.finditer(r"(\+\d{1,})? ?(\d{7,8})(?!\d)", text):
+    for number in re.finditer(r"(\+\d{1,})? ?([5]\d{6,7})(?!\d)", text):
         if number.group(1) is None:
             phone_numbers[""].append(number.group(2))
         else:
