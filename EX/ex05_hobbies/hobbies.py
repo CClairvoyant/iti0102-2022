@@ -190,25 +190,22 @@ def find_two_people_with_most_common_hobbies(data: str) -> tuple | None:
     """
     hobby_dict = create_dictionary(data)
     ratio = []
-    if len(hobby_dict) < 2:
-        return None
-    else:
-        for person1 in hobby_dict:
-            for person2 in hobby_dict:
-                if person1 != person2:
-                    hobby_list = hobby_dict[person1] + hobby_dict[person2]
-                    common_hobbies = len(hobby_list) - len(set(hobby_list))
-                    different_hobbies = len(set(hobby_list)) - common_hobbies
-                    if different_hobbies == 0:
-                        different_hobbies += 0.000000000000000000000000000000001
-                    ratio.append(common_hobbies / different_hobbies)
-        for person1 in hobby_dict:
-            for person2 in hobby_dict:
-                if person1 != person2:
-                    hobby_list = hobby_dict[person1] + hobby_dict[person2]
-                    common_hobbies = len(hobby_list) - len(set(hobby_list))
-                    different_hobbies = len(set(hobby_list)) - common_hobbies
-                    if different_hobbies == 0:
-                        different_hobbies += 0.000000000000000000000000000000001
-                    if common_hobbies / different_hobbies == max(ratio):
-                        return person1, person2
+    for person1 in hobby_dict:
+        for person2 in hobby_dict:
+            if person1 != person2:
+                hobby_list = hobby_dict[person1] + hobby_dict[person2]
+                common_hobbies = len(hobby_list) - len(set(hobby_list))
+                different_hobbies = len(set(hobby_list)) - common_hobbies
+                if different_hobbies == 0:
+                    different_hobbies += 0.000000000000000000000000000000001
+                ratio.append(common_hobbies / different_hobbies)
+    for person1 in hobby_dict:
+        for person2 in hobby_dict:
+            if person1 != person2:
+                hobby_list = hobby_dict[person1] + hobby_dict[person2]
+                common_hobbies = len(hobby_list) - len(set(hobby_list))
+                different_hobbies = len(set(hobby_list)) - common_hobbies
+                if different_hobbies == 0:
+                    different_hobbies += 0.000000000000000000000000000000001
+                if common_hobbies / different_hobbies == max(ratio):
+                    return person1, person2
