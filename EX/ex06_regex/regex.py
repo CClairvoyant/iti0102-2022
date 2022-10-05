@@ -55,7 +55,7 @@ def find_sentences(text: str) -> list:
     :return: list of sentences found in given string
     """
     sentences = []
-    for match in re.finditer(r"[A-ZÕÄÖÜŠŽ]([a-zõäöüžš0-9,; :-]+)([.!?])", text):
+    for match in re.finditer(r"[A-ZÕÄÖÜŠŽ]([a-zõäöüžš0-9,; :-]+)([.!?])+", text):
         sentences.append(match.group())
     return sentences
 
