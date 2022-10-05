@@ -190,7 +190,9 @@ def find_two_people_with_most_common_hobbies(data: str) -> tuple | None:
     """
     hobby_dict = create_dictionary(data)
     ratio = []
-    if len(hobby_dict) >= 2:
+    if len(hobby_dict) < 2:
+        return None
+    else:
         for person1 in hobby_dict:
             for person2 in hobby_dict:
                 if person1 != person2:
@@ -210,5 +212,3 @@ def find_two_people_with_most_common_hobbies(data: str) -> tuple | None:
                         different_hobbies += 0.000000000000000000000000000000001
                     if common_hobbies / different_hobbies == max(ratio):
                         return person1, person2
-    else:
-        return None
