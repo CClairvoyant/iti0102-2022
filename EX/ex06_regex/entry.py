@@ -37,7 +37,7 @@ class Entry:
         return f"Name: {self.first_name} {self.last_name}\n" \
                f"ID code: {self.id_code}\n" \
                f"Phone number: {self.phone_number}\n" \
-               f"Date of birth: {self.format_date()}\n" \
+               f"Date of birth: {self.date_of_birth}\n" \
                f"Address: {self.address}"
 
     def __eq__(self, other) -> bool:
@@ -60,7 +60,7 @@ def parse(row: str) -> Entry:
     :return: Entry object with filled values
     """
     s = ""
-    for match in re.finditer(r"([A-ZÕÄÖÜŽŠ][a-zõäöüžš]+)?([A-ZÕÄÖÜŽŠ][a-zõäöüžš]+)?(\d{11})((\+\d{3})? ?(\d{7,8}))?(\d{2}-\d{2}-\d{4})?(.*)?", row):
+    for match in re.finditer(r"([A-ZÕÄÖÜŽŠ][a-zõäöüžš]+)?([A-ZÕÄÖÜŽŠ][a-zõäöüžš]+)?(\d{11})((\+\d{3})? ?(\d{7,8}))?(\d{2}-\d{2}-\d{4})?(.+)?", row):
         s = Entry(match.group(1), match.group(2), match.group(3), match.group(4), match.group(7), match.group(8))
     return s
 
