@@ -48,8 +48,8 @@ class Entry:
         This method is perfect. Don't touch it.
         """
         return self.first_name == other.first_name and self.last_name == other.last_name and \
-               self.id_code == other.id_code and self.phone_number == other.phone_number and \
-               self.date_of_birth == other.date_of_birth and self.address == other.address
+            self.id_code == other.id_code and self.phone_number == other.phone_number and \
+            self.date_of_birth == other.date_of_birth and self.address == other.address
 
 
 def parse(row: str) -> Entry:
@@ -59,10 +59,10 @@ def parse(row: str) -> Entry:
     :param row: String representation of the data.
     :return: Entry object with filled values
     """
-    s = ""
+    data = ""
     for match in re.finditer(r"([A-ZÕÄÖÜŽŠ][a-zõäöüžš]+)?([A-ZÕÄÖÜŽŠ][a-zõäöüžš]+)?(\d{11})((\+\d{3})? ?(\d{7,8}))?(\d{2}-\d{2}-\d{4})?(.+)?", row):
-        s = Entry(match.group(1), match.group(2), match.group(3), match.group(4), match.group(7), match.group(8))
-    return s
+        data = Entry(match.group(1), match.group(2), match.group(3), match.group(4), match.group(7), match.group(8))
+    return data
 
 
 if __name__ == '__main__':
