@@ -32,7 +32,7 @@ def create_schedule_string(input_string: str) -> str:
     schedule += "-" * (sizes[0] + sizes[1] + 5) + "\n"
     for times in timeline:
         temp = ", ".join(timeline[times])
-        schedule += f"|{get_formatted_time(times):>{sizes[0]}} | {temp.lower():<{sizes[1]}}|" + "\n"
+        schedule += f"|{get_formatted_time(times):>{sizes[0]}} | {temp:<{sizes[1]}}|" + "\n"
     schedule += "-" * (sizes[0] + sizes[1] + 5) + "\n"
     return schedule
 
@@ -43,9 +43,9 @@ def create_schedule_dict(input_string: str):
     for match in re.finditer(r"(?<=[ \n])([0,1]?[0-9]|2[0-3])\D([0-5]?[0-9]) +([A-ZÕÄÖÜŠŽa-zõäöüžš]+)", input_string):
         time = f"{match.group(1)}:{match.group(2)}"
         if add_zero_to_hours(time) not in timeline:
-            timeline[add_zero_to_hours(time)] = [match.group(3)]
-        else:
-            timeline[add_zero_to_hours(time)].append(match.group(3))
+            timeline[add_zero_to_hours(time)] = [match.group(3).lower()]
+        elif timeline[add_zero_to_hours(time)] != [match.group(3).lower()]:
+            timeline[add_zero_to_hours(time)].append(match.group(3).lower())
     sorted_by_time = sorted(timeline.items(), key=lambda x: x[0])
     timeline = dict(sorted_by_time)
     return timeline
@@ -108,36 +108,4 @@ def get_formatted_time(time: str):
 
 
 if __name__ == '__main__':
-    print(create_schedule_string("sdasfa 1.3 hi"))
-#     print(create_schedule_string("A 11:00 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed euismod nibh, non vehicula libero. Fusce ac eros\
-#  lectus. Pellentesque interdum nisl sem, eget facilisis mauris malesuada eget. Nullam 10:0 a bibendum enim. Praesent dictum\
-#  ante eget turpis tempor, porta placerat dolor ultricies. Mauris quis dui porttitor, ultrices turpis vitae, pulvinar nisl.\
-#  Suspendisse potenti. Ut nec cursus sapien, convallis sagittis purus. Integer mollis nisi sed fermentum efficitur.\
-#  Suspendisse sollicitudin sapien dui, vitae tempus lacus elementum ac. Curabitur id purus diam. 24:01 Donec blandit,\
-#  est nec semper convallis, arcu libero lacinia ex, eu placerat risus est non tellus.\
-# Orci varius natoque penatibus et magnis dis 0:12 parturient montes, nascetur ridiculus mus. Curabitur pretium at metus\
-# eget euismod. Nunc sit amet fermentum urna. Maecenas commodo ex turpis, et malesuada tellus sodales non. Fusce elementum\
-#  eros est. Phasellus nibh magna, tincidunt eget magna nec, rhoncus lobortis dui. Sed fringilla risus a justo tincidunt,\
-#  in tincidunt urna interdum. Morbi varius lobortis tellus, vitae accumsan justo commodo in. 12:001 Nullam eu lorem leo.\
-#  Vestibulum in varius magna. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.\
-#   0:00 Aliquam ac velit sit amet nunc dictum aliquam pulvinar at enim. Nulla aliquam est quis sem laoreet, eu venenatis\
-#   risus hendrerit. Donec ac enim lobortis, bibendum lacus quis, egestas nisi.\
-# \
-# 08:01 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed euismod nibh, non vehicula libero. Fusce ac eros\
-#  lectus. Pellentesque interdum nisl sem, eget facilisis mauris malesuada eget. Nullam 18:19 a bibendum enim. Praesent\
-#  dictum ante eget turpis tempor, 00:0 porta placerat dolor ultricies. Mauris quis dui porttitor, ultrices turpis vitae,\
-#  pulvinar nisl. Suspendisse potenti. Ut nec cursus sapien, convallis sagittis purus. 8:8 Integer mollis nisi sed fermentum\
-#   efficitur. Suspendisse sollicitudin sapien dui, vitae tempus lacus elementum ac. Curabitur id 18:19 purus\
-#   diam. 18:19 Donec blandit, est nec semper convallis, arcu 7.01 libero lacinia ex, eu placerat risus est non tellus.\
-# \
-# 11:0 lorem\
-# 0:60 bad\
-#  1:2 goodone yes\
-# 15:0 nocomma,\
-#  18:19 yes-minus\
-#   21:59 nopoint.\
-# 23-59 canuseminusthere  22,0 CommaIsAlsoOk\
-# 5:6\
-# "))
-# why not work
-    #create_schedule_file("schedule_input.txt", "schedule_output.txt")
+    print(create_schedule_dict("s 15:03 correcT aa  15:03 Correct 15:03 CORRECT"))
