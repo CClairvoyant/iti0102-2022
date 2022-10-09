@@ -44,7 +44,7 @@ def create_schedule_dict(input_string: str):
         time = f"{match.group(1)}:{match.group(2)}"
         if add_zero_to_hours(time) not in timeline:
             timeline[add_zero_to_hours(time)] = [match.group(3).lower()]
-        elif timeline[add_zero_to_hours(time)] != [match.group(3).lower()]:
+        elif match.group(3).lower() not in timeline[add_zero_to_hours(time)]:
             timeline[add_zero_to_hours(time)].append(match.group(3).lower())
     sorted_by_time = sorted(timeline.items(), key=lambda x: x[0])
     timeline = dict(sorted_by_time)
@@ -108,4 +108,4 @@ def get_formatted_time(time: str):
 
 
 if __name__ == '__main__':
-    print(create_schedule_dict("s 15:03 correcT aa  15:03 Correct 15:03 CORRECT"))
+    print(create_schedule_dict("a 1:2 tere 1:2 tsau 1:2 tere"))
