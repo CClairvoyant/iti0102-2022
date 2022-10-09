@@ -18,11 +18,11 @@ def create_schedule_string(input_string: str) -> str:
     """Create schedule string from the given input string."""
     timeline = create_schedule_dict(input_string)
     if not timeline:
-        return("--------------------" + "\n"
-               "|  time | entries  |" + "\n"
-               "--------------------" + "\n"
-               "| No entries found |" + "\n"
-               "--------------------")
+        return ("--------------------" + "\n"
+                "|  time | entries  |" + "\n"
+                "--------------------" + "\n"
+                "| No entries found |" + "\n"
+                "--------------------")
     sizes = get_table_sizes(create_schedule_dict(input_string))
     time = "time"
     entries = "entries"
@@ -38,7 +38,7 @@ def create_schedule_string(input_string: str) -> str:
 
 
 def create_schedule_dict(input_string: str):
-    """Create dictionary with all the values"""
+    """Create dictionary with all the values."""
     timeline = {}
     for match in re.finditer(r"(?<=[ \n])([0,1]?[0-9]|2[0-3])\D([0-5]?[0-9]) +([A-ZÕÄÖÜŠŽa-zõäöüžš]+)", input_string):
         time = f"{match.group(1)}:{match.group(2)}"
@@ -49,10 +49,6 @@ def create_schedule_dict(input_string: str):
     sorted_by_time = sorted(timeline.items(), key=lambda x: x[0])
     timeline = dict(sorted_by_time)
     return timeline
-
-
-def create_table():
-    """Create table."""
 
 
 def get_table_sizes(timeline: dict):
@@ -71,6 +67,7 @@ def get_table_sizes(timeline: dict):
 
 
 def add_zero_to_hours(time: str):
+    """Make time to fit the format hh:mm for easier sorting."""
     h_and_m = time.split(":")
     h = h_and_m[0]
     m = h_and_m[1]
@@ -82,7 +79,7 @@ def add_zero_to_hours(time: str):
 
 
 def normalize(time: str):
-    """Add missing 0's to the minutes and to the hours."""
+    """Add missing 0's to the minutes and remove extra 0's from the hours."""
     h_and_m = time.split(":")
     h = h_and_m[0]
     m = h_and_m[1]
@@ -105,7 +102,3 @@ def get_formatted_time(time: str):
     else:
         formatted_hours = str(int(time[:-3]) % 12)
     return f"{formatted_hours}:{time[-2:]} {day}"
-
-
-if __name__ == '__main__':
-    print(create_schedule_dict("a 1:2 tere 1:2 tsau 1:2 tere"))
