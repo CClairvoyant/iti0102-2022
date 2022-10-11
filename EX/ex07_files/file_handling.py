@@ -128,7 +128,9 @@ def write_csv_file(filename: str, data: list) -> None:
     for item in data:
         csv_item = ",".join(item)
         new_list.append(csv_item)
-    file.write("\n".join(new_list) + "\n")
+    file.write("\n".join(new_list))
+    if new_list:
+        file.write("\n")
     file.close()
 
 
