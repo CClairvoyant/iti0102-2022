@@ -56,8 +56,8 @@ def get_table_sizes(timeline: dict):
     time_list = []
     for time in timeline:
         time_list.append(len(get_formatted_time(time)))
-    time_length = max(time_list) + 1
     time_list.append(len("time"))
+    time_length = max(time_list) + 1
     entries_list = []
     for entry in timeline.values():
         entries_list.append(len(", ".join(entry)))
