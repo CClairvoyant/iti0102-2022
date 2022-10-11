@@ -184,10 +184,10 @@ def merge_dates_and_towns_into_csv(dates_filename: str, towns_filename: str, csv
     csv_output = open(csv_output_filename, "w")
     csv = "name,town,date\n"
     d = {}
-    l = content_towns.split("\n")
+    l = content_dates.split("\n")
     for i in l:
         d[i.split(":")[0]] = [i.split(":")[1]]
-    gg = content_dates.split("\n")
+    gg = content_towns.split("\n")
     for i in gg:
         if i.split(":")[0] in d:
             d[i.split(":")[0]].append(i.split(":")[1])
@@ -198,8 +198,7 @@ def merge_dates_and_towns_into_csv(dates_filename: str, towns_filename: str, csv
         if len(d[element]) == 1:
             d[element].append("-")
     for element in d:
-        csv += f"{element},{d[element][0]},{d[element][1]}"
-        csv += "\n"
+        csv += f"{element},{d[element][1]},{d[element][0]}\n"
     csv_output.write(csv)
 
 
