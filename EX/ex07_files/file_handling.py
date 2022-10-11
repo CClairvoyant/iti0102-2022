@@ -83,6 +83,7 @@ def write_contents_to_file(filename: str, contents: str) -> None:
     file.write(contents)
     file.close()
 
+
 def write_lines_to_file(filename: str, lines: list) -> None:
     """
     Write lines to file.
@@ -96,7 +97,9 @@ def write_lines_to_file(filename: str, lines: list) -> None:
     :param lines: List of string to write to the file.
     :return: None
     """
-    pass
+    file = open(filename, "w")
+    file.write("\n".join(lines))
+    file.close()
 
 
 def write_csv_file(filename: str, data: list) -> None:
@@ -120,7 +123,13 @@ def write_csv_file(filename: str, data: list) -> None:
     :param data: List of lists to write to the file.
     :return: None
     """
-    pass
+    file = open(filename, "w")
+    new_list = []
+    for item in data:
+        csv_item = ",".join(item)
+        new_list.append(csv_item)
+    file.write("\n".join(new_list))
+    file.close()
 
 
 def merge_dates_and_towns_into_csv(dates_filename: str, towns_filename: str, csv_output_filename: str) -> None:
@@ -168,8 +177,30 @@ def merge_dates_and_towns_into_csv(dates_filename: str, towns_filename: str, csv
     :param csv_output_filename: Output CSV-file with names, towns and dates.
     :return: None
     """
-    pass
+    dates = open(dates_filename, "r")
+    content_dates = dates.read()
+    towns = open(towns_filename, "r")
+    content_towns = towns.read()
+    csv_output = open(csv_output_filename, "w")
+    csv = "name,town,date"
+    d = {}
+    l = content_towns.split("\n")
+    for i in l:
+        d[i.split(":")[0]] = [i.split(":")[1]]
+    gg = content_dates.split("\n")
+    for i in gg:
+        if i.split(":")[0] in d:
+            d[i.split(":")[0]].append(i.split(":")[1])
+        else:
+            d[i.split(":")[0]] = ["-"]
+            d[i.split(":")[0]].append(i.split(":")[1])
+    for element in d:
+        if len(d[element]) == 1:
+            d[element].append("-")
+    for element in d:
+        csv += f"\n{element},{d[element][0]},{d[element][1]}"
+    csv_output.write(csv)
 
 
 if __name__ == '__main__':
-    print(write_contents_to_file("random.txt", "hmmm234234m"))
+    print(merge_dates_and_towns_into_csv("dates.txt", "towns.txt", "random.txt"))
