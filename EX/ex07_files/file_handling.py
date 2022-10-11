@@ -6,7 +6,7 @@ def read_file_contents(filename: str) -> str:
     :param filename: File to read.
     :return: File contents as string.
     """
-    file = open(filename, "r")
+    file = open(filename)
     file_contents = file.read()
     file.close()
     return str(file_contents)
@@ -63,7 +63,10 @@ def read_csv_file(filename: str) -> list:
         data = item.split(",")
         new_list.append(data)
     file.close()
-    return new_list
+    if new_list == [[""]]:
+        return []
+    else:
+        return new_list
 
 
 def write_contents_to_file(filename: str, contents: str) -> None:
@@ -76,8 +79,9 @@ def write_contents_to_file(filename: str, contents: str) -> None:
     :param contents: Content to write to.
     :return: None
     """
-    pass
-
+    file = open(filename, "w")
+    file.write(contents)
+    file.close()
 
 def write_lines_to_file(filename: str, lines: list) -> None:
     """
@@ -168,4 +172,4 @@ def merge_dates_and_towns_into_csv(dates_filename: str, towns_filename: str, csv
 
 
 if __name__ == '__main__':
-    print(read_csv_file("random.txt"))
+    print(write_contents_to_file("random.txt", "hmmm234234m"))
