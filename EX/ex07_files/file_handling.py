@@ -199,8 +199,10 @@ def merge_dates_and_towns_into_csv(dates_filename: str, towns_filename: str, csv
             d[element].append("-")
     for element in d:
         csv += f"{element},{d[element][-1]},{d[element][0]}\n"
-    csv += "\n"
     csv_output.write(csv)
+    dates.close()
+    towns.close()
+    csv_output.close()
 
 
 if __name__ == '__main__':
