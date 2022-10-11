@@ -212,7 +212,6 @@ def merge_dates_and_towns_into_csv(dates_filename: str, towns_filename: str, csv
     towns.close()
     csv_output.close()
 
-
 if __name__ == '__main__':
     print(write_csv_file("something.txt", [["a", "b", "c", "d"]]))
     print(merge_dates_and_towns_into_csv("dates.txt", "towns.txt", "random.txt"))
