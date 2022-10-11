@@ -185,22 +185,24 @@ def merge_dates_and_towns_into_csv(dates_filename: str, towns_filename: str, csv
     content_towns = towns.read()
     csv_output = open(csv_output_filename, "w")
     csv = "name,town,date\n"
-    d = {}
-    l = content_dates.split("\n")
-    for i in l:
-        d[i.split(":")[0]] = [i.split(":")[1]]
-    gg = content_towns.split("\n")
-    for i in gg:
-        if i.split(":")[0] in d:
-            d[i.split(":")[0]].append(i.split(":")[1])
-        else:
-            d[i.split(":")[0]] = ["-"]
-            d[i.split(":")[0]].append(i.split(":")[1])
-    for element in d:
-        if len(d[element]) == 1:
-            d[element].append("-")
-    for element in d:
-        csv += f"{element},{d[element][-1]},{d[element][0]}\n"
+    csv_dict = {}
+    dates_list = content_dates.split("\n")
+    if content_dates:
+        for date in dates_list:
+            csv_dict[date.split(":")[0]] = [date.split(":")[1]]
+    towns_list = content_towns.split("\n")
+    if content_towns:
+        for i in towns_list:
+            if i.split(":")[0] in csv_dict:
+                csv_dict[i.split(":")[0]].append(i.split(":")[1])
+            else:
+                csv_dict[i.split(":")[0]] = ["-"]
+                csv_dict[i.split(":")[0]].append(i.split(":")[1])
+    for element in csv_dict:
+        if len(csv_dict[element]) == 1:
+            csv_dict[element].append("-")
+    for element in csv_dict:
+        csv += f"{element},{csv_dict[element][-1]},{csv_dict[element][0]}\n"
     csv_output.write(csv)
     dates.close()
     towns.close()
