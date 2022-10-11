@@ -187,21 +187,15 @@ def merge_dates_and_towns_into_csv(dates_filename: str, towns_filename: str, csv
     csv = "name,town,date\n"
     csv_dict = {}
     dates_list = content_dates.split("\n")
-    if content_dates and ":" in content_dates:
-        for date in dates_list:
-            if not date.split(":")[1]:
-                break
-            csv_dict[date.split(":")[0]] = [date.split(":")[1]]
+    for date in dates_list:
+        csv_dict[date.split(":")[0]] = [date.split(":")[1]]
     towns_list = content_towns.split("\n")
-    if content_towns and ":" in content_towns:
-        for town in towns_list:
-            if not town.split(":")[1]:
-                break
-            elif town.split(":")[0] in csv_dict:
-                csv_dict[town.split(":")[0]].append(town.split(":")[1])
-            else:
-                csv_dict[town.split(":")[0]] = ["-"]
-                csv_dict[town.split(":")[0]].append(town.split(":")[1])
+    for town in towns_list:
+        if town.split(":")[0] in csv_dict:
+            csv_dict[town.split(":")[0]].append(town.split(":")[1])
+        else:
+            csv_dict[town.split(":")[0]] = ["-"]
+            csv_dict[town.split(":")[0]].append(town.split(":")[1])
     for element in csv_dict:
         if len(csv_dict[element]) == 1:
             csv_dict[element].append("-")
@@ -211,6 +205,7 @@ def merge_dates_and_towns_into_csv(dates_filename: str, towns_filename: str, csv
     dates.close()
     towns.close()
     csv_output.close()
+
 
 if __name__ == '__main__':
     print(write_csv_file("something.txt", [["a", "b", "c", "d"]]))
