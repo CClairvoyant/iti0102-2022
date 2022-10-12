@@ -10,9 +10,8 @@ def read_file_contents(filename: str) -> str:
     :param filename: File to read.
     :return: File contents as string.
     """
-    file = open(filename)
-    file_contents = file.read()
-    file.close()
+    with open(filename) as file:
+        file_contents = file.read()
     return str(file_contents)
 
 
@@ -29,10 +28,9 @@ def read_file_contents_to_list(filename: str) -> list:
     :param filename: File to read.
     :return: List of lines.
     """
-    file = open(filename)
-    contents = file.read()
-    content_list = contents.split("\n")
-    file.close()
+    with open(filename) as file:
+        contents = file.read()
+        content_list = contents.split("\n")
     return content_list
 
 
@@ -59,14 +57,13 @@ def read_csv_file(filename: str) -> list:
     :param filename: File to read.
     :return: List of lists.
     """
-    file = open(filename)
-    contents = file.read()
-    content_list = contents.split("\n")
-    new_list = []
-    for item in content_list:
-        data = item.split(",")
-        new_list.append(data)
-    file.close()
+    with open(filename) as file:
+        contents = file.read()
+        content_list = contents.split("\n")
+        new_list = []
+        for item in content_list:
+            data = item.split(",")
+            new_list.append(data)
     if new_list == [[""]]:
         return []
     else:
@@ -83,9 +80,8 @@ def write_contents_to_file(filename: str, contents: str) -> None:
     :param contents: Content to write to.
     :return: None
     """
-    file = open(filename, "w")
-    file.write(contents)
-    file.close()
+    with open(filename, "w") as file:
+        file.write(contents)
 
 
 def write_lines_to_file(filename: str, lines: list) -> None:
@@ -101,9 +97,8 @@ def write_lines_to_file(filename: str, lines: list) -> None:
     :param lines: List of string to write to the file.
     :return: None
     """
-    file = open(filename, "w")
-    file.write("\n".join(lines))
-    file.close()
+    with open(filename, "w") as file:
+        file.write("\n".join(lines))
 
 
 def write_csv_file(filename: str, data: list) -> None:
@@ -127,15 +122,14 @@ def write_csv_file(filename: str, data: list) -> None:
     :param data: List of lists to write to the file.
     :return: None
     """
-    file = open(filename, "w")
-    new_list = []
-    for item in data:
-        csv_item = ",".join(item)
-        new_list.append(csv_item)
-    file.write("\n".join(new_list))
-    if new_list:
-        file.write("\n")
-    file.close()
+    with open(filename, "w") as file:
+        new_list = []
+        for item in data:
+            csv_item = ",".join(item)
+            new_list.append(csv_item)
+        file.write("\n".join(new_list))
+        if new_list:
+            file.write("\n")
 
 
 def merge_dates_and_towns_into_csv(dates_filename: str, towns_filename: str, csv_output_filename: str) -> None:
@@ -183,32 +177,103 @@ def merge_dates_and_towns_into_csv(dates_filename: str, towns_filename: str, csv
     :param csv_output_filename: Output CSV-file with names, towns and dates.
     :return: None
     """
-    dates = open(dates_filename, "r")
-    content_dates = dates.read()
-    towns = open(towns_filename, "r")
-    content_towns = towns.read()
-    csv_output = open(csv_output_filename, "w")
-    csv = "name,town,date\n"
-    csv_dict = {}
-    dates_list = content_dates.split("\n")
-    for date in dates_list:
-        csv_dict[date.split(":")[0]] = [date.split(":")[1]]
-    towns_list = content_towns.split("\n")
-    for town in towns_list:
-        if town.split(":")[0] in csv_dict:
-            csv_dict[town.split(":")[0]].append(town.split(":")[1])
-        else:
-            csv_dict[town.split(":")[0]] = ["-"]
-            csv_dict[town.split(":")[0]].append(town.split(":")[1])
-    for element in csv_dict:
-        if len(csv_dict[element]) == 1:
-            csv_dict[element].append("-")
-    for element in csv_dict:
-        csv += f"{element},{csv_dict[element][-1]},{csv_dict[element][0]}\n"
-    csv_output.write(csv)
-    dates.close()
-    towns.close()
-    csv_output.close()
+    with open(dates_filename, "r") as dates, open(towns_filename, "r") as towns, open(csv_output_filename, "w") as \
+            csv_output:
+        content_dates = dates.read()
+        content_towns = towns.read()
+        csv = "name,town,date\n"
+        csv_dict = {}
+        dates_list = content_dates.split("\n")
+        for date in dates_list:
+            csv_dict[date.split(":")[0]] = [date.split(":")[1]]
+        towns_list = content_towns.split("\n")
+        for town in towns_list:
+            if town.split(":")[0] in csv_dict:
+                csv_dict[town.split(":")[0]].append(town.split(":")[1])
+            else:
+                csv_dict[town.split(":")[0]] = ["-"]
+                csv_dict[town.split(":")[0]].append(town.split(":")[1])
+        for element in csv_dict:
+            if len(csv_dict[element]) == 1:
+                csv_dict[element].append("-")
+        for element in csv_dict:
+            csv += f"{element},{csv_dict[element][-1]},{csv_dict[element][0]}\n"
+        csv_output.write(csv)
+
+
+def read_csv_file_into_list_of_dicts(filename: str) -> list:
+    """
+    Read csv file into list of dictionaries.
+
+    Header line will be used for dict keys.
+
+    Each line after header line will result in a dict inside the result list.
+    Every line contains the same number of fields.
+
+    Example:
+
+    name,age,sex
+    John,12,M
+    Mary,13,F
+
+    Header line will be used as keys for each content line.
+    The result:
+    [
+      {"name": "John", "age": "12", "sex": "M"},
+      {"name": "Mary", "age": "13", "sex": "F"},
+    ]
+
+    If there are only header or no rows in the CSV-file,
+    the result is an empty list.
+
+    The order of the elements in the list should be the same
+    as the lines in the file (the first line becomes the first element etc.)
+
+    :param filename: CSV-file to read.
+    :return: List of dictionaries where keys are taken from the header.
+    """
+    pass
+
+
+def write_list_of_dicts_to_csv_file(filename: str, data: list) -> None:
+    """
+    Write list of dicts into csv file.
+
+    Data contains a list of dictionaries.
+    Dictionary key represents the field.
+
+    Example data:
+    [
+      {"name": "john", "age": "23"}
+      {"name": "mary", "age": "44"}
+    ]
+    Will become:
+    name,age
+    john,23
+    mary,44
+
+    The order of fields/headers is not important.
+    The order of lines is important (the same as in the list).
+
+    Example:
+    [
+      {"name": "john", "age": "12"},
+      {"name": "mary", "town": "London"}
+    ]
+    Will become:
+    name,age,town
+    john,12,
+    mary,,London
+
+    Fields which are not present in one line will be empty.
+
+    The order of the lines in the file should be the same
+    as the order of elements in the list.
+
+    :param filename: File to write to.
+    :param data: List of dictionaries to write to the file.
+    :return: None
+    """
 
 
 if __name__ == '__main__':
