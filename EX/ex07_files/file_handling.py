@@ -206,7 +206,6 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list:
     Read csv file into list of dictionaries.
 
     Header line will be used for dict keys.
-
     Each line after header line will result in a dict inside the result list.
     Every line contains the same number of fields.
 
@@ -232,7 +231,16 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list:
     :param filename: CSV-file to read.
     :return: List of dictionaries where keys are taken from the header.
     """
-    pass
+    with open(filename) as file:
+        content = file.read()
+    csv_items = []
+    output = []
+    for item in content.split("\n"):
+        csv_items.append(item.split(","))
+    for i in range(len(csv_items)):
+        if i != 0:
+            output.append(dict(zip(csv_items[0], csv_items[i])))
+    return output
 
 
 def write_list_of_dicts_to_csv_file(filename: str, data: list) -> None:
@@ -277,5 +285,4 @@ def write_list_of_dicts_to_csv_file(filename: str, data: list) -> None:
 
 
 if __name__ == '__main__':
-    print(write_csv_file("something.txt", [["a", "b", "c", "d"]]))
-    print(merge_dates_and_towns_into_csv("dates.txt", "towns.txt", "random.txt"))
+    print(read_csv_file_into_list_of_dicts("csv_file.txt"))
