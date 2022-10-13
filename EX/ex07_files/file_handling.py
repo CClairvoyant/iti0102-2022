@@ -282,7 +282,22 @@ def write_list_of_dicts_to_csv_file(filename: str, data: list) -> None:
     :param data: List of dictionaries to write to the file.
     :return: None
     """
+    with open(filename, "w") as file:
+        first_line = []
+        for dictionary in data:
+            for key in dictionary:
+                if key not in first_line:
+                    first_line.append(key)
+        file.write(",".join(first_line))
+        for dictionary in data:
+            person = []
+            for item in first_line:
+                try:
+                    person.append(dictionary[item])
+                except KeyError:
+                    person.append("")
+            file.write("\n" + ",".join(person))
 
 
 if __name__ == '__main__':
-    print(read_csv_file_into_list_of_dicts("csv_file.txt"))
+    print(write_list_of_dicts_to_csv_file("something.txt", [{"name": "john", "age": "12"}, {"name": "mary", "town": "London"}]))
