@@ -20,7 +20,6 @@ def find_id_code(text: str) -> str:
             idcode += character
         else:
             idcode += ""
-
     if len(idcode) < 11:
         return "Not enough numbers!"
     elif len(idcode) > 11:
@@ -56,16 +55,13 @@ def the_first_control_number_algorithm(text: str) -> str:
             idcode += character
         else:
             idcode += ""
-
     if len(idcode) < 11:
         return "Incorrect ID code!"
     elif len(idcode) > 11:
         return "Incorrect ID code!"
-
     control_number = (int(idcode[0]) + int(idcode[1]) * 2 + int(idcode[2]) * 3 + int(idcode[3]) * 4 +
                       + int(idcode[4]) * 5 + int(idcode[5]) * 6 + int(idcode[6]) * 7 + int(idcode[7]) * 8 +
                       + int(idcode[8]) * 9 + int(idcode[9])) % 11
-
     if len(idcode) == 11 and control_number == int(idcode[-1]):
         return idcode
     elif control_number < 10 and control_number != int(idcode[-1]):
@@ -76,10 +72,7 @@ def the_first_control_number_algorithm(text: str) -> str:
 
 def is_valid_gender_number(gender_number: int) -> bool:
     """Check if given value is correct for gender number in ID code."""
-    if 0 < gender_number < 7:
-        return True
-    else:
-        return False
+    return 0 < gender_number < 7
 
 
 def get_gender(gender_number: int) -> str:
@@ -92,36 +85,22 @@ def get_gender(gender_number: int) -> str:
 
 def is_valid_year_number(year_number: int) -> bool:
     """Check if given value is correct for year number in ID code."""
-    if 0 <= year_number < 100:
-        return True
-    else:
-        return False
+    return 0 <= year_number < 100
 
 
 def is_valid_month_number(month_number: int) -> bool:
     """Check if given value is correct for month number in ID code."""
-    if month_number in range(1, 13):
-        return True
-    else:
-        return False
+    return month_number in range(1, 13)
 
 
 def is_valid_birth_number(birth_number: int) -> bool:
     """Check if given value is correct for birth number in ID code."""
-    if 0 < birth_number < 1000:
-        return True
-    else:
-        return False
+    return 0 < birth_number < 1000
 
 
 def is_leap_year(year_number: int) -> bool:
     """Check if given year is a leap year or not."""
-    if year_number % 400 == 0:
-        return True
-    elif year_number % 4 == 0 and year_number % 100 != 0:
-        return True
-    else:
-        return False
+    return year_number % 400 == 0 or year_number % 4 == 0 and year_number % 100 != 0
 
 
 def get_full_year(gender_number: int, year_number: int) -> int:
@@ -165,7 +144,6 @@ def is_valid_control_number(id_code: str) -> bool:
     second_control_number = (int(id_code[0]) * 3 + int(id_code[1]) * 4 + int(id_code[2]) * 5 + int(id_code[3]) * 6 +
                              + int(id_code[4]) * 7 + int(id_code[5]) * 8 + int(id_code[6]) * 9 + int(id_code[7]) * 1 +
                              + int(id_code[8]) * 2 + int(id_code[9]) * 3) % 11
-
     if the_first_control_number_algorithm(id_code) == "Incorrect ID code!":
         return False
     elif the_first_control_number_algorithm(id_code) == id_code:
