@@ -180,15 +180,15 @@ def merge_dates_and_towns_into_csv(dates_filename: str, towns_filename: str, csv
     :param csv_output_filename: Output CSV-file with names, towns and dates.
     :return: None
     """
-    with open(dates_filename, "r") as dates, open(towns_filename, "r") as towns, open(csv_output_filename, "w") as \
+    with open(dates_filename, "r") as file_dates, open(towns_filename, "r") as file_towns, open(csv_output_filename, "w") as \
             csv_output:
-        content_dates = dates.read()
-        content_towns = towns.read()
+        content_dates = file_dates.read()
+        content_towns = file_towns.read()
         csv = "name,town,date\n"
         csv_dict = {}
         dates_list = content_dates.split("\n")
-        for date in dates_list:
-            csv_dict[date.split(":")[0]] = [date.split(":")[1]]
+        for dates in dates_list:
+            csv_dict[dates.split(":")[0]] = [dates.split(":")[1]]
         towns_list = content_towns.split("\n")
         for town in towns_list:
             if town.split(":")[0] in csv_dict:
@@ -213,7 +213,6 @@ def read_csv_file_into_list_of_dicts(filename: str) -> list:
     Every line contains the same number of fields.
 
     Example:
-
     name,age,sex
     John,12,M
     Mary,13,F
@@ -305,6 +304,7 @@ def write_list_of_dicts_to_csv_file(filename: str, data: list) -> None:
 def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list:
     """
     Read data from file and cast values into different datatypes.
+
     If a field contains only numbers, turn this into int.
     If a field contains only dates (in format dd.mm.yyyy), turn this into date.
     Otherwise the datatype is string (default by csv reader).
@@ -382,6 +382,8 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list:
     csv_items = []
     for item in content.split("\n"):
         csv_items.append(item.split(","))
+    if not csv_items:
+        return csv_items
     int_csv_items = [csv_items[0]]
     for x in range(len(csv_items)):
         if x != 0:
@@ -390,7 +392,10 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list:
                 try:
                     templist.append(int(csv_items[x][i]))
                 except ValueError:
-                    templist.append(csv_items[x][i])
+                    if csv_items[x][i] == "-":
+                        templist.append(None)
+                    else:
+                        templist.append(csv_items[x][i])
             int_csv_items.append(templist)
     date_csv_items = [int_csv_items[0]]
     for x in range(len(int_csv_items)):
@@ -405,7 +410,11 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list:
                 except ValueError:
                     templist.append(int_csv_items[x][i])
             date_csv_items.append(templist)
-    return date_csv_items
+    output = []
+    for i in range(len(date_csv_items)):
+        if i != 0:
+            output.append(dict(zip(date_csv_items[0], date_csv_items[i])))
+    return output
 
 
 if __name__ == '__main__':
