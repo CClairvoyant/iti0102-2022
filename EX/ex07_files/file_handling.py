@@ -305,7 +305,7 @@ def are_all_digits(content: str, index: int) -> bool:
     """Check if all values of a category are integers."""
     result = True
     for line in content.split("\n")[1:]:
-        if not line.split(",")[index].isdigit() and line.split(",")[index] is not None:
+        if not line.split(",")[index].isdigit() and line.split(",")[index] != "-":
             result = False
     return result
 
@@ -408,7 +408,8 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list:
             if line[i] == "-":
                 line[i] = None
             if are_all_digits(content, i):
-                line[i] = int(line[i])
+                if line[i] is not None:
+                    line[i] = int(line[i])
     for i in range(len(categories)):
         if are_all_dates(content, i):
             for line in csv_list[1:]:
