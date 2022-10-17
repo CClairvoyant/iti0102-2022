@@ -407,14 +407,12 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list:
         for line in csv_list[1:]:
             if line[i] == "-":
                 line[i] = None
-            if are_all_digits(content, i):
-                if line[i] is not None:
-                    line[i] = int(line[i])
+            if are_all_digits(content, i) and line[i] is not None:
+                line[i] = int(line[i])
     for i in range(len(categories)):
-        if are_all_dates(content, i):
-            for line in csv_list[1:]:
-                if line[i] is not None:
-                    line[i] = datetime.datetime.strptime(line[i], "%d.%m.%Y").date()
+        for line in csv_list[1:]:
+            if are_all_dates(content, i) and line[i] is not None:
+                line[i] = datetime.datetime.strptime(line[i], "%d.%m.%Y").date()
     output = []
     for i in range(1, len(csv_list)):
         output.append(dict(zip(csv_list[0], csv_list[i])))
