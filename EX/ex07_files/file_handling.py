@@ -1,7 +1,7 @@
 """Operations with files."""
 
 
-from datetime import date
+import datetime
 
 
 def read_file_contents(filename: str) -> str:
@@ -180,7 +180,7 @@ def merge_dates_and_towns_into_csv(dates_filename: str, towns_filename: str, csv
     :param csv_output_filename: Output CSV-file with names, towns and dates.
     :return: None
     """
-    with open(dates_filename, "r") as file_dates, open(towns_filename, "r") as file_towns, open(csv_output_filename, "w") as \
+    with open(dates_filename) as file_dates, open(towns_filename) as file_towns, open(csv_output_filename, "w") as \
             csv_output:
         content_dates = file_dates.read()
         content_towns = file_towns.read()
@@ -301,6 +301,28 @@ def write_list_of_dicts_to_csv_file(filename: str, data: list) -> None:
             file.write("\n" + ",".join(person))
 
 
+def are_all_digits(content: str, index: int) -> bool:
+    """Check if all values of a category are integers"""
+    result = True
+    for line in content.split("\n")[1:]:
+        if not line.split(",")[index].isdigit():
+            result = False
+    return result
+
+
+def are_all_dates(content: str, index: int) -> bool:
+    """Check if all values of a category are in the following date format: dd.mm.yyyy"""
+    result = True
+    for line in content.split("\n")[1:]:
+        try:
+            datetime.datetime.strptime(line.split(",")[index], "%d.%m.%Y")
+        except ValueError:
+            result = False
+        except TypeError:
+            result = False
+    return result
+
+
 def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list:
     """
     Read data from file and cast values into different datatypes.
@@ -377,45 +399,21 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list:
     For date, strptime can be used:
     https://docs.python.org/3/library/datetime.html#examples-of-usage-date
     """
-    with open(filename) as file:
-        content = file.read()
-    csv_items = []
-    for item in content.split("\n"):
-        csv_items.append(item.split(","))
-    if not csv_items:
-        return csv_items
-    int_csv_items = [csv_items[0]]
-    for x in range(len(csv_items)):
-        if x != 0:
-            templist = []
-            for i in range(len(csv_items[x])):
-                try:
-                    templist.append(int(csv_items[x][i]))
-                except ValueError:
-                    if csv_items[x][i] == "-":
-                        templist.append(None)
-                    else:
-                        templist.append(csv_items[x][i])
-            int_csv_items.append(templist)
-    date_csv_items = [int_csv_items[0]]
-    for x in range(len(int_csv_items)):
-        if x != 0:
-            templist = []
-            for i in range(len(int_csv_items[x])):
-                try:
-                    templist.append(date(int(int_csv_items[x][i][6:]), int(int_csv_items[x][i][3:5]),
-                                         int(int_csv_items[x][i][:2])))
-                except TypeError:
-                    templist.append(int_csv_items[x][i])
-                except ValueError:
-                    templist.append(int_csv_items[x][i])
-            date_csv_items.append(templist)
+    csv_list = read_csv_file(filename)
+    content = read_file_contents(filename)
+    categories = content.split("\n")[0].split(",")
+    for i in range(len(categories)):
+        for line in csv_list[1:]:
+            if line[i] == "-":
+                line[i] = None
+        if are_all_digits(content, i):
+            for line in csv_list[1:]:
+                line[i] = int(line[i])
+    for i in range(len(categories)):
+        if are_all_dates(content, i):
+            for line in csv_list[1:]:
+                line[i] = datetime.datetime.strptime(line[i], "%d.%m.%Y").date()
     output = []
-    for i in range(len(date_csv_items)):
-        if i != 0:
-            output.append(dict(zip(date_csv_items[0], date_csv_items[i])))
+    for i in range(1, len(csv_list)):
+        output.append(dict(zip(csv_list[0], csv_list[i])))
     return output
-
-
-if __name__ == '__main__':
-    print(read_csv_file_into_list_of_dicts_using_datatypes("something.txt"))
