@@ -314,7 +314,7 @@ def are_all_dates(content: str, index: int) -> bool:
     """Check if all values of a category are in the following date format: dd.mm.yyyy."""
     result = True
     for line in content.split("\n")[1:]:
-        if line.split(",")[index] != "-":
+        if line.split(",")[index] is not None:
             try:
                 datetime.datetime.strptime(line.split(",")[index], "%d.%m.%Y")
             except ValueError:
@@ -404,12 +404,12 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list:
     content = read_file_contents(filename)
     categories = content.split("\n")[0].split(",")
     for i in range(len(categories)):
-        for line in csv_list[1:]:
-            if line[i] == "-":
-                line[i] = None
         if are_all_digits(content, i):
             for line in csv_list[1:]:
-                line[i] = int(line[i])
+                if line[i] == "-":
+                    line[i] = None
+                else:
+                    line[i] = int(line[i])
     for i in range(len(categories)):
         if are_all_dates(content, i):
             for line in csv_list[1:]:
