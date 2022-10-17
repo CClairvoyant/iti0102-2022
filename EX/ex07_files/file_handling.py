@@ -302,24 +302,25 @@ def write_list_of_dicts_to_csv_file(filename: str, data: list) -> None:
 
 
 def are_all_digits(content: str, index: int) -> bool:
-    """Check if all values of a category are integers"""
+    """Check if all values of a category are integers."""
     result = True
     for line in content.split("\n")[1:]:
-        if not line.split(",")[index].isdigit():
+        if not line.split(",")[index].isdigit() and line.split(",")[index] != "-":
             result = False
     return result
 
 
 def are_all_dates(content: str, index: int) -> bool:
-    """Check if all values of a category are in the following date format: dd.mm.yyyy"""
+    """Check if all values of a category are in the following date format: dd.mm.yyyy."""
     result = True
     for line in content.split("\n")[1:]:
-        try:
-            datetime.datetime.strptime(line.split(",")[index], "%d.%m.%Y")
-        except ValueError:
-            result = False
-        except TypeError:
-            result = False
+        if line.split(",")[index] != "-":
+            try:
+                datetime.datetime.strptime(line.split(",")[index], "%d.%m.%Y")
+            except ValueError:
+                result = False
+            except TypeError:
+                result = False
     return result
 
 
