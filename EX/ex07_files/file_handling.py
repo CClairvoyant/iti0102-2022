@@ -305,7 +305,7 @@ def are_all_digits(content: str, index: int) -> bool:
     """Check if all values of a category are integers."""
     result = True
     for line in content.split("\n")[1:]:
-        if not line.split(",")[index].isdigit() and line.split(",")[index] != "-":
+        if not line.split(",")[index].isdigit() and line.split(",")[index] is not None:
             result = False
     return result
 
@@ -314,7 +314,7 @@ def are_all_dates(content: str, index: int) -> bool:
     """Check if all values of a category are in the following date format: dd.mm.yyyy."""
     result = True
     for line in content.split("\n")[1:]:
-        if line.split(",")[index] is not None:
+        if line.split(",")[index] != "-":
             try:
                 datetime.datetime.strptime(line.split(",")[index], "%d.%m.%Y")
             except ValueError:
@@ -404,16 +404,16 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list:
     content = read_file_contents(filename)
     categories = content.split("\n")[0].split(",")
     for i in range(len(categories)):
-        if are_all_digits(content, i):
-            for line in csv_list[1:]:
-                if line[i] == "-":
-                    line[i] = None
-                else:
-                    line[i] = int(line[i])
+        for line in csv_list[1:]:
+            if line[i] == "-":
+                line[i] = None
+            if are_all_digits(content, i):
+                line[i] = int(line[i])
     for i in range(len(categories)):
         if are_all_dates(content, i):
             for line in csv_list[1:]:
-                line[i] = datetime.datetime.strptime(line[i], "%d.%m.%Y").date()
+                if line[i] is not None:
+                    line[i] = datetime.datetime.strptime(line[i], "%d.%m.%Y").date()
     output = []
     for i in range(1, len(csv_list)):
         output.append(dict(zip(csv_list[0], csv_list[i])))
