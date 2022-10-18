@@ -523,7 +523,7 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
     """
     with open(report_filename, "w") as report:
         data_dict = read_people_data(person_data_directory)
-        report_list = [["id,birth,death,name,status,age"]]
+        report_list = [["id,name,birth,death,status,age"]]
         for i, id_num in enumerate(data_dict):
             if data_dict[id_num]["id"]:
                 report_list.append([str(data_dict[id_num]["id"])])
@@ -549,11 +549,11 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
                 report_list[i + 1].append(str(calculate_age(report_list[i + 1][2])))
             else:
                 report_list[i + 1].append(str(calculate_age(report_list[i + 1][2], report_list[i + 1][3])))
+        print(data_dict)
         list_of_rows = []
         for lists in report_list:
             list_of_rows.append(",".join(lists))
         data_string = "\n".join(list_of_rows)
-        print(data_dict)
         report.write(data_string)
 
 
