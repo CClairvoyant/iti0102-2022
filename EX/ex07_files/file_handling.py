@@ -527,6 +527,10 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
         for i, id_num in enumerate(data_dict):
             if data_dict[id_num]["id"]:
                 report_list.append([str(data_dict[id_num]["id"])])
+            if data_dict[id_num]["name"] is None or not data_dict[id_num]["name"]:
+                report_list[i + 1].append("-")
+            else:
+                report_list[i + 1].append(str(data_dict[id_num]["name"]))
             if data_dict[id_num]["birth"] is None or not data_dict[id_num]["birth"]:
                 report_list[i + 1].append("-")
             else:
@@ -535,20 +539,16 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
                 report_list[i + 1].append("-")
             else:
                 report_list[i + 1].append(datetime.datetime.strftime(data_dict[id_num]["death"], "%d.%m.%Y"))
-            if data_dict[id_num]["name"] is None or not data_dict[id_num]["name"]:
-                report_list[i + 1].append("-")
-            else:
-                report_list[i + 1].append(str(data_dict[id_num]["name"]))
-            if report_list[i + 1][2] == "-":
+            if report_list[i + 1][3] == "-":
                 report_list[i + 1].append("alive")
             else:
                 report_list[i + 1].append("dead")
-            if report_list[i + 1][1] == "-":
+            if report_list[i + 1][2] == "-":
                 report_list[i + 1].append("-1")
-            elif report_list[i + 1][2] == "-":
-                report_list[i + 1].append(str(calculate_age(report_list[i + 1][1])))
+            elif report_list[i + 1][3] == "-":
+                report_list[i + 1].append(str(calculate_age(report_list[i + 1][2])))
             else:
-                report_list[i + 1].append(str(calculate_age(report_list[i + 1][1], report_list[i + 1][2])))
+                report_list[i + 1].append(str(calculate_age(report_list[i + 1][2], report_list[i + 1][3])))
         list_of_rows = []
         for lists in report_list:
             list_of_rows.append(",".join(lists))
