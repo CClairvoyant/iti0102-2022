@@ -526,15 +526,15 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
         report_list = [["id,birth,death,name,status,age"]]
         for i in data_dict:
             report_list.append([str(data_dict[i]["id"])])
-            if data_dict[i]["birth"] is None:
+            if data_dict[i]["birth"] is None or not data_dict[i]["birth"]:
                 report_list[i].append("-")
             else:
                 report_list[i].append(datetime.datetime.strftime(data_dict[i]["birth"], "%d.%m.%Y"))
-            if data_dict[i]["death"] is None:
+            if data_dict[i]["death"] is None or not data_dict[i]["death"]:
                 report_list[i].append("-")
             else:
                 report_list[i].append(datetime.datetime.strftime(data_dict[i]["death"], "%d.%m.%Y"))
-            if data_dict[i]["name"] is None:
+            if data_dict[i]["name"] is None or not data_dict[i]["name"]:
                 report_list[i].append("-")
             else:
                 report_list[i].append(str(data_dict[i]["name"]))
