@@ -463,8 +463,8 @@ def read_people_data(directory: str) -> dict:
     files_list = os.listdir(directory)
     dodo = {}
     for file_name in files_list:
-        # if file_name[-4:] == ".csv":
-            for dictionary in read_csv_file_into_list_of_dicts_using_datatypes(fr"{directory}\{file_name}"):
+        if file_name[-4:] == ".csv":
+            for dictionary in read_csv_file_into_list_of_dicts_using_datatypes(fr"{directory}/{file_name}"):
                 if dictionary["id"] not in dodo:
                     dodo[dictionary["id"]] = dictionary
                 else:
