@@ -561,12 +561,5 @@ def calculate_age(birth_date, death_date=datetime.date.today().strftime("%d.%m.%
     return death_date.year - birth_date.year - ((death_date.month, death_date.day) < (birth_date.month, birth_date.day))
 
 
-# {
-#     1: {'id': 1, 'name': 'john', 'birth': datetime.date(2001, 1, 1), 'death': None},
-#     2: {'id': 2, 'name': 'mary', 'birth': datetime.date(1990, 6, 5), 'death': datetime.date(2020, 2, 1)},
-#     3: {'id': 3, 'name': 'john', 'birth': None, 'death': None}
-# }
-
-
 if __name__ == '__main__':
     print(generate_people_report("data", "report.csv"))
