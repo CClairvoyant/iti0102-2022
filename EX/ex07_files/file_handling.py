@@ -540,7 +540,7 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
                     report_list[x].append("-")
                 else:
                     report_list[x].append(str(data_dict[i]["name"]))
-                if report_list[i][2] == "-":
+                if report_list[x][2] == "-":
                     report_list[x].append("alive")
                 else:
                     report_list[x].append("dead")
