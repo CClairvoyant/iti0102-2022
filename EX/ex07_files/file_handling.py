@@ -522,8 +522,52 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
     :param report_filename: Output file.
     :return: None
     """
-    pass
+    with open(report_filename, "w") as report:
+        data_dict = read_people_data(person_data_directory)
+        report_list = [["id,birth,death,name,status,age"]]
+        for i in data_dict:
+            report_list.append([str(data_dict[i]["id"])])
+            if data_dict[i]["birth"] is None:
+                report_list[i].append("-")
+            else:
+                report_list[i].append(datetime.datetime.strftime(data_dict[i]["birth"], "%d.%m.%Y"))
+            if data_dict[i]["death"] is None:
+                report_list[i].append("-")
+            else:
+                report_list[i].append(datetime.datetime.strftime(data_dict[i]["death"], "%d.%m.%Y"))
+            if data_dict[i]["name"] is None:
+                report_list[i].append("-")
+            else:
+                report_list[i].append(str(data_dict[i]["name"]))
+            if report_list[i][2] == "-":
+                report_list[i].append("alive")
+            else:
+                report_list[i].append("dead")
+            if report_list[i][1] == "-":
+                report_list[i].append("-1")
+            elif report_list[i][2] == "-":
+                report_list[i].append(str(calculate_age(report_list[i][1])))
+            else:
+                report_list[i].append(str(calculate_age(report_list[i][1], report_list[i][2])))
+        list_of_rows = []
+        for lists in report_list:
+            list_of_rows.append(",".join(lists))
+        data_string = "\n".join(list_of_rows)
+        report.write(data_string)
+
+
+def calculate_age(birth_date, death_date=datetime.date.today().strftime("%d.%m.%Y")):
+    birth_date = datetime.datetime.strptime(birth_date, "%d.%m.%Y").date()
+    death_date = datetime.datetime.strptime(death_date, "%d.%m.%Y").date()
+    return death_date.year - birth_date.year - ((death_date.month, death_date.day) < (birth_date.month, birth_date.day))
+
+
+# {
+#     1: {'id': 1, 'name': 'john', 'birth': datetime.date(2001, 1, 1), 'death': None},
+#     2: {'id': 2, 'name': 'mary', 'birth': datetime.date(1990, 6, 5), 'death': datetime.date(2020, 2, 1)},
+#     3: {'id': 3, 'name': 'john', 'birth': None, 'death': None}
+# }
 
 
 if __name__ == '__main__':
-    print(read_people_data("data"))
+    print(generate_people_report("data", "report.csv"))
