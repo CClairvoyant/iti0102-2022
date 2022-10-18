@@ -525,30 +525,31 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
         data_dict = read_people_data(person_data_directory)
         report_list = [["id,birth,death,name,status,age"]]
         for i in data_dict:
-            if data_dict[i]["id"]:
-                report_list.append([str(data_dict[i]["id"])])
-            if data_dict[i]["birth"] is None or not data_dict[i]["birth"]:
-                report_list[i].append("-")
-            else:
-                report_list[i].append(datetime.datetime.strftime(data_dict[i]["birth"], "%d.%m.%Y"))
-            if data_dict[i]["death"] is None or not data_dict[i]["death"]:
-                report_list[i].append("-")
-            else:
-                report_list[i].append(datetime.datetime.strftime(data_dict[i]["death"], "%d.%m.%Y"))
-            if data_dict[i]["name"] is None or not data_dict[i]["name"]:
-                report_list[i].append("-")
-            else:
-                report_list[i].append(str(data_dict[i]["name"]))
-            if report_list[i][2] == "-":
-                report_list[i].append("alive")
-            else:
-                report_list[i].append("dead")
-            if report_list[i][1] == "-":
-                report_list[i].append("-1")
-            elif report_list[i][2] == "-":
-                report_list[i].append(str(calculate_age(report_list[i][1])))
-            else:
-                report_list[i].append(str(calculate_age(report_list[i][1], report_list[i][2])))
+            for x in range(6):
+                if data_dict[i]["id"]:
+                    report_list.append([str(data_dict[i]["id"])])
+                if data_dict[i]["birth"] is None or not data_dict[i]["birth"]:
+                    report_list[x].append("-")
+                else:
+                    report_list[x].append(datetime.datetime.strftime(data_dict[i]["birth"], "%d.%m.%Y"))
+                if data_dict[i]["death"] is None or not data_dict[i]["death"]:
+                    report_list[x].append("-")
+                else:
+                    report_list[x].append(datetime.datetime.strftime(data_dict[i]["death"], "%d.%m.%Y"))
+                if data_dict[i]["name"] is None or not data_dict[i]["name"]:
+                    report_list[x].append("-")
+                else:
+                    report_list[x].append(str(data_dict[i]["name"]))
+                if report_list[i][2] == "-":
+                    report_list[x].append("alive")
+                else:
+                    report_list[x].append("dead")
+                if report_list[x][1] == "-":
+                    report_list[x].append("-1")
+                elif report_list[x][2] == "-":
+                    report_list[x].append(str(calculate_age(report_list[x][1])))
+                else:
+                    report_list[x].append(str(calculate_age(report_list[x][1], report_list[x][2])))
         list_of_rows = []
         for lists in report_list:
             list_of_rows.append(",".join(lists))
