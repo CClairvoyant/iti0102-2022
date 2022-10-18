@@ -525,7 +525,8 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
         data_dict = read_people_data(person_data_directory)
         report_list = [["id,birth,death,name,status,age"]]
         for i in data_dict:
-            report_list.append([str(data_dict[i]["id"])])
+            if data_dict[i]["id"]:
+                report_list.append([str(data_dict[i]["id"])])
             if data_dict[i]["birth"] is None or not data_dict[i]["birth"]:
                 report_list[i].append("-")
             else:
