@@ -52,7 +52,7 @@ def test_fruit_basket_zero():
 
 
 def test_fruit_basket_large_exactly_enough():
-    assert solution.fruit_order(3, 3, 15) == 0
+    assert solution.fruit_order(0, 3, 15) == 0
 
 
 def test_fruit_basket_large_not_enough():

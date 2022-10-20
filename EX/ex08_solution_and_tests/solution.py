@@ -1,3 +1,6 @@
+"""Solutions of random tasks."""
+
+
 def students_study(time: int, coffee_needed: bool) -> bool:
     """
     Return True if students study in given circumstances.
@@ -37,7 +40,10 @@ def fruit_order(small_baskets: int, big_baskets: int, ordered_amount: int) -> in
         small_baskets_needed = ordered_amount - big_baskets * 5
         while small_baskets_needed < 0:
             small_baskets_needed += 5
-        return small_baskets_needed
+        if small_baskets_needed > small_baskets:
+            return -1
+        else:
+            return small_baskets_needed
     else:
         return -1
 
@@ -49,3 +55,4 @@ if __name__ == '__main__':
     print(fruit_order(10, 0, 9))  # -> 9
     print(fruit_order(4, 1, 9))  # -> 4
     print(fruit_order(3, 1, 10))  # -> -1
+    print(fruit_order(1, 2, 7))  # -> -1
