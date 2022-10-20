@@ -1,4 +1,4 @@
-"""Tests of solution.py"""
+"""Tests of solution.py."""
 
 
 import pytest
@@ -72,5 +72,7 @@ def test_fruit_basket_small_and_large():
     assert solution.fruit_order(3, 2, 13) == 3
     assert solution.fruit_order(2, 5, 12) == 2
     assert solution.fruit_order(8, 1, 16) == -1
+    assert solution.fruit_order(8, 1, 9) == 4
+    assert solution.fruit_order(6, 2, 12) == 2
     assert solution.fruit_order(2, 40, 123) == -1
-    assert solution.fruit_order(82, 235, 1024) == 4
+    assert solution.fruit_order(2000, 3000, 10004) == 4
