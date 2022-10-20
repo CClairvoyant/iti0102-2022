@@ -75,4 +75,5 @@ def test_fruit_basket_small_and_large():
     assert solution.fruit_order(8, 1, 12) == 7
     assert solution.fruit_order(6, 2, 12) == 2
     assert solution.fruit_order(2, 40, 123) == -1
+    assert solution.fruit_order(4, 2, 7) == 2
     assert solution.fruit_order(2000, 3000, 16004) == 1004
