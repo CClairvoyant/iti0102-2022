@@ -34,11 +34,11 @@ def fruit_order(small_baskets: int, big_baskets: int, ordered_amount: int) -> in
     (3, 1, 10) -> -1
     """
     small_baskets_needed = ordered_amount % 5
-    if 0 <= small_baskets_needed <= small_baskets and ordered_amount // 5 <= big_baskets:
-        return small_baskets_needed
+    if 0 <= small_baskets_needed <= small_baskets and ordered_amount // 5 <= big_baskets + small_baskets // 5:
+        return small_baskets - big_baskets * 5 - (small_baskets - ordered_amount)
     else:
         return -1
 
 
 if __name__ == '__main__':
-    print(fruit_order(1, 5, 21))
+    print(fruit_order(10, 1, 13))
