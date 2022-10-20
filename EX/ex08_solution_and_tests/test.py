@@ -51,20 +51,26 @@ def test_fruit_basket_zero():
     assert solution.fruit_order(2, 4, 0) == 0
 
 
-def test_fruit_basket_large_exactly_enough():
+def test_fruit_basket_only_large():
     assert solution.fruit_order(0, 3, 15) == 0
+    assert solution.fruit_order(0, 1, 10) == -1
+    assert solution.fruit_order(0, 1, 12) == -1
+    assert solution.fruit_order(0, 7, 15) == 0
+    assert solution.fruit_order(0, 7, 11) == -1
+    assert solution.fruit_order(0, 5, 7) == -1
 
 
-def test_fruit_basket_large_not_enough():
-    assert solution.fruit_order(10, 1, 12) == 7
-    assert solution.fruit_order(2, 1, 12) == -1
-    assert solution.fruit_order(12, 1, 15) == 10
-    assert solution.fruit_order(2, 1, 15) == -1
+def test_fruit_basket_only_small():
+    assert solution.fruit_order(8, 0, 6) == 6
+    assert solution.fruit_order(9, 0, 11) == -1
+    assert solution.fruit_order(4, 0, 4) == 4
+    assert solution.fruit_order(4, 0, 6) == -1
+    assert solution.fruit_order(3, 0, 2) == 2
 
 
-def test_fruit_basket_large_more_than_enough():
-    assert solution.fruit_order(3, 5, 7) == 2
-    assert solution.fruit_order(1, 5, 7) == -1
-
-
-
+def test_fruit_basket_small_and_large():
+    assert solution.fruit_order(3, 2, 13) == 3
+    assert solution.fruit_order(2, 5, 12) == 2
+    assert solution.fruit_order(8, 1, 16) == -1
+    assert solution.fruit_order(2, 40, 123) == -1
+    assert solution.fruit_order(82, 235, 1024) == 4
