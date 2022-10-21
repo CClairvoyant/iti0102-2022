@@ -31,10 +31,10 @@ class Cake:
             return "large"
 
     def __repr__(self):
-        pass
+        return f"Cake{self.type}"
 
     def __eq__(self, other):
-        pass
+        return self.type == other.type
 
 
 class WrongIngredientsAmountException(Exception):
