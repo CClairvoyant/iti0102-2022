@@ -1,3 +1,6 @@
+import pytest
+
+
 class Factory:
     def __init__(self):
         pass
@@ -30,7 +33,7 @@ class Cake:
         elif self.base_amount == 5 and self.toppings_amount == 5:
             return "large"
         else:
-            raise WrongIngredientsAmountException
+            pytest.raises(WrongIngredientsAmountException)
 
     def __repr__(self):
         return f"Cake({self.type})"
