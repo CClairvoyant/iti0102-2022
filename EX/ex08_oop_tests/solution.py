@@ -18,11 +18,17 @@ class Factory:
 class Cake:
 
     def __init__(self, base_amount, toppings_amount):
-        pass
+        self.base_amount = base_amount
+        self.toppings_amount = toppings_amount
 
     @property
     def type(self):
-        pass
+        if self.base_amount == 1 and self.toppings_amount == 1:
+            return "basic"
+        elif 2 <= self.base_amount <= 4 and 2 <= self.toppings_amount <= 4:
+            return "medium"
+        else:
+            return "large"
 
     def __repr__(self):
         pass
