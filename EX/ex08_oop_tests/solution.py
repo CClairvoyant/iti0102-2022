@@ -2,7 +2,6 @@
 
 
 class Factory:
-
     """Cake factory class."""
 
     def __init__(self):
@@ -10,8 +9,11 @@ class Factory:
         self.cakes_baked = []
 
     def bake_cake(self, toppings: int, base: int) -> int:
-        """Bake large cakes if possible, then medium cakes if possible, then basic cakes, adds them to the list and
-        returns the amount of cakes baked."""
+        """
+        Bake large cakes if possible, then medium cakes if possible and then basic cakes.
+
+        After that, adds them to the list and returns the amount of cakes baked.
+        """
         amount = 0
         if toppings == base:
             amount = toppings // 5 + toppings % 5 // 2 + toppings % 5 % 2
@@ -40,7 +42,6 @@ class Factory:
 
 
 class Cake:
-
     """Class that is focused on assigning cake types."""
 
     def __init__(self, base_amount, toppings_amount):
@@ -72,6 +73,7 @@ class Cake:
 
 class WrongIngredientsAmountException(Exception):
     """Exception triggered if the Cake class has been given the wrong amount of ingredients."""
+
     pass
 
 
