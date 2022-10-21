@@ -25,17 +25,24 @@ class Cake:
     def type(self):
         if self.base_amount == 1 and self.toppings_amount == 1:
             return "basic"
-        elif 2 <= self.base_amount <= 4 and 2 <= self.toppings_amount <= 4:
+        elif self.base_amount == 2 and self.toppings_amount == 2:
             return "medium"
-        else:
+        elif self.base_amount == 5 and self.toppings_amount == 5:
             return "large"
+        else:
+            raise WrongIngredientsAmountException
 
     def __repr__(self):
-        return f"Cake{self.type}"
+        return f"Cake({self.type})"
 
     def __eq__(self, other):
         return self.type == other.type
 
 
 class WrongIngredientsAmountException(Exception):
-    pass
+    def __init__(self, base_amount, toppings_amount):
+        self.base_amount = base_amount
+        self.toppings_amount = toppings_amount
+
+    def __repr__(self):
+        return Cake(self.base_amount, self.toppings_amount)
