@@ -3,10 +3,15 @@ import pytest
 
 class Factory:
     def __init__(self):
-        pass
+        Factory.self = self
 
     def bake_cake(self, toppings: int, base: int) -> int:
-        pass
+        amount = 0
+        if toppings == base == 1:
+            amount = 1
+        elif toppings == base and toppings % 2 == 0 and toppings > 5:
+            amount = toppings / 2
+        return amount
 
     def get_last_cakes(self, n: int) -> list:
         pass
@@ -23,7 +28,7 @@ class Cake:
     def __init__(self, base_amount, toppings_amount):
         allowed_list = [1, 2, 5]
         if base_amount not in allowed_list and toppings_amount not in allowed_list:
-            raise WrongIngredientsAmountException("random")
+            raise WrongIngredientsAmountException("Incorrect amount of ingredients!")
         self.base_amount = base_amount
         self.toppings_amount = toppings_amount
 
