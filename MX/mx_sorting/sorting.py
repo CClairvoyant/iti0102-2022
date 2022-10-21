@@ -119,7 +119,8 @@ def sort_people_by_age_name_height(people: list[Person]) -> list:
     :param people: Input list of people (Objects of the Person class).
     :return: Sorted list of people.
     """
-    pass
+    sorted_people = sorted(people, key=lambda x: (x.age, x.name, x.height))
+    return sorted_people
 
 
 def sort_people_by_popularity_of_name(people: list[Person]) -> list:
@@ -135,7 +136,9 @@ def sort_people_by_popularity_of_name(people: list[Person]) -> list:
     :param people: Input list of people (Objects of the Person class).
     :return: Sorted list of people.
     """
-    pass
+    string_list = list(map(str, people))
+    sorted_people = sorted(people, key=lambda x: (-string_list.count(str(x.name)), x.name))
+    return sorted_people
 
 
 if __name__ == '__main__':
