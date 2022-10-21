@@ -2,15 +2,13 @@ import pytest
 
 
 class Factory:
-    def __init__(self):
-        Factory.self = self
 
     def bake_cake(self, toppings: int, base: int) -> int:
         amount = 0
         if toppings == base == 1:
             amount = 1
-        elif toppings == base and toppings % 2 == 0 and toppings > 5:
-            amount = toppings / 2
+        elif toppings == base:
+            amount = toppings // 5 + toppings % 5 // 2 + toppings % 5 % 2
         return amount
 
     def get_last_cakes(self, n: int) -> list:
@@ -20,7 +18,7 @@ class Factory:
         pass
 
     def __str__(self):
-        pass
+        return
 
 
 class Cake:
