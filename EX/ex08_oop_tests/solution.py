@@ -21,8 +21,9 @@ class Factory:
 class Cake:
 
     def __init__(self, base_amount, toppings_amount):
-        if base_amount != toppings_amount and base_amount not in {1, 2, 5}:
-            raise WrongIngredientsAmountException("ugabuga")
+        allowed_list = [1, 2, 5]
+        if base_amount not in allowed_list and toppings_amount not in allowed_list:
+            raise WrongIngredientsAmountException("random")
         self.base_amount = base_amount
         self.toppings_amount = toppings_amount
 
