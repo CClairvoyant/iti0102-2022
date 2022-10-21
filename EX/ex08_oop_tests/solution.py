@@ -12,9 +12,9 @@ class Factory:
         amount = 0
         if toppings == base:
             amount = toppings // 5 + toppings % 5 // 2 + toppings % 5 % 2
-            self.cakes_baked += toppings // 5 * [f"Cake({Cake(5, 5).type})"]
-            self.cakes_baked += toppings % 5 // 2 * [f"Cake({Cake(2, 2).type})"]
-            self.cakes_baked += toppings % 5 % 2 * [f"Cake({Cake(1, 1).type})"]
+            self.cakes_baked += toppings // 5 * [Cake(5, 5)]
+            self.cakes_baked += toppings % 5 // 2 * [Cake(2, 2)]
+            self.cakes_baked += toppings % 5 % 2 * [Cake(1, 1)]
         return amount
 
     def get_last_cakes(self, n: int) -> list:
@@ -64,7 +64,9 @@ class WrongIngredientsAmountException(Exception):
 
 if __name__ == '__main__':
     factory = Factory()
-    factory.bake_cake(9, 9)
-    print(factory.get_cakes_baked())
-
+    factory.bake_cake(3, 3)
+    cakes = factory.get_last_cakes(2)
+    print(cakes)
+    print(cakes[0].type == "medium")
+    print(cakes[1].type != "medium")
 
