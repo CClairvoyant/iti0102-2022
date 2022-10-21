@@ -21,6 +21,8 @@ class Factory:
 class Cake:
 
     def __init__(self, base_amount, toppings_amount):
+        if base_amount != toppings_amount and base_amount not in {1, 2, 5}:
+            raise WrongIngredientsAmountException("ugabuga")
         self.base_amount = base_amount
         self.toppings_amount = toppings_amount
 
@@ -32,8 +34,6 @@ class Cake:
             return "medium"
         elif self.base_amount == 5 and self.toppings_amount == 5:
             return "large"
-        else:
-            raise WrongIngredientsAmountException("Ugabuga")
 
     def __repr__(self):
         return f"Cake({self.type})"
