@@ -1,24 +1,30 @@
+from typing import List, Any
+
 import pytest
 
 
 class Factory:
 
+    def __init__(self):
+        self.cakes_baked = []
+
     def bake_cake(self, toppings: int, base: int) -> int:
         amount = 0
-        if toppings == base == 1:
-            amount = 1
-        elif toppings == base:
+        if toppings == base:
             amount = toppings // 5 + toppings % 5 // 2 + toppings % 5 % 2
+            self.cakes_baked += toppings // 5 * [Cake(5, 5).type]
+            self.cakes_baked += toppings % 5 // 2 * [Cake(2, 2).type]
+            self.cakes_baked += toppings % 5 % 2 * [Cake(1, 1).type]
         return amount
 
     def get_last_cakes(self, n: int) -> list:
-        pass
+        return self.cakes_baked[-n:]
 
     def get_cakes_baked(self) -> list:
-        pass
+        return self.cakes_baked
 
     def __str__(self):
-        return
+        return f"{self.cakes_baked}"
 
 
 class Cake:
@@ -48,3 +54,10 @@ class Cake:
 
 class WrongIngredientsAmountException(Exception):
     pass
+
+
+if __name__ == '__main__':
+    factory = Factory()
+    factory.bake_cake(29, 29)
+    print(factory.get_last_cakes(3))
+    print(Factory())
