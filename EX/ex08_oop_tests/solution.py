@@ -33,7 +33,7 @@ class Cake:
         elif self.base_amount == 5 and self.toppings_amount == 5:
             return "large"
         else:
-            raise WrongIngredientsAmountException(self.base_amount, self.toppings_amount)
+            raise WrongIngredientsAmountException("Ugabuga")
 
     def __repr__(self):
         return f"Cake({self.type})"
@@ -43,9 +43,4 @@ class Cake:
 
 
 class WrongIngredientsAmountException(Exception):
-    def __init__(self, base_amount, toppings_amount):
-        self.base_amount = base_amount
-        self.toppings_amount = toppings_amount
-
-    def __repr__(self):
-        return Cake(self.base_amount, self.toppings_amount)
+    pass
