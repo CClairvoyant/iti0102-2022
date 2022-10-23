@@ -3,6 +3,7 @@
 
 import datetime
 import os
+import time
 
 
 def read_file_contents(filename: str) -> str:
@@ -549,12 +550,28 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
                 report_list[i + 1].append(str(calculate_age(report_list[i + 1][2])))
             else:
                 report_list[i + 1].append(str(calculate_age(report_list[i + 1][2], report_list[i + 1][3])))
-        print(data_dict)
+        first_row = report_list.pop(0)
+        report_list = sorted(report_list, key=lambda x: (sort_by_age(x), sort_by_birth_date(x), x[1], int(x[0])))
+        report_list.insert(0, first_row)
         list_of_rows = []
         for lists in report_list:
             list_of_rows.append(",".join(lists))
         data_string = "\n".join(list_of_rows)
         report.write(data_string)
+
+
+def sort_by_age(csv_list: list):
+    if int(csv_list[-1]) >= 0:
+        return int(csv_list[-1])
+    else:
+        return 9999999999999999
+
+
+def sort_by_birth_date(csv_list: list):
+    try:
+        return -time.mktime(datetime.datetime.strptime(csv_list[-4], "%d.%m.%Y").timetuple())
+    except ValueError:
+        return 9999999999999
 
 
 def calculate_age(birth_date, death_date=datetime.date.today().strftime("%d.%m.%Y")):
