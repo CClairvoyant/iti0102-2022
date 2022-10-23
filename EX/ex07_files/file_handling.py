@@ -65,6 +65,8 @@ def read_csv_file(filename: str) -> list:
     with open(filename) as file:
         contents = file.read()
         content_list = contents.split("\n")
+        if not content_list[-1]:
+            content_list.pop(-1)
         new_list = []
         for item in content_list:
             data = item.split(",")
@@ -306,7 +308,10 @@ def write_list_of_dicts_to_csv_file(filename: str, data: list) -> None:
 def are_all_digits(content: str, index: int) -> bool:
     """Check if all values of a category are integers."""
     result = True
-    for line in content.split("\n")[1:]:
+    content_list = content.split("\n")
+    if not content_list[-1]:
+        content_list.pop(-1)
+    for line in content_list[1:]:
         if not line.split(",")[index].isdigit() and line.split(",")[index] != "-":
             result = False
     return result
@@ -315,7 +320,10 @@ def are_all_digits(content: str, index: int) -> bool:
 def are_all_dates(content: str, index: int) -> bool:
     """Check if all values of a category are in the following date format: dd.mm.yyyy."""
     result = True
-    for line in content.split("\n")[1:]:
+    content_list = content.split("\n")
+    if not content_list[-1]:
+        content_list.pop(-1)
+    for line in content_list[1:]:
         if line.split(",")[index] != "-":
             try:
                 datetime.datetime.strptime(line.split(",")[index], "%d.%m.%Y")
@@ -523,44 +531,45 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
     :return: None
     """
     with open(report_filename, "w") as report:
-        try:
-            data_dict = read_people_data(person_data_directory)
-            report_list = [["id,name,birth,death,status,age"]]
-            for i, id_num in enumerate(data_dict):
-                if data_dict[id_num]["id"]:
-                    report_list.append([str(data_dict[id_num]["id"])])
-                if data_dict[id_num]["name"] is None or not data_dict[id_num]["name"]:
-                    report_list[i + 1].append("-")
-                else:
-                    report_list[i + 1].append(str(data_dict[id_num]["name"]))
-                if data_dict[id_num]["birth"] is None or not data_dict[id_num]["birth"]:
-                    report_list[i + 1].append("-")
-                else:
-                    report_list[i + 1].append(datetime.datetime.strftime(data_dict[id_num]["birth"], "%d.%m.%Y"))
-                if data_dict[id_num]["death"] is None or not data_dict[id_num]["death"]:
-                    report_list[i + 1].append("-")
-                else:
-                    report_list[i + 1].append(datetime.datetime.strftime(data_dict[id_num]["death"], "%d.%m.%Y"))
-                if report_list[i + 1][3] == "-":
-                    report_list[i + 1].append("alive")
-                else:
-                    report_list[i + 1].append("dead")
-                if report_list[i + 1][2] == "-":
-                    report_list[i + 1].append("-1")
-                elif report_list[i + 1][3] == "-":
-                    report_list[i + 1].append(str(calculate_age(report_list[i + 1][2])))
-                else:
-                    report_list[i + 1].append(str(calculate_age(report_list[i + 1][2], report_list[i + 1][3])))
-            first_row = report_list.pop(0)
-            report_list = sorted(report_list, key=lambda x: (sort_by_age(x), sort_by_birth_date(x), x[1], int(x[0])))
-            report_list.insert(0, first_row)
-            list_of_rows = []
-            for lists in report_list:
-                list_of_rows.append(",".join(lists))
-            data_string = "\n".join(list_of_rows)
-            report.write(data_string)
-        except IndexError:
-            return None
+        data_dict = read_people_data(person_data_directory)
+        print(data_dict)
+        report_list = [[]]
+        for id_num in data_dict:
+            report_list[0].append(f"id,{list(data_dict[id_num].keys())[1]},birth,death,status,age")
+            break
+        for i, id_num in enumerate(data_dict):
+            if data_dict[id_num]["id"]:
+                report_list.append([str(data_dict[id_num]["id"])])
+            if list(data_dict[id_num].keys())[1] is None or not list(data_dict[id_num].keys())[1]:
+                report_list[i + 1].append("-")
+            else:
+                report_list[i + 1].append(str(data_dict[id_num][list(data_dict[id_num].keys())[1]]))
+            if data_dict[id_num]["birth"] is None or not data_dict[id_num]["birth"]:
+                report_list[i + 1].append("-")
+            else:
+                report_list[i + 1].append(datetime.datetime.strftime(data_dict[id_num]["birth"], "%d.%m.%Y"))
+            if data_dict[id_num]["death"] is None or not data_dict[id_num]["death"]:
+                report_list[i + 1].append("-")
+            else:
+                report_list[i + 1].append(datetime.datetime.strftime(data_dict[id_num]["death"], "%d.%m.%Y"))
+            if report_list[i + 1][3] == "-":
+                report_list[i + 1].append("alive")
+            else:
+                report_list[i + 1].append("dead")
+            if report_list[i + 1][2] == "-":
+                report_list[i + 1].append("-1")
+            elif report_list[i + 1][3] == "-":
+                report_list[i + 1].append(str(calculate_age(report_list[i + 1][2])))
+            else:
+                report_list[i + 1].append(str(calculate_age(report_list[i + 1][2], report_list[i + 1][3])))
+        first_row = report_list.pop(0)
+        report_list = sorted(report_list, key=lambda x: (sort_by_age(x), sort_by_birth_date(x), x[1], int(x[0])))
+        report_list.insert(0, first_row)
+        list_of_rows = []
+        for lists in report_list:
+            list_of_rows.append(",".join(lists))
+        data_string = "\n".join(list_of_rows)
+        report.write(data_string)
 
 
 def sort_by_age(csv_list: list):
