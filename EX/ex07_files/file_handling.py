@@ -560,7 +560,7 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
             data_string = "\n".join(list_of_rows)
             report.write(data_string)
         except IndexError:
-            return "give input file please"
+            return None
 
 
 def sort_by_age(csv_list: list):
