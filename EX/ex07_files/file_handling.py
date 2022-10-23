@@ -576,19 +576,20 @@ def sort_by_birth_date(csv_list: list):
 
 def sort_by_name(csv_list: list):
     if len(csv_list) > 1:
-        if csv_list[1] == "-":
+        if csv_list[-5] == "-":
             return ""
         else:
-            return csv_list[1]
+            return csv_list[-5]
     else:
         return 0
 
 
 def sort_by_id(csv_list: list):
     if len(csv_list) > 0:
-        return int(csv_list[0])
+        return int(csv_list[-6])
     else:
         return 0
+
 
 def calculate_age(birth_date, death_date=datetime.date.today().strftime("%d.%m.%Y")):
     birth_date = datetime.datetime.strptime(birth_date, "%d.%m.%Y").date()
