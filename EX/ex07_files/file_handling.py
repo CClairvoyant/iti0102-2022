@@ -523,41 +523,44 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
     :return: None
     """
     with open(report_filename, "w") as report:
-        data_dict = read_people_data(person_data_directory)
-        report_list = [["id,name,birth,death,status,age"]]
-        for i, id_num in enumerate(data_dict):
-            if data_dict[id_num]["id"]:
-                report_list.append([str(data_dict[id_num]["id"])])
-            if data_dict[id_num]["name"] is None or not data_dict[id_num]["name"]:
-                report_list[i + 1].append("-")
-            else:
-                report_list[i + 1].append(str(data_dict[id_num]["name"]))
-            if data_dict[id_num]["birth"] is None or not data_dict[id_num]["birth"]:
-                report_list[i + 1].append("-")
-            else:
-                report_list[i + 1].append(datetime.datetime.strftime(data_dict[id_num]["birth"], "%d.%m.%Y"))
-            if data_dict[id_num]["death"] is None or not data_dict[id_num]["death"]:
-                report_list[i + 1].append("-")
-            else:
-                report_list[i + 1].append(datetime.datetime.strftime(data_dict[id_num]["death"], "%d.%m.%Y"))
-            if report_list[i + 1][3] == "-":
-                report_list[i + 1].append("alive")
-            else:
-                report_list[i + 1].append("dead")
-            if report_list[i + 1][2] == "-":
-                report_list[i + 1].append("-1")
-            elif report_list[i + 1][3] == "-":
-                report_list[i + 1].append(str(calculate_age(report_list[i + 1][2])))
-            else:
-                report_list[i + 1].append(str(calculate_age(report_list[i + 1][2], report_list[i + 1][3])))
-        first_row = report_list.pop(0)
-        report_list = sorted(report_list, key=lambda x: (sort_by_age(x), sort_by_birth_date(x), sort_by_name(x), int(x[0])))
-        report_list.insert(0, first_row)
-        list_of_rows = []
-        for lists in report_list:
-            list_of_rows.append(",".join(lists))
-        data_string = "\n".join(list_of_rows)
-        report.write(data_string)
+        try:
+            data_dict = read_people_data(person_data_directory)
+            report_list = [["id,name,birth,death,status,age"]]
+            for i, id_num in enumerate(data_dict):
+                if data_dict[id_num]["id"]:
+                    report_list.append([str(data_dict[id_num]["id"])])
+                if data_dict[id_num]["name"] is None or not data_dict[id_num]["name"]:
+                    report_list[i + 1].append("-")
+                else:
+                    report_list[i + 1].append(str(data_dict[id_num]["name"]))
+                if data_dict[id_num]["birth"] is None or not data_dict[id_num]["birth"]:
+                    report_list[i + 1].append("-")
+                else:
+                    report_list[i + 1].append(datetime.datetime.strftime(data_dict[id_num]["birth"], "%d.%m.%Y"))
+                if data_dict[id_num]["death"] is None or not data_dict[id_num]["death"]:
+                    report_list[i + 1].append("-")
+                else:
+                    report_list[i + 1].append(datetime.datetime.strftime(data_dict[id_num]["death"], "%d.%m.%Y"))
+                if report_list[i + 1][3] == "-":
+                    report_list[i + 1].append("alive")
+                else:
+                    report_list[i + 1].append("dead")
+                if report_list[i + 1][2] == "-":
+                    report_list[i + 1].append("-1")
+                elif report_list[i + 1][3] == "-":
+                    report_list[i + 1].append(str(calculate_age(report_list[i + 1][2])))
+                else:
+                    report_list[i + 1].append(str(calculate_age(report_list[i + 1][2], report_list[i + 1][3])))
+            first_row = report_list.pop(0)
+            report_list = sorted(report_list, key=lambda x: (sort_by_age(x), sort_by_birth_date(x), x[1], int(x[0])))
+            report_list.insert(0, first_row)
+            list_of_rows = []
+            for lists in report_list:
+                list_of_rows.append(",".join(lists))
+            data_string = "\n".join(list_of_rows)
+            report.write(data_string)
+        except IndexError:
+            return "give input file please"
 
 
 def sort_by_age(csv_list: list):
@@ -572,23 +575,6 @@ def sort_by_birth_date(csv_list: list):
         return -time.mktime(datetime.datetime.strptime(csv_list[-4], "%d.%m.%Y").timetuple())
     except ValueError:
         return 9999999999999
-
-
-def sort_by_name(csv_list: list):
-    if len(csv_list) > 1:
-        if csv_list[-5] == "-":
-            return ""
-        else:
-            return csv_list[-5]
-    else:
-        return 0
-
-
-def sort_by_id(csv_list: list):
-    if len(csv_list) > 0:
-        return int(csv_list[-6])
-    else:
-        return 0
 
 
 def calculate_age(birth_date, death_date=datetime.date.today().strftime("%d.%m.%Y")):
