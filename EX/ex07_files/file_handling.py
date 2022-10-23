@@ -551,7 +551,7 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
             else:
                 report_list[i + 1].append(str(calculate_age(report_list[i + 1][2], report_list[i + 1][3])))
         first_row = report_list.pop(0)
-        report_list = sorted(report_list, key=lambda x: (sort_by_age(x), sort_by_birth_date(x), x[1], int(x[0])))
+        report_list = sorted(report_list, key=lambda x: (sort_by_age(x), sort_by_birth_date(x), x[1], sort_by_id(x)))
         report_list.insert(0, first_row)
         list_of_rows = []
         for lists in report_list:
@@ -572,6 +572,13 @@ def sort_by_birth_date(csv_list: list):
         return -time.mktime(datetime.datetime.strptime(csv_list[-4], "%d.%m.%Y").timetuple())
     except ValueError:
         return 9999999999999
+
+
+def sort_by_id(csv_list: list):
+    try:
+        return int(x[0])
+    except IndexError:
+        return 9999999
 
 
 def calculate_age(birth_date, death_date=datetime.date.today().strftime("%d.%m.%Y")):
