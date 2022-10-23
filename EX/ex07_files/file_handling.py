@@ -576,7 +576,7 @@ def sort_by_birth_date(csv_list: list):
 
 def sort_by_id(csv_list: list):
     try:
-        return int(x[0])
+        return int(csv_list[0])
     except IndexError:
         return 9999999
 
