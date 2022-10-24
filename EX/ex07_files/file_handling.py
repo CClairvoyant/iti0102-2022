@@ -539,7 +539,7 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
             else:
                 data_dict[id_num]["status"] = "dead"
             if data_dict[id_num]["birth"] is None:
-                data_dict[id_num]["age"] = None
+                data_dict[id_num]["age"] = -1
             elif data_dict[id_num]["death"] is None:
                 data_dict[id_num]["age"] = calculate_age(data_dict[id_num]["birth"])
             else:
