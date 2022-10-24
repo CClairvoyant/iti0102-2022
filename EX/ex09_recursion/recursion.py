@@ -16,7 +16,7 @@ def loop_reverse(s: str) -> str:
     s_reverse = ""
     if s:
         for i in range(len(s)):
-            s_reverse += s[-i-1]
+            s_reverse += s[-i - 1]
     return s_reverse
 
 
@@ -236,8 +236,6 @@ if __name__ == "__main__":
 
     print(stonks(1000, 10, 10))  # -> 2593
     print(stonks(100000, 12, 3))  # -> 140492
-
-
 
     print(quic_mafs(6, 19))  # -> [6, 7]
     print(quic_mafs(2, 1))  # -> [0, 1]
