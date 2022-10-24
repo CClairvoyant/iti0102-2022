@@ -559,9 +559,9 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
             report_list.append(list(data_dict[id_num].values()))
         first_row = report_list.pop(0)
         if "name" in first_row:
-            report_list = sorted(report_list, key=lambda x: (sort_by_age(x), sort_by_birth_date(x, first_row.index("birth")), x[first_row.index("name")], int(x[0])))
+            report_list = sorted(report_list, key=lambda x: (sort_by_age(x, first_row.index("age")), sort_by_birth_date(x, first_row.index("birth")), x[first_row.index("name")], int(x[0])))
         else:
-            report_list = sorted(report_list, key=lambda x: (sort_by_age(x), sort_by_birth_date(x, first_row.index("birth")), int(x[0])))
+            report_list = sorted(report_list, key=lambda x: (sort_by_age(x, first_row.index("age")), sort_by_birth_date(x, first_row.index("birth")), int(x[0])))
         for x in range(len(report_list)):
             for i in range(len(report_list[x])):
                 if type(report_list[x][i]) == datetime.date:
@@ -574,8 +574,8 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
         report.write(data_string)
 
 
-def sort_by_age(csv_list: list):
-    if int(csv_list[-1]) >= 0:
+def sort_by_age(csv_list: list, age_index: int):
+    if int(csv_list[age_index]) >= 0:
         return int(csv_list[-1])
     else:
         return 999999999999999
