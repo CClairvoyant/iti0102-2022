@@ -237,6 +237,8 @@ if __name__ == "__main__":
     print(stonks(1000, 10, 10))  # -> 2593
     print(stonks(100000, 12, 3))  # -> 140492
 
+
+
     print(quic_mafs(6, 19))  # -> [6, 7]
     print(quic_mafs(2, 1))  # -> [0, 1]
     print(quic_mafs(22, 5))  # -> [0, 1]
