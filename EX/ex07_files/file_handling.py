@@ -3,7 +3,6 @@
 
 import datetime
 import os
-import time
 
 
 def read_file_contents(filename: str) -> str:
@@ -432,6 +431,7 @@ def read_csv_file_into_list_of_dicts_using_datatypes(filename: str) -> list:
 def read_people_data(directory: str) -> dict:
     """
     Read people data from files.
+
     Files are inside directory. Read all *.csv files.
 
     Each file has an int field "id" which should be used to merge information.
@@ -530,51 +530,52 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
     :param report_filename: Output file.
     :return: None
     """
-    with open(report_filename, "w") as report:
-        data_dict = read_people_data(person_data_directory)
-        report_list = [[]]
-        for id_num in data_dict:
-            if "status" not in data_dict[id_num]:
-                if data_dict[id_num]["death"] is None:
-                    data_dict[id_num]["status"] = "alive"
-                else:
-                    data_dict[id_num]["status"] = "dead"
-            if data_dict[id_num]["birth"] is None:
-                data_dict[id_num]["age"] = -1
-            elif data_dict[id_num]["death"] is None:
-                data_dict[id_num]["age"] = calculate_age(data_dict[id_num]["birth"])
+    data_dict = read_people_data(person_data_directory)
+    report_list = [[]]
+    for id_num in data_dict:
+        if "status" not in data_dict[id_num]:
+            if data_dict[id_num]["death"] is None:
+                data_dict[id_num]["status"] = "alive"
             else:
-                data_dict[id_num]["age"] = calculate_age(data_dict[id_num]["birth"], data_dict[id_num]["death"])
-        for id_num in data_dict:
-            for key in list(data_dict[id_num].keys()):
-                report_list[0].append(key)
-            break
-        for id_num in data_dict:
-            for key in list(data_dict[id_num].keys()):
-                if data_dict[id_num][key] is None:
-                    data_dict[id_num][key] = "-"
-                if type(data_dict[id_num][key]) == int:
-                    data_dict[id_num][key] = str(data_dict[id_num][key])
-        for id_num in data_dict:
-            report_list.append(list(data_dict[id_num].values()))
-        first_row = report_list.pop(0)
-        if "name" in first_row:
-            report_list = sorted(report_list, key=lambda x: (sort_by_age(x, first_row.index("age")), sort_by_birth_date(x, first_row.index("birth")), x[first_row.index("name")], int(x[0])))
+                data_dict[id_num]["status"] = "dead"
+        if data_dict[id_num]["birth"] is None:
+            data_dict[id_num]["age"] = -1
+        elif data_dict[id_num]["death"] is None:
+            data_dict[id_num]["age"] = calculate_age(data_dict[id_num]["birth"])
         else:
-            report_list = sorted(report_list, key=lambda x: (sort_by_age(x, first_row.index("age")), sort_by_birth_date(x, first_row.index("birth")), int(x[0])))
-        for x in range(len(report_list)):
-            for i in range(len(report_list[x])):
-                if type(report_list[x][i]) == datetime.date:
-                    report_list[x][i] = datetime.datetime.strftime(report_list[x][i], "%d.%m.%Y")
-        report_list.insert(0, first_row)
-        list_of_rows = []
-        for lists in report_list:
-            list_of_rows.append(",".join(lists))
-        data_string = "\n".join(list_of_rows)
+            data_dict[id_num]["age"] = calculate_age(data_dict[id_num]["birth"], data_dict[id_num]["death"])
+    for id_num in data_dict:
+        for key in list(data_dict[id_num].keys()):
+            report_list[0].append(key)
+        break
+    for id_num in data_dict:
+        for key in list(data_dict[id_num].keys()):
+            if data_dict[id_num][key] is None:
+                data_dict[id_num][key] = "-"
+            if type(data_dict[id_num][key]) == int:
+                data_dict[id_num][key] = str(data_dict[id_num][key])
+    for id_num in data_dict:
+        report_list.append(list(data_dict[id_num].values()))
+    first_row = report_list.pop(0)
+    if "name" in first_row:
+        report_list = sorted(report_list, key=lambda x: (sort_by_age(x, first_row.index("age")), sort_by_birth_date(x, first_row.index("birth")), x[first_row.index("name")], int(x[0])))
+    else:
+        report_list = sorted(report_list, key=lambda x: (sort_by_age(x, first_row.index("age")), sort_by_birth_date(x, first_row.index("birth")), int(x[0])))
+    for x in range(len(report_list)):
+        for i in range(len(report_list[x])):
+            if type(report_list[x][i]) == datetime.date:
+                report_list[x][i] = datetime.datetime.strftime(report_list[x][i], "%d.%m.%Y")
+    report_list.insert(0, first_row)
+    list_of_rows = []
+    for lists in report_list:
+        list_of_rows.append(",".join(lists))
+    data_string = "\n".join(list_of_rows)
+    with open(report_filename, "w") as report:
         report.write(data_string)
 
 
 def sort_by_age(csv_list: list, age_index: int):
+    """Sort by age."""
     if int(csv_list[age_index]) >= 0:
         return int(csv_list[age_index])
     else:
@@ -582,6 +583,7 @@ def sort_by_age(csv_list: list, age_index: int):
 
 
 def sort_by_birth_date(csv_list: list, birth_date_index: int):
+    """Sort by birth date."""
     try:
         return -csv_list[birth_date_index].year, -csv_list[birth_date_index].month, -csv_list[birth_date_index].day
     except ValueError:
@@ -591,6 +593,7 @@ def sort_by_birth_date(csv_list: list, birth_date_index: int):
 
 
 def calculate_age(birth_date, death_date=datetime.date.today()):
+    """Calculate age."""
     return death_date.year - birth_date.year - ((death_date.month, death_date.day) < (birth_date.month, birth_date.day))
 
 
