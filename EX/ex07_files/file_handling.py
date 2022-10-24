@@ -583,7 +583,7 @@ def sort_by_age(csv_list: list):
 
 def sort_by_birth_date(csv_list: list, birth_date_index: int):
     try:
-        return -csv_list[birth_date_index].month, -csv_list[birth_date_index].day
+        return -csv_list[birth_date_index].year, -csv_list[birth_date_index].month, -csv_list[birth_date_index].day
     except ValueError:
         return 999999999999999
     except AttributeError:
