@@ -534,10 +534,7 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
     report_list = [[]]
     for id_num in data_dict:
         if "status" not in data_dict[id_num]:
-            if data_dict[id_num]["death"] is None:
-                data_dict[id_num]["status"] = "alive"
-            else:
-                data_dict[id_num]["status"] = "dead"
+            remove_too_complex(data_dict, id_num)
         if data_dict[id_num]["birth"] is None:
             data_dict[id_num]["age"] = -1
         elif data_dict[id_num]["death"] is None:
@@ -572,6 +569,13 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
     data_string = "\n".join(list_of_rows)
     with open(report_filename, "w") as report:
         report.write(data_string)
+
+
+def remove_too_complex(data_dict, id_num):
+    if data_dict[id_num]["death"] is None:
+        data_dict[id_num]["status"] = "alive"
+    else:
+        data_dict[id_num]["status"] = "dead"
 
 
 def sort_by_age(csv_list: list, age_index: int):
