@@ -578,7 +578,7 @@ def sort_by_age(csv_list: list):
     if int(csv_list[-1]) >= 0:
         return int(csv_list[-1])
     else:
-        return 9999999999999999
+        return 999999999999999
 
 
 def sort_by_birth_date(csv_list: list, birth_date_index: int):
