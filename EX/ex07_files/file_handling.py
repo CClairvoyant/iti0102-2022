@@ -583,7 +583,7 @@ def sort_by_birth_date(csv_list: list):
     try:
         return -time.mktime(datetime.datetime.strptime(csv_list[-4], "%d.%m.%Y").timetuple())
     except ValueError:
-        return 9999999999999
+        return 999999999999999
 
 
 def calculate_age(birth_date, death_date=datetime.date.today().strftime("%d.%m.%Y")):
