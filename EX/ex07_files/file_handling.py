@@ -576,7 +576,10 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
 
 def sort_by_age(csv_list: list, age_index: int):
     if int(csv_list[age_index]) >= 0:
-        return int(csv_list[-1])
+        try:
+            return int(csv_list[-1])
+        except ValueError:
+            return 99999999999
     else:
         return 999999999999999
 
