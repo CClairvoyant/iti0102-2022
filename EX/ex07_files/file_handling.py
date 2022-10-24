@@ -587,7 +587,7 @@ def sort_by_birth_date(csv_list: list, birth_date_index: int):
     except ValueError:
         return 999999999999999
     except AttributeError:
-        return datetime.datetime.strptime(csv_list[birth_date_index], "%d.%m.%Y").month, datetime.datetime.strptime(csv_list[birth_date_index], "%d.%m.%Y").day
+        return 999999999999999
 
 
 def calculate_age(birth_date, death_date=datetime.date.today()):
