@@ -556,6 +556,7 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
 
 
 def make_function_simpler(data_dict, report_list):
+    """Remove too complex error."""
     for id_num in data_dict:
         if "status" not in data_dict[id_num]:
             remove_too_complex(data_dict, id_num)
