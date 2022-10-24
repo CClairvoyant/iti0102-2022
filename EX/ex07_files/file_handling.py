@@ -546,11 +546,7 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
             report_list[0].append(key)
         break
     for id_num in data_dict:
-        for key in list(data_dict[id_num].keys()):
-            if data_dict[id_num][key] is None:
-                data_dict[id_num][key] = "-"
-            if type(data_dict[id_num][key]) == int:
-                data_dict[id_num][key] = str(data_dict[id_num][key])
+        anti_too_complex(data_dict, id_num)
     for id_num in data_dict:
         report_list.append(list(data_dict[id_num].values()))
     first_row = report_list.pop(0)
@@ -571,7 +567,17 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
         report.write(data_string)
 
 
+def anti_too_complex(data_dict, id_num):
+    """Remove too complex error."""
+    for key in list(data_dict[id_num].keys()):
+        if data_dict[id_num][key] is None:
+            data_dict[id_num][key] = "-"
+        if type(data_dict[id_num][key]) == int:
+            data_dict[id_num][key] = str(data_dict[id_num][key])
+
+
 def remove_too_complex(data_dict, id_num):
+    """Remove too complex error."""
     if data_dict[id_num]["death"] is None:
         data_dict[id_num]["status"] = "alive"
     else:
