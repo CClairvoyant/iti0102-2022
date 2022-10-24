@@ -534,16 +534,18 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
         data_dict = read_people_data(person_data_directory)
         report_list = [[]]
         for id_num in data_dict:
-            if data_dict[id_num]["death"] is None:
-                data_dict[id_num]["status"] = "alive"
-            else:
-                data_dict[id_num]["status"] = "dead"
-            if data_dict[id_num]["birth"] is None:
-                data_dict[id_num]["age"] = -1
-            elif data_dict[id_num]["death"] is None:
-                data_dict[id_num]["age"] = calculate_age(data_dict[id_num]["birth"])
-            else:
-                data_dict[id_num]["age"] = calculate_age(data_dict[id_num]["birth"], data_dict[id_num]["death"])
+            if "status" not in data_dict[id_num]:
+                if data_dict[id_num]["death"] is None:
+                    data_dict[id_num]["status"] = "alive"
+                else:
+                    data_dict[id_num]["status"] = "dead"
+            if "age" not in data_dict[id_num]:
+                if data_dict[id_num]["birth"] is None:
+                    data_dict[id_num]["age"] = -1
+                elif data_dict[id_num]["death"] is None:
+                    data_dict[id_num]["age"] = calculate_age(data_dict[id_num]["birth"])
+                else:
+                    data_dict[id_num]["age"] = calculate_age(data_dict[id_num]["birth"], data_dict[id_num]["death"])
         for id_num in data_dict:
             for key in list(data_dict[id_num].keys()):
                 report_list[0].append(key)
@@ -554,7 +556,6 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
                     data_dict[id_num][key] = "-"
                 if type(data_dict[id_num][key]) == int:
                     data_dict[id_num][key] = str(data_dict[id_num][key])
-        print(data_dict)
         for id_num in data_dict:
             report_list.append(list(data_dict[id_num].values()))
         first_row = report_list.pop(0)
@@ -576,10 +577,7 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
 
 def sort_by_age(csv_list: list, age_index: int):
     if int(csv_list[age_index]) >= 0:
-        try:
-            return int(csv_list[-1])
-        except ValueError:
-            return 99999999999
+        return int(csv_list[age_index])
     else:
         return 999999999999999
 
