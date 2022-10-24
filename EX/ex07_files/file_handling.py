@@ -546,6 +546,8 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
                     data_dict[id_num]["age"] = calculate_age(data_dict[id_num]["birth"])
                 else:
                     data_dict[id_num]["age"] = calculate_age(data_dict[id_num]["birth"], data_dict[id_num]["death"])
+            if data_dict[id_num]["age"] == "-":
+                data_dict[id_num]["age"] = -1
         for id_num in data_dict:
             for key in list(data_dict[id_num].keys()):
                 report_list[0].append(key)
