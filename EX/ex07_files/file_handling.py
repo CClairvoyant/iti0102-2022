@@ -533,14 +533,7 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
     data_dict = read_people_data(person_data_directory)
     report_list = [[]]
     for id_num in data_dict:
-        if "status" not in data_dict[id_num]:
-            remove_too_complex(data_dict, id_num)
-        if data_dict[id_num]["birth"] is None:
-            data_dict[id_num]["age"] = -1
-        elif data_dict[id_num]["death"] is None:
-            data_dict[id_num]["age"] = calculate_age(data_dict[id_num]["birth"])
-        else:
-            data_dict[id_num]["age"] = calculate_age(data_dict[id_num]["birth"], data_dict[id_num]["death"])
+        make_function_simpler(data_dict, id_num)
     for id_num in data_dict:
         for key in list(data_dict[id_num].keys()):
             report_list[0].append(key)
@@ -565,6 +558,18 @@ def generate_people_report(person_data_directory: str, report_filename: str) -> 
     data_string = "\n".join(list_of_rows)
     with open(report_filename, "w") as report:
         report.write(data_string)
+
+
+def make_function_simpler(data_dict, id_num):
+    """Remove too complex error."""
+    if "status" not in data_dict[id_num]:
+        remove_too_complex(data_dict, id_num)
+    if data_dict[id_num]["birth"] is None:
+        data_dict[id_num]["age"] = -1
+    elif data_dict[id_num]["death"] is None:
+        data_dict[id_num]["age"] = calculate_age(data_dict[id_num]["birth"])
+    else:
+        data_dict[id_num]["age"] = calculate_age(data_dict[id_num]["birth"], data_dict[id_num]["death"])
 
 
 def anti_too_complex(data_dict, id_num):
