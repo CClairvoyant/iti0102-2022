@@ -13,7 +13,7 @@ def meet_me(pos1, jump_distance1, sleep1, pos2, jump_distance2, sleep2) -> int:
     time = 0
     sleeping_1 = False
     sleeping_2 = False
-    while time < 10000:
+    while time < 100000000:
         if time % sleep1 == 0:
             sleeping_1 = False
         if time % sleep2 == 0:
