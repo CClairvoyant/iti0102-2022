@@ -17,7 +17,7 @@ def meet_me(pos1, jump_distance1, sleep1, pos2, jump_distance2, sleep2) -> int:
     that_is_enough = 0
     time1 = 0
     time2 = 0
-    while that_is_enough < 2000000:
+    while that_is_enough < 3000000:
         if time1 <= time2:
             pos1 += jump_distance1
             time1 += sleep1
