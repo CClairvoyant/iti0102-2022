@@ -16,7 +16,7 @@ def meet_me(pos1, jump_distance1, sleep1, pos2, jump_distance2, sleep2) -> int:
     """
 
     time = 0
-    while time < 1000000:
+    while time < 10000000:
         if time % sleep1 == 0:
             pos1 += jump_distance1
         if time % sleep2 == 0:
@@ -38,3 +38,9 @@ if __name__ == "__main__":
     print(meet_me(1, 2, 3, 4, 5, 5))  # => -1
     print(meet_me(0, 1, 1, 1, 1, 1))  # => -1
     print(meet_me(1, 2, 1, 1, 3, 1))  # => -1
+    print(meet_me(273, 136, 208, 245, 75, 112))  # => 545
+    print(meet_me(262, 228, 163, 295, 15, 11))  # => 490
+    print(meet_me(239, 22, 41, 149, 158, 285))  # => 1097
+    print(meet_me(250, 35, 26, 284, 149, 111))  # => 880
+    print(meet_me(92, 151, 200, 28, 109, 144))  # => 6132
+    print(meet_me(201, 87, 209, 118, 107, 257))  # => 5682
