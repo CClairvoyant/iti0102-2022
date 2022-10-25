@@ -14,14 +14,19 @@ def meet_me(pos1, jump_distance1, sleep1, pos2, jump_distance2, sleep2) -> int:
 
     @:return positions where jangurus first meet
     """
-
-    time = 0
-    while time < 10000000:
-        if time % sleep1 == 0:
+    that_is_enough = 0
+    time1 = 0
+    time2 = 0
+    while that_is_enough < 10000000:
+        if time1 <= time2:
             pos1 += jump_distance1
-        if time % sleep2 == 0:
+            time1 += sleep1
+        if pos1 == pos2 and time1 - sleep1 != time2:
+            return pos1
+        if time2 <= time1:
             pos2 += jump_distance2
-        time += 1
+            time2 += sleep2
+        that_is_enough += 1
         if pos1 == pos2:
             return pos1
     return -1
