@@ -20,9 +20,9 @@ def tree(length):
         return None
     t.forward(length)
     t.left(60)
-    tree(length * 3 / 5)
+    tree(length * 0.6)
     t.right(120)
-    tree(length * 3 / 5)
+    tree(length * 0.6)
     t.left(60)
     t.back(length)
 
@@ -100,16 +100,16 @@ if __name__ == '__main__':
     t = Turtle()
     t.getscreen().bgcolor("#1c262b")
     t.color("#96004f")
-    t.speed(0)
-    t.pensize(2)
+    t.speed(1)
+    # t.pensize(2)
     t.left(90)
     tree(200)
-
-    '''
-    s = curve("Fa", 8)
-    s = format_curve(s)
-    l = get_line_length(100, 8)
-    draw_dragon(s, l)
-    '''
-    save(t)
-    t.getscreen().exitonclick()
+    #
+    # '''
+    # s = curve("Fa", 8)
+    # s = format_curve(s)
+    # l = get_line_length(100, 8)
+    # draw_dragon(s, l)
+    # '''
+    # save(t)
+    # t.getscreen().exitonclick()
