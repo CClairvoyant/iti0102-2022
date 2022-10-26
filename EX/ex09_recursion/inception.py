@@ -99,7 +99,7 @@ def sum_squares(nested_list):
     if len(nested_list) == 0:
         return result
     result += nested_list[-1] ** 2
-    return result + sum_squares(nested_list.pop(-1))
+    return result + sum_squares(nested_list[:-1])
 
 
 def count_strings(data: list, result: dict = None) -> dict:
@@ -160,9 +160,9 @@ if __name__ == '__main__':
     # print(x_sum_recursion([2, 3, 6], 5))  # 0
     # print(x_sum_recursion([6, 5, 3, 2, 9, 8, 6, 5, 4], 3))  # 15
     #
-    # print(sum_squares([1, 2, 3]))  # 14
-    # print(sum_squares([[1, 2], 3]))  # sum_squares([1, 2]) + 9 -> 1 + 4 + 9 -> 14
-    # print(sum_squares([[[[[[[[[2]]]]]]]]]))  # 4
+    print(sum_squares([1, 2, 3]))  # 14
+    print(sum_squares([[1, 2], 3]))  # sum_squares([1, 2]) + 9 -> 1 + 4 + 9 -> 14
+    print(sum_squares([[[[[[[[[2]]]]]]]]]))  # 4
 
     print(count_strings([[], [[["J", "*", "W", "f"]]], ["j", "g", "*"], ["j", "8", "5", "6", "*"], ["*", "*", "A", "8"]]))
     # {'J': 1, '*': 5, 'W': 1, 'f': 1, 'j': 2, 'g': 1, '8': 2, '5': 1, '6': 1, 'A': 1}
