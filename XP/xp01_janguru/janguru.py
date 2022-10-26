@@ -17,19 +17,19 @@ def meet_me(pos1, jump_distance1, sleep1, pos2, jump_distance2, sleep2) -> int:
     that_is_enough = 0
     time1 = 0
     time2 = 0
-    while pos1 - pos2 > 1000000 > that_is_enough:
+    while pos1 - pos2 > 1000000 and that_is_enough < 10000000:
         difference = pos1 - pos2
         skip_time = difference // (sleep2 * sleep1)
         pos1 += jump_distance1 * (skip_time * sleep2)
         pos2 += jump_distance2 * (skip_time * sleep1)
         that_is_enough += 1
-    while pos2 - pos1 > 1000000 > that_is_enough:
+    while pos2 - pos1 > 1000000 and that_is_enough < 10000000:
         difference = pos2 - pos1
         skip_time = difference // (sleep2 * sleep1)
         pos1 += jump_distance1 * (skip_time * sleep2)
         pos2 += jump_distance2 * (skip_time * sleep1)
         that_is_enough += 1
-    while that_is_enough < 5000000:
+    while that_is_enough < 2000000:
         that_is_enough += 1
         if time1 <= time2:
             pos1 += jump_distance1
