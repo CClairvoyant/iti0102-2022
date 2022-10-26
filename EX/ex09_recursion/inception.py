@@ -93,13 +93,13 @@ def sum_squares(nested_list):
     :param nested_list: list of lists of lists of lists of lists ... and ints
     :return: sum of squares
     """
-    if nested_list:
-        if type(nested_list[-1]) is list:
-            return sum_squares(sum(nested_list, []))
-        else:
-            return nested_list[-1] ** 2 + sum_squares(nested_list[:-1])
-    else:
-        return 0
+    result = 0
+    if result == 0:
+        nested_list = flatten_list(nested_list)
+    if len(nested_list) == 0:
+        return result
+    result += nested_list[-1] ** 2
+    return result + sum_squares(nested_list.pop(-1))
 
 
 def count_strings(data: list, result: dict = None) -> dict:
@@ -135,9 +135,10 @@ def count_strings(data: list, result: dict = None) -> dict:
 
 
 def flatten_list(data: list):
-    if not (bool(data)):
+    """Remove unnecessary brackets using recursion."""
+    if not data:
         return data
-    if isinstance(data[0], list):
+    if type(data[0]) is list:
         return flatten_list(*data[:1]) + flatten_list(data[1:])
     return data[:1] + flatten_list(data[1:])
 
