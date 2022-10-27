@@ -16,7 +16,8 @@ def add_char_into_pos(char: str, pos: int, string: str) -> str:
     """
     if pos - 1 <= len(string):
         return string[:pos - 1] + char + string[pos - 1:]
-    return char
+    else:
+        return char
 
 
 def nr_of_common_characters(string1: str, string2: str) -> int:
@@ -108,7 +109,7 @@ def symbol_average_position_in_words(words):
                 average_positions[item_list[i]].append(i)
     for letter in average_positions:
         average_positions[letter] = round(sum(average_positions[letter]) / len(average_positions[letter]), 2)
-    print(average_positions)
+    return average_positions
 
 
 if __name__ == '__main__':
@@ -121,3 +122,7 @@ if __name__ == '__main__':
     print(symbol_average_position_in_words(["hello", "world"]))
     print(symbol_average_position_in_words(["abc", "a", "bc", ""]))
     print(symbol_average_position_in_words(["1", "a", "A"]))
+    print(add_char_into_pos("a", 2, "kheksa"))
+    print(add_char_into_pos("t", 8, "kaheksa"))
+    print(add_char_into_pos("a", 1, "mps"))
+    print(add_char_into_pos("a", 1, ""))
