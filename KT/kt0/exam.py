@@ -14,7 +14,7 @@ def add_char_into_pos(char: str, pos: int, string: str) -> str:
     add_char_into_pos("k", 10, "kalla") -> "kalla"
 
     """
-    if pos - 1 <= len(string):
+    if string:
         return string[:pos - 1] + char + string[pos - 1:]
     else:
         return char
