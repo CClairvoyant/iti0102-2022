@@ -133,8 +133,8 @@ if __name__ == '__main__':
 
     s = curve("Fa", 8)
     s = format_curve(s)
-    l = get_line_length(100, 8)
-    draw_dragon(s, l)
+    le = get_line_length(100, 8)
+    draw_dragon(s, le)
 
     save(t)
     t.getscreen().exitonclick()
