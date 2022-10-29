@@ -93,16 +93,15 @@ def sum_squares(nested_list):
     :param nested_list: list of lists of lists of lists of lists ... and ints
     :return: sum of squares
     """
-    result = 0
-    if result == 0:
-        nested_list = flatten_list(nested_list)
-    if len(nested_list) == 0:
-        return 0
-    result += nested_list[-1] ** 2
-    return result + sum_squares(nested_list[:-1])
+    if nested_list:
+        if type(nested_list[0]) is list:
+            return sum_squares(nested_list[0] + nested_list[1:])
+        else:
+            return nested_list[0] ** 2 + sum_squares(nested_list[1:])
+    return 0
 
 
-def count_strings(data: list, result: dict = None) -> dict:
+def count_strings(data: list, pos=None, result: dict = None) -> dict:
     """
     Count strings in list.
 
@@ -121,26 +120,19 @@ def count_strings(data: list, result: dict = None) -> dict:
     :param result: figure out how to use it
     :return: dict of given symbols and their count
     """
-    flat_list = flatten_list(data)
-    if result is None:
+    if pos is None and result is None:
+        pos = 0
         result = {}
-    if flat_list:
-        if flat_list[-1] not in result:
-            result[flat_list[-1]] = 1
+    if pos < len(data):
+        if type(data[pos]) is list:
+            count_strings(data[pos], 0, result)
         else:
-            result[flat_list[-1]] += 1
-        flat_list.pop(-1)
-        return count_strings(flat_list, result)
+            if data[pos] not in result:
+                result[data[pos]] = 1
+            else:
+                result[data[pos]] += 1
+        count_strings(data, pos + 1, result)
     return result
-
-
-def flatten_list(data: list):
-    """Remove unnecessary brackets using recursion."""
-    if not data:
-        return data
-    if type(data[0]) is list:
-        return flatten_list(*data[:1]) + flatten_list(data[1:])
-    return data[:1] + flatten_list(data[1:])
 
 
 if __name__ == '__main__':
@@ -163,7 +155,7 @@ if __name__ == '__main__':
     # print(sum_squares([1, 2, 3]))  # 14
     # print(sum_squares([[1, 2], 3]))  # sum_squares([1, 2]) + 9 -> 1 + 4 + 9 -> 14
     # print(sum_squares([[[[[[[[[2]]]]]]]]]))  # 4
-    #
+    # #
     # print(count_strings([[], [[["J", "*", "W", "f"]]], ["j", "g", "*"], ["j", "8", "5", "6", "*"], ["*", "*", "A", "8"]]))
     # # {'J': 1, '*': 5, 'W': 1, 'f': 1, 'j': 2, 'g': 1, '8': 2, '5': 1, '6': 1, 'A': 1}
     # print(count_strings([[], [], [], [], ["h", "h", "m"], [], ["m", "m", "M", "m"]]))  # {'h': 2, 'm': 4, 'M': 1}

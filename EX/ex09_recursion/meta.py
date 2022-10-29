@@ -16,15 +16,14 @@ def tree(length):
 
     :param length: height of the trunk or leaf
     """
-    if length < 5:
-        return None
-    t.forward(length)
-    t.left(60)
-    tree(length * 0.6)
-    t.right(120)
-    tree(length * 0.6)
-    t.left(60)
-    t.back(length)
+    if length >= 5:
+        t.forward(length)
+        t.left(60)
+        tree(length * 0.6)
+        t.right(120)
+        tree(length * 0.6)
+        t.left(60)
+        t.back(length)
 
 
 def apply_dragon_rules(string):
@@ -128,13 +127,16 @@ if __name__ == '__main__':
     t.speed(0)
     t.pensize(2)
     t.left(90)
-    # t.back(100)
-    # tree(200)
 
-    s = curve("Fa", 8)
-    s = format_curve(s)
-    le = get_line_length(100, 8)
-    draw_dragon(s, le)
+    # Binary tree:
+    t.back(100)
+    tree(200)
+
+    # # Dragon thingy:
+    # s = curve("Fa", 8)
+    # s = format_curve(s)
+    # le = get_line_length(100, 8)
+    # draw_dragon(s, le)
 
     save(t)
     t.getscreen().exitonclick()

@@ -598,7 +598,7 @@ def sort_by_age(csv_list: list, age_index: int):
 
 
 def sort_by_birth_date(csv_list: list, birth_date_index: int):
-    """Sort by birth date."""
+    """Sort by birthdate."""
     try:
         return -csv_list[birth_date_index].year, -csv_list[birth_date_index].month, -csv_list[birth_date_index].day
     except ValueError:
