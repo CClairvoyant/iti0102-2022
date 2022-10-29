@@ -3,8 +3,9 @@
 
 class Student:
     """Student class."""
+
     def __init__(self, name, finished=False):
-        """Constructor."""
+        """Class constructor."""
         self.name = name
         self.finished = finished
 
