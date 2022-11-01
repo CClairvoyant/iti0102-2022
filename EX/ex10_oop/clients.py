@@ -56,12 +56,14 @@ def read_from_file_into_list(filename: str) -> list:
     """
     with open(filename)as file:
         content = file.read()
-    rows = content.split("\n")
-    object_list = []
-    for row in rows:
-        item = row.split(",")
-        object_list.append(Client(*item))
-    return object_list
+    if content:
+        rows = content.split("\n")
+        object_list = []
+        for row in rows:
+            item = row.split(",")
+            object_list.append(Client(*item))
+        return object_list
+    return []
 
 
 def filter_by_bank(filename: str, bank: str) -> list:
