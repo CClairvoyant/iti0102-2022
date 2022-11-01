@@ -44,7 +44,7 @@ class Client:
         You can either calculate the value or
         save it into a new attribute and return the value.
         """
-        return ((self.current_amount) - (self.starting_amount)) / (self.account_age)
+        return (self.current_amount - self.starting_amount) / self.account_age
 
 
 def read_from_file_into_list(filename: str) -> list:
