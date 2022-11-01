@@ -44,7 +44,7 @@ class Client:
         You can either calculate the value or
         save it into a new attribute and return the value.
         """
-        return (int(self.current_amount) - int(self.starting_amount)) / int(self.account_age)
+        return ((self.current_amount) - (self.starting_amount)) / (self.account_age)
 
 
 def read_from_file_into_list(filename: str) -> list:
@@ -61,7 +61,7 @@ def read_from_file_into_list(filename: str) -> list:
         object_list = []
         for row in rows:
             item = row.split(",")
-            object_list.append(Client(*item))
+            object_list.append(Client(item[0], item[1], int(item[2]), int(item[3]), int(item[4])))
         return object_list
     return []
 
