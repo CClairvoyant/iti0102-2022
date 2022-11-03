@@ -36,6 +36,8 @@ def has_seven(nums: list):
                     return False
         else:
             return True
+    else:
+        return False
 
 
 def list_move(initial_list: list, amount: int, factor: int) -> list:
