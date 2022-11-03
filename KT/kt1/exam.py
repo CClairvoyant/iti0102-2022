@@ -96,4 +96,24 @@ def parse_call_log(call_log: str) -> dict:
     :param call_log: the whole log as string
     :return: dictionary with call information
     """
-    pass
+    call_dict = {}
+    call_list = call_log.split(",")
+    call_list1 = []
+    call_list2 = []
+    for calls in call_list:
+        call_list1.append(calls.split(":"))
+    for calls in call_list1:
+        if len(calls) > 2:
+            for i in range(len(calls)):
+                if i > 0:
+                    call_list2.append([calls[i - 1], calls[i]])
+        else:
+            call_list2.append(calls)
+    for call in call_list2:
+        if call[0] not in call_dict:
+            call_dict[call[0]] = [call[1]]
+        else:
+            if call[1] not in call_dict[call[0]]:
+                call_dict[call[0]].append(call[1])
+    print(call_list2)
+    return call_dict
