@@ -27,7 +27,6 @@ class Student:
         possibilities
         f"The number I needed to guess was {final_answer}." if the result is certain
         """
-        return sentence
         if re.search("quadratic", sentence):
             if re.search("bigger", sentence):
                 if re.search("times", sentence):
@@ -539,7 +538,6 @@ def find_fibonacci_numbers(biggest_number: int):
             if fibonacci_number <= biggest_number:
                 fibonacci_numbers.append(fibonacci_number)
             else:
-                fibonacci_numbers.pop(1)
                 break
     else:
         return list(range(biggest_number + 1))
@@ -561,8 +559,6 @@ def find_catalan_numbers(biggest_number: int):
         else:
             catalan_list.pop(0)
             break
-    if catalan_list == [1, 1]:
-        catalan_list.pop(1)
     return catalan_list
 
 
@@ -575,6 +571,10 @@ def catalan(num):
         result += catalan(i) * catalan(num - i - 1)
     return result
 
+
+regex_a = r'((?:- )?\d+)x2'
+regex_b = r'((?:- )?\d+)?x(?!2)'
+regex_c = r'(?<!x)((?:- )?\d+)(?!x)'
 
 if __name__ == '__main__':
 
