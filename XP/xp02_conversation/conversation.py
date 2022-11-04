@@ -572,8 +572,8 @@ def catalan(num):
     return result
 
 
-regex_a = r'( (?:- )?\d+)x2'
-regex_b = r'( (?:- )?\d+)x(?!2)'
+regex_a = r'(\d+)(?=x2)'
+regex_b = r'(\d+)(?=x[ |1])'
 regex_c = r'(\d+)(?!x)'
 
 if __name__ == '__main__':
@@ -617,6 +617,3 @@ if __name__ == '__main__':
     print(hm.decision_branch("Number is not in increasing order."))
     print(hm.decision_branch("The aforementioned number does not occur to be in increasing order."))
     print(hm.decision_branch("Number is made up of 4 ones in its binary form."))
-
-
-
