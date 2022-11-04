@@ -573,17 +573,17 @@ def catalan(num):
 
 
 regex_a = r'(- )?(\d+)(?=x2)'
-regex_b = r'(- )?(\d+)(?=x[ |1])'
-regex_c = r'(- )?(\d+)(?!x)'
+regex_b = r'(- )?(\d+)(?=x)(?!x2)'
+regex_c = r'(?<!x)(- )?(\d+)(?!x)'
 
 if __name__ == '__main__':
 
     def print_regex_results(regex, f):
         for match in re.finditer(regex, f):
-            print(match.group(1))
+            print(match.group())
 
 
-    f = "3x2 + 2x + 1"
+    f = "12x"
 
     print_regex_results(regex_a, f)  # 3
     print_regex_results(regex_b, f)  # - 4
