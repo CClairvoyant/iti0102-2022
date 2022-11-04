@@ -572,22 +572,22 @@ def catalan(num):
     return result
 
 
-regex_a = r'(\d+)(?=x2)'
-regex_b = r'(\d+)(?=x[ |1])'
-regex_c = r'(\d+)(?!x)'
+regex_a = r'(- )?(\d+)(?=x2)'
+regex_b = r'(- )?(\d+)(?=x[ |1])'
+regex_c = r'(- )?(\d+)(?!x)'
 
 if __name__ == '__main__':
 
-    # def print_regex_results(regex, f):
-    #     for match in re.finditer(regex, f):
-    #         print(match.group(1))
-    #
-    #
-    # f = "3x2 - 4x + 1"
-    #
-    # print_regex_results(regex_a, f)  # 3
-    # print_regex_results(regex_b, f)  # - 4
-    # print_regex_results(regex_c, f)  # 1
+    def print_regex_results(regex, f):
+        for match in re.finditer(regex, f):
+            print(match.group(1))
+
+
+    f = "3x2 + 2x + 1"
+
+    print_regex_results(regex_a, f)  # 3
+    print_regex_results(regex_b, f)  # - 4
+    print_regex_results(regex_c, f)  # 1
     #
     # f2 = "3x2 + 4x + 5 - 2x2 - 7x + 4"
     #
