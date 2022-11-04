@@ -8,7 +8,7 @@ class Student:
 
     def __init__(self, biggest_number: int):
         """
-        Constructor.
+        Construct the class.
 
         Save the biggest number into a variable that is attainable later on.
         Create a collection of all possible results [possible_answers] <- dont rename that (can be a list or a set)
@@ -26,7 +26,7 @@ class Student:
         f"Possible answers are {sorted_list_of_possible_answers_in_growing_sequence)}." if there are multiple possibilities
         f"The number I needed to guess was {final_answer}." if the result is certain
         """
-        return f"Possible answers are {sorted(self.possible_answers)}"
+        return f"Possible answers are {sorted(self.possible_answers)}."
 
     def intersect_possible_answers(self, update: list):
         """
@@ -509,6 +509,7 @@ def find_catalan_numbers(biggest_number: int):
 
 
 def catalan(num):
+    """Finds a catalan number."""
     if num <= 1:
         return 1
     result = 0
@@ -517,9 +518,9 @@ def catalan(num):
     return result
 
 
-regex_a = r'((?:- )?\d+)x2'
-regex_b = r'((?:- )?\d+)?x(?!2)'
-regex_c = r'(?<!x)((?:- )?\d+)(?!x)'
+# regex_a = r'((?:- )?\d+)x2'
+# regex_b = r'((?:- )?\d+)?x(?!2)'
+# regex_c = r'(?<!x)((?:- )?\d+)(?!x)'
 
 if __name__ == '__main__':
 
