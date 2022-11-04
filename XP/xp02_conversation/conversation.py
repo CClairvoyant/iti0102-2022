@@ -23,9 +23,54 @@ class Student:
 
         :param sentence: sentence to solve
         call one of the functions bellow (within this class) and return either one of the following strings:
-        f"Possible answers are {sorted_list_of_possible_answers_in_growing_sequence)}." if there are multiple possibilities
+        f"Possible answers are {sorted_list_of_possible_answers_in_growing_sequence)}." if there are multiple
+        possibilities
         f"The number I needed to guess was {final_answer}." if the result is certain
         """
+        if re.search("quadratic", sentence):
+            if re.search("bigger", sentence):
+                if re.search("times", sentence):
+                    self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), True, float(
+                        re.search(r"(?<=where ).+(?= times)", sentence).group()), True)
+                elif re.search("divided", sentence):
+                    self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), True, 1 / (
+                        float(re.search(r"(?<=divided by ).+(?= and)", sentence).group())), True)
+                else:
+                    self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), False, 1, True)
+            elif re.search("smaller", sentence):
+                if re.search("times", sentence):
+                    self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), True, float(
+                        re.search(r"(?<=where ).+(?= times)", sentence).group()), False)
+                elif re.search("divided", sentence):
+                    self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), True, 1 / (
+                        float(re.search(r"(?<=divided by ).+(?= and)", sentence).group())), False)
+                else:
+                    self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), False, 1, False)
+        elif re.search("binary", sentence):
+            if re.search("one in its binary", sentence) or re.search("ones in its binary", sentence):
+                self.deal_with_number_of_ones(int(re.search(r"\d+(?= ones? in its binary)", sentence).group()))
+            else:
+                self.deal_with_number_of_zeroes(int(re.search(r"\d+(?= zeroe?s? in its binary)", sentence).group()))
+        elif re.search("prime", sentence):
+            self.deal_with_primes(not bool(re.search("doesn't|does not", sentence)))
+        elif re.search("composite", sentence):
+            self.deal_with_composites(not bool(re.search("doesn't|does not", sentence)))
+        elif re.search("decimal", sentence):
+            self.deal_with_dec_value(re.search(r"(?<=\").+(?=\")", sentence).group())
+        elif re.search("hex", sentence):
+            self.deal_with_hex_value(re.search(r"(?<=\").+(?=\")", sentence).group())
+        elif re.search("fibonacci", sentence):
+            self.deal_with_fibonacci_sequence(not bool(re.search("doesn't|does not|isn't|is not", sentence)))
+        elif re.search("catalan", sentence):
+            self.deal_with_catalan_sequence(not bool(re.search("doesn't|does not|isn't|is not", sentence)))
+        elif re.search("order", sentence):
+            self.deal_with_number_order(bool(re.search("increasing", sentence)),
+                                        not bool(re.search("doesn't|does not|isn't|is not", sentence)))
+        else:
+            return "Something's really wrong."
+        if len(self.possible_answers) == 1:
+            answer = self.possible_answers.pop()
+            return f"The number I needed to guess was {answer}."
         return f"Possible answers are {sorted(self.possible_answers)}"
 
     def intersect_possible_answers(self, update: list):
@@ -145,7 +190,15 @@ class Student:
         :param multiplicative: the multiplicative to multiply or divide with
         :param is_bigger: to use the bigger or smaller result of the quadratic equation(min or max from [x1, x2])
         """
-        pass
+        answers = quadratic_equation_solver(equation)
+        if is_bigger:
+            answer = answers[-1]
+        else:
+            answer = answers[0]
+        if to_multiply:
+            answer = answer * multiplicative
+        answer = round(answer)
+        self.deal_with_dec_value(str(answer))
 
     def deal_with_fibonacci_sequence(self, is_in: bool):
         """
@@ -462,6 +515,10 @@ def find_composites_in_range(biggest_number: int):
     prime_list = find_primes_in_range(biggest_number)
     for prime in prime_list:
         composite_list.remove(prime)
+    if 0 in composite_list:
+        composite_list.remove(0)
+    if 1 in composite_list:
+        composite_list.remove(1)
     return composite_list
 
 
@@ -551,7 +608,18 @@ if __name__ == '__main__':
     # print(quadratic_equation_solver("0x2 - 2x = 1"))  # => "2x + 1 = 0"
     # print(quadratic_equation_solver("2x2 + 3x - 4 + 0x2 - x1 + 0x1 + 12 - 12x2 = 4x2 + x1 - 2"))  # => "14x2 - x - 10 = 0"
     # print(quadratic_equation_solver("- x2 - 4x + 5 = 0"))  # => "- x2 - 4x + 5 = 0" => (-5.0, 1.0)
-    print(quadratic_equation_solver("9x2 + 12x + 4 = 0"))
-    print(quadratic_equation_solver("3x2 + 0 + 27x = 0"))
-    print(quadratic_equation_solver("- x2 - 2x + 3 = 0"))
-    print(quadratic_equation_solver("2x2 + 3x - 1 = 0"))
+    # print(quadratic_equation_solver("9x2 + 12x + 4 = 0"))
+    # print(quadratic_equation_solver("3x2 + 0 + 27x = 0"))
+    # print(quadratic_equation_solver("- x2 - 2x + 3 = 0"))
+    # print(quadratic_equation_solver("2x2 + 3x - 1 = 0"))
+    # print(quadratic_equation_solver("67x + 32x2 - 60x2 + 74x2 - 76 - 98 + 95 + 18x - 98x - 86x + 17 - 68x2 + 100x + 181 = 98"))
+
+    hm = Student(100)
+    print(hm.decision_branch("This number, that you need to guess is composite."))
+    print(hm.decision_branch("Number includes decimal value: \"4\"."))
+    print(hm.decision_branch("Number is not in increasing order."))
+    print(hm.decision_branch("The aforementioned number does not occur to be in increasing order."))
+    print(hm.decision_branch("Number is made up of 4 ones in its binary form."))
+
+
+
