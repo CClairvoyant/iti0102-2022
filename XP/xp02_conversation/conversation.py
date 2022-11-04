@@ -574,7 +574,7 @@ def catalan(num):
 
 regex_a = r'(- )?(\d+)(?=x2)'
 regex_b = r'(- )?(\d+)(?=x)(?!x2)'
-regex_c = r'(?<!x)(- )?(\d+)(?!x)'
+regex_c = r'(?<!x)(- )?(\d+)(?!x)(?!\d)'
 
 if __name__ == '__main__':
 
@@ -583,7 +583,7 @@ if __name__ == '__main__':
             print(match.group())
 
 
-    f = "12x"
+    f = "3x2 + 2x + 1"
 
     print_regex_results(regex_a, f)  # 3
     print_regex_results(regex_b, f)  # - 4
