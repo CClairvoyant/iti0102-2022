@@ -423,7 +423,10 @@ def quadratic_equation_solver(equation: str):
     if x2 and x ** 2 - 4 * x2 * num >= 0:
         solution1 = (-x + math.sqrt(x ** 2 - 4 * x2 * num)) / 2 * x2
         solution2 = (-x - math.sqrt(x ** 2 - 4 * x2 * num)) / 2 * x2
-        return tuple(sorted([solution1, solution2]))
+        if solution1 != solution2:
+            return tuple(sorted([solution1, solution2]))
+        else:
+            return solution1
     elif not x2 and x:
         return -num / x
     return None
@@ -547,4 +550,4 @@ if __name__ == '__main__':
     # print(quadratic_equation_solver("0x2 - 2x = 1"))  # => "2x + 1 = 0"
     # print(quadratic_equation_solver("2x2 + 3x - 4 + 0x2 - x1 + 0x1 + 12 - 12x2 = 4x2 + x1 - 2"))  # => "14x2 - x - 10 = 0"
     # print(quadratic_equation_solver("- x2 - 4x + 5 = 0"))  # => "- x2 - 4x + 5 = 0" => (-5.0, 1.0)
-    print(normalize_quadratic_equation("2 - 2x + 2x2 = 0"))
+    print(quadratic_equation_solver("2x2 + 0x + 0 = 0"))
