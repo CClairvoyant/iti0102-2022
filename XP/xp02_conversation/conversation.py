@@ -27,6 +27,7 @@ class Student:
         possibilities
         f"The number I needed to guess was {final_answer}." if the result is certain
         """
+        return sentence
         if re.search("quadratic", sentence):
             if re.search("bigger", sentence):
                 if re.search("times", sentence):
@@ -574,10 +575,6 @@ def catalan(num):
         result += catalan(i) * catalan(num - i - 1)
     return result
 
-
-regex_a = r'((?:- )?\d+)x2'
-regex_b = r'((?:- )?\d+)?x(?!2)'
-regex_c = r'(?<!x)((?:- )?\d+)(?!x)'
 
 if __name__ == '__main__':
 
