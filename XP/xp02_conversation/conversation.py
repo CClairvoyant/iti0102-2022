@@ -273,81 +273,79 @@ def normalize_quadratic_equation(equation: str):
                     num_list.append(int("-" + re.search(r"(?<==)( (?:- )?\d+)(?!x)", equation).group()[1:]))
                 equation = equation.replace("=" + re.search(r"(?<==)( (?:- )?\d+)(?!x)", equation).group(), "=")
         equation = equation + " 0"
-        while equation != "= 0":
-            if equation[:2] == "+ ":
-                equation = equation[2:]
-            if equation[:2] == "- ":
-                equation = equation[2:]
-                first_space = equation.find(" ")
-                if re.search(r"(\d+)(?=x2)", equation[:first_space]):
-                    x2_list.append(int("-" + re.search(r"(\d+)(?=x2)", equation[:first_space]).group()))
-                    equation = equation[first_space + 1:]
-                elif equation[:2] == "x2":
-                    x2_list.append(-1)
-                    equation = equation[3:]
-                elif equation[0] == "x" or equation[:2] == "x1":
-                    x_list.append(-1)
-                    if equation[:2] == "x1":
-                        equation = equation[3:]
-                    else:
-                        equation = equation[2:]
-                elif re.search(r"(\d+)(?=x[ |1])", equation[:first_space + 1]):
-                    x_list.append(int("-" + re.search(r"(\d+)(?=x)", equation[:first_space]).group()))
-                    equation = equation[first_space + 1:]
-                elif re.search(r"(\d+)(?!x)", equation[:first_space]):
-                    num_list.append(int("-" + re.search(r"(\d+)(?!x)", equation[:first_space]).group()))
-                    equation = equation[first_space + 1:]
-            else:
-                first_space = equation.find(" ")
-                if re.search(r"(\d+)(?=x2)", equation[:first_space]):
-                    x2_list.append(int(re.search(r"(\d+)(?=x2)", equation[:first_space]).group()))
-                    equation = equation[first_space + 1:]
-                elif equation[:2] == "x2":
-                    x2_list.append(1)
-                    equation = equation[3:]
-                elif equation[0] == "x" or equation[:2] == "x1":
-                    x_list.append(1)
-                    if equation[:2] == "x1":
-                        equation = equation[3:]
-                    else:
-                        equation = equation[2:]
-                elif re.search(r"(\d+)(?=x[ |1])", equation[:first_space + 1]):
-                    x_list.append(int(re.search(r"(\d+)(?=x)", equation[:first_space]).group()))
-                    equation = equation[first_space + 1:]
-                elif re.search(r"(\d+)(?!x)", equation[:first_space]):
-                    num_list.append(int(re.search(r"(\d+)(?!x)", equation[:first_space]).group()))
-                    equation = equation[first_space + 1:]
-        x2_sum = sum(x2_list)
-        x_sum = sum(x_list)
-        num_sum = sum(num_list)
-        if x2_sum < 0:
-            x2_sum = -x2_sum
-            x_sum = -x_sum
-            num_sum = -num_sum
-        if not x2_sum and x_sum < 0:
-            x_sum = -x_sum
-            num_sum = -num_sum
-        if num_list and num_sum > 0:
-            equation = f"+ {num_sum} " + equation
-        if num_list and num_sum < 0:
-            equation = f"- {-num_sum} " + equation
-        if x_list and x_sum == 1:
-            equation = "+ x " + equation
-        if x_list and x_sum == -1:
-            equation = "- x " + equation
-        if x_list and x_sum > 1:
-            equation = f"+ {x_sum}x " + equation
-        if x_list and x_sum < -1:
-            equation = f"- {-x_sum}x " + equation
-        if x2_list and x2_sum == 1:
-            equation = "x2 " + equation
-        if x2_list and x2_sum > 1:
-            equation = f"{x2_sum}x2 " + equation
-        if equation[0] == "+":
+    while equation != "= 0":
+        if equation[:2] == "+ ":
             equation = equation[2:]
-        return equation
-    else:
-        return equation
+        if equation[:2] == "- ":
+            equation = equation[2:]
+            first_space = equation.find(" ")
+            if re.search(r"(\d+)(?=x2)", equation[:first_space]):
+                x2_list.append(int("-" + re.search(r"(\d+)(?=x2)", equation[:first_space]).group()))
+                equation = equation[first_space + 1:]
+            elif equation[:2] == "x2":
+                x2_list.append(-1)
+                equation = equation[3:]
+            elif equation[0] == "x" or equation[:2] == "x1":
+                x_list.append(-1)
+                if equation[:2] == "x1":
+                    equation = equation[3:]
+                else:
+                    equation = equation[2:]
+            elif re.search(r"(\d+)(?=x[ |1])", equation[:first_space + 1]):
+                x_list.append(int("-" + re.search(r"(\d+)(?=x)", equation[:first_space]).group()))
+                equation = equation[first_space + 1:]
+            elif re.search(r"(\d+)(?!x)", equation[:first_space]):
+                num_list.append(int("-" + re.search(r"(\d+)(?!x)", equation[:first_space]).group()))
+                equation = equation[first_space + 1:]
+        else:
+            first_space = equation.find(" ")
+            if re.search(r"(\d+)(?=x2)", equation[:first_space]):
+                x2_list.append(int(re.search(r"(\d+)(?=x2)", equation[:first_space]).group()))
+                equation = equation[first_space + 1:]
+            elif equation[:2] == "x2":
+                x2_list.append(1)
+                equation = equation[3:]
+            elif equation[0] == "x" or equation[:2] == "x1":
+                x_list.append(1)
+                if equation[:2] == "x1":
+                    equation = equation[3:]
+                else:
+                    equation = equation[2:]
+            elif re.search(r"(\d+)(?=x[ |1])", equation[:first_space + 1]):
+                x_list.append(int(re.search(r"(\d+)(?=x)", equation[:first_space]).group()))
+                equation = equation[first_space + 1:]
+            elif re.search(r"(\d+)(?!x)", equation[:first_space]):
+                num_list.append(int(re.search(r"(\d+)(?!x)", equation[:first_space]).group()))
+                equation = equation[first_space + 1:]
+    x2_sum = sum(x2_list)
+    x_sum = sum(x_list)
+    num_sum = sum(num_list)
+    if x2_sum < 0:
+        x2_sum = -x2_sum
+        x_sum = -x_sum
+        num_sum = -num_sum
+    if not x2_sum and x_sum < 0:
+        x_sum = -x_sum
+        num_sum = -num_sum
+    if num_list and num_sum > 0:
+        equation = f"+ {num_sum} " + equation
+    if num_list and num_sum < 0:
+        equation = f"- {-num_sum} " + equation
+    if x_list and x_sum == 1:
+        equation = "+ x " + equation
+    if x_list and x_sum == -1:
+        equation = "- x " + equation
+    if x_list and x_sum > 1:
+        equation = f"+ {x_sum}x " + equation
+    if x_list and x_sum < -1:
+        equation = f"- {-x_sum}x " + equation
+    if x2_list and x2_sum == 1:
+        equation = "x2 " + equation
+    if x2_list and x2_sum > 1:
+        equation = f"{x2_sum}x2 " + equation
+    if equation[0] == "+":
+        equation = equation[2:]
+    return equation
 
 
 def quadratic_equation_solver(equation: str):
@@ -548,4 +546,5 @@ if __name__ == '__main__':
     # print(quadratic_equation_solver("0x2 - 2x = 1"))  # => "2x + 1 = 0"
     # print(quadratic_equation_solver("0x2 - 2x = 1"))  # => "2x + 1 = 0"
     # print(quadratic_equation_solver("2x2 + 3x - 4 + 0x2 - x1 + 0x1 + 12 - 12x2 = 4x2 + x1 - 2"))  # => "14x2 - x - 10 = 0"
-    print(quadratic_equation_solver("- x2 - 4x + 5 = 0"))  # => "- x2 - 4x + 5 = 0" => (-5.0, 1.0)
+    # print(quadratic_equation_solver("- x2 - 4x + 5 = 0"))  # => "- x2 - 4x + 5 = 0" => (-5.0, 1.0)
+    print(normalize_quadratic_equation("2 - 2x + 2x2 = 0"))
