@@ -380,6 +380,8 @@ def normalize_quadratic_equation(equation: str):
     if not x2_sum and x_sum < 0:
         x_sum = -x_sum
         num_sum = -num_sum
+    if not x2_sum and not x_sum and num_sum < 0:
+        num_sum = -num_sum
     if num_list and num_sum > 0:
         equation = f"+ {num_sum} " + equation
     if num_list and num_sum < 0:
@@ -587,7 +589,7 @@ if __name__ == '__main__':
             print(match.group(1))
 
 
-    f = "1 + 2x + 3x1 + 4x2 + 5x3 + 6x21 + 7x1"
+    f = "- 1 - 2x - 3x1 - 4x2 - 5x3 - 6x21 - 7x12 - 8x4"
 
     print_regex_results(regex_a, f)  # 3
     print_regex_results(regex_b, f)  # - 4
