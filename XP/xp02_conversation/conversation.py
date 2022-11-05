@@ -572,8 +572,8 @@ def catalan(num):
     return result
 
 
-regex_a = r'((?:- )?\d*)(?=x2)'
-regex_b = r'((?:- )?\d*)(?=x)(?!x\d[^1])'
+regex_a = r'((?:- )?\d+)(?=x2)| (?=x2)'
+regex_b = r'((?:- )?\d+)(?=x)(?!x\d[^1])| (?=x)| (?=x1)'
 regex_c = r'(?<!x)((?:- )?\d+)(?!x)(?!\d)'
 
 if __name__ == '__main__':
@@ -611,9 +611,9 @@ if __name__ == '__main__':
     # print(quadratic_equation_solver("2x2 + 3x - 1 = 0"))
     # print(quadratic_equation_solver("67x + 32x2 - 60x2 + 74x2 - 76 - 98 + 95 + 18x - 98x - 86x + 17 - 68x2 + 100x + 181 = 98"))
 
-    hm = Student(100)
-    print(hm.decision_branch("This number, that you need to guess is composite."))
-    print(hm.decision_branch("Number includes decimal value: \"4\"."))
-    print(hm.decision_branch("Number is not in increasing order."))
-    print(hm.decision_branch("The aforementioned number does not occur to be in increasing order."))
-    print(hm.decision_branch("Number is made up of 4 ones in its binary form."))
+    # hm = Student(100)
+    # print(hm.decision_branch("This number, that you need to guess is composite."))
+    # print(hm.decision_branch("Number includes decimal value: \"4\"."))
+    # print(hm.decision_branch("Number is not in increasing order."))
+    # print(hm.decision_branch("The aforementioned number does not occur to be in increasing order."))
+    # print(hm.decision_branch("Number is made up of 4 ones in its binary form."))
