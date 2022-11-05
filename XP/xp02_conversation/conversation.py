@@ -71,7 +71,7 @@ class Student:
         if len(self.possible_answers) == 1:
             answer = self.possible_answers.pop()
             return f"The number I needed to guess was {answer}."
-        return f"Possible answers are {sorted(self.possible_answers)}."
+        return f"Possible answers are {sorted(self.possible_answers)}"
 
     def intersect_possible_answers(self, update: list):
         """
