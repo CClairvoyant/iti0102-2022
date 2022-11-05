@@ -583,7 +583,7 @@ if __name__ == '__main__':
             print(match.group(1))
 
 
-    f = "12x22 - 2x"
+    f = "3x2"
 
     print_regex_results(regex_a, f)  # 3
     print_regex_results(regex_b, f)  # - 4
