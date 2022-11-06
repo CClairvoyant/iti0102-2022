@@ -190,16 +190,15 @@ class Student:
         :param multiplicative: the multiplicative to multiply or divide with
         :param is_bigger: to use the bigger or smaller result of the quadratic equation(min or max from [x1, x2])
         """
-        # answers = quadratic_equation_solver(equation)
-        # if is_bigger:
-        #     answer = answers[-1]
-        # else:
-        #     answer = answers[0]
-        # if to_multiply:
-        #     answer = answer * multiplicative
-        # answer = round(answer)
-        # self.deal_with_dec_value(str(answer))
-        self.possible_answers = equation
+        answers = quadratic_equation_solver(equation)
+        if is_bigger:
+            answer = answers[-1]
+        else:
+            answer = answers[0]
+        if to_multiply:
+            answer = answer * multiplicative
+        answer = round(answer)
+        self.deal_with_dec_value(str(answer))
 
     def deal_with_fibonacci_sequence(self, is_in: bool):
         """
