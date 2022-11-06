@@ -635,4 +635,4 @@ if __name__ == '__main__':
     # print(hm.decision_branch("Number is made up of 4 ones in its binary form."))
 
     uga = Student(100)
-    print(uga.decision_branch("This number is comprised of a digit where 1.0000 times the bigger result for the following quadratic equation:\"2x - 6 = 0\" is rounded to closest integer."))
+    print(uga.decision_branch("This number is comprised of a digit where 4.0000 times the bigger result for the following quadratic equation:\"2x = 1\" is rounded to closest integer."))
