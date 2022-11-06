@@ -652,4 +652,4 @@ if __name__ == '__main__':
 
     uga = Student(1000)
     print(uga.decision_branch(
-        "This number includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
