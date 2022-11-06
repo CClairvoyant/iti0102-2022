@@ -52,9 +52,9 @@ class Student:
             else:
                 self.deal_with_number_of_zeroes(int(re.search(r"\d+(?= zeroe?s? in its binary)", sentence).group()))
         elif re.search("prime", sentence):
-            self.deal_with_primes(not bool(re.search("doesn't|does not", sentence)))
+            self.deal_with_primes(not bool(re.search("doesn't|does not|isn't|is not", sentence)))
         elif re.search("composite", sentence):
-            self.deal_with_composites(not bool(re.search("doesn't|does not", sentence)))
+            self.deal_with_composites(not bool(re.search("doesn't|does not|isn't|is not", sentence)))
         elif re.search("decimal", sentence):
             self.deal_with_dec_value(re.search(r"(?<=\").+(?=\")", sentence).group())
         elif re.search("hex", sentence):
@@ -591,9 +591,9 @@ if __name__ == '__main__':
 
     f = "- x - 7 + 3x2"
 
-    print_regex_results(regex_a, f)  # 3
-    print_regex_results(regex_b, f)  # - 4
-    print_regex_results(regex_c, f)  # 1
+    # print_regex_results(regex_a, f)  # 3
+    # print_regex_results(regex_b, f)  # - 4
+    # print_regex_results(regex_c, f)  # 1
     #
     # f2 = "3x2 + 4x + 5 - 2x2 - 7x + 4"
     #
@@ -623,3 +623,6 @@ if __name__ == '__main__':
     # print(hm.decision_branch("Number is not in increasing order."))
     # print(hm.decision_branch("The aforementioned number does not occur to be in increasing order."))
     # print(hm.decision_branch("Number is made up of 4 ones in its binary form."))
+
+    u = Student(1023)
+    print(u.decision_branch("Number doesn't occur to be prime."))
