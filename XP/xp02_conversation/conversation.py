@@ -249,9 +249,11 @@ class Student:
         decreasing_list = []
         neither_list = []
         for num in self.possible_answers:
-            if list(str(num)) == sorted(list(str(num))):
+            if list(str(num)) == sorted(list(str(num))) and len(str(num)) > 1 and \
+                    list(str(num))[0] != list(str(num))[-1]:
                 increasing_list.append(num)
-            elif list(str(num)) == sorted(list(str(num)), reverse=True):
+            elif list(str(num)) == sorted(list(str(num)), reverse=True) and len(str(num)) > 1 and \
+                    list(str(num))[0] != list(str(num))[-1]:
                 decreasing_list.append(num)
             else:
                 neither_list.append(num)
@@ -539,8 +541,8 @@ def find_fibonacci_numbers(biggest_number: int):
             fibonacci_number = fibonacci_numbers[i - 1] + fibonacci_numbers[i - 2]
             if fibonacci_number <= biggest_number:
                 fibonacci_numbers.append(fibonacci_number)
-            else:
-                break
+        else:
+            return fibonacci_numbers
     else:
         return list(range(biggest_number + 1))
 
@@ -559,7 +561,6 @@ def find_catalan_numbers(biggest_number: int):
         if catalan(num) <= biggest_number:
             catalan_list.append(catalan(num))
         else:
-            catalan_list.pop(0)
             break
     return catalan_list
 
@@ -624,5 +625,4 @@ if __name__ == '__main__':
     # print(hm.decision_branch("The aforementioned number does not occur to be in increasing order."))
     # print(hm.decision_branch("Number is made up of 4 ones in its binary form."))
 
-    u = Student(1023)
-    print(u.decision_branch("Number doesn't occur to be prime."))
+    print(find_fibonacci_numbers(8))
