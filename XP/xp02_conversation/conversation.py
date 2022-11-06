@@ -249,24 +249,22 @@ class Student:
         decreasing_list = []
         neither_list = []
         for num in self.possible_answers:
-            if list(str(num)) == sorted(list(str(num))) and len(str(num)) > 1 and \
-                    list(str(num))[0] != list(str(num))[-1]:
+            if list(str(num)) == sorted(list(str(num))):
                 increasing_list.append(num)
-            elif list(str(num)) == sorted(list(str(num)), reverse=True) and len(str(num)) > 1 and \
-                    list(str(num))[0] != list(str(num))[-1]:
+            if list(str(num)) == sorted(list(str(num)), reverse=True):
                 decreasing_list.append(num)
-            else:
+            if list(str(num)) != sorted(list(str(num))) and list(str(num)) != sorted(list(str(num)), reverse=True):
                 neither_list.append(num)
         if increasing:
             if to_be:
                 self.possible_answers = set(increasing_list)
             else:
-                self.possible_answers = set(decreasing_list + neither_list)
+                self.possible_answers = set(decreasing_list + neither_list).difference(set(increasing_list))
         else:
             if to_be:
                 self.possible_answers = set(decreasing_list)
             else:
-                self.possible_answers = set(increasing_list + neither_list)
+                self.possible_answers = set(increasing_list + neither_list).difference(set(decreasing_list))
 
 
 def normalize_quadratic_equation(equation: str):
@@ -628,4 +626,4 @@ if __name__ == '__main__':
     # print(hm.decision_branch("Number is made up of 4 ones in its binary form."))
 
     u = Student(1023)
-    print(u.decision_branch("This is in increasing order"))
+    print(u.decision_branch("This is not in increasing order"))
