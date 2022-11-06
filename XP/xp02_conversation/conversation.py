@@ -541,6 +541,8 @@ def find_fibonacci_numbers(biggest_number: int):
             fibonacci_number = fibonacci_numbers[i - 1] + fibonacci_numbers[i - 2]
             if fibonacci_number <= biggest_number:
                 fibonacci_numbers.append(fibonacci_number)
+            else:
+                return fibonacci_numbers
         else:
             return fibonacci_numbers
     else:
@@ -625,4 +627,5 @@ if __name__ == '__main__':
     # print(hm.decision_branch("The aforementioned number does not occur to be in increasing order."))
     # print(hm.decision_branch("Number is made up of 4 ones in its binary form."))
 
-    print(find_fibonacci_numbers(8))
+    u = Student(1023)
+    print(u.decision_branch("This is in increasing order"))
