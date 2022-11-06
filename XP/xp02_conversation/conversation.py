@@ -191,10 +191,13 @@ class Student:
         :param is_bigger: to use the bigger or smaller result of the quadratic equation(min or max from [x1, x2])
         """
         answers = quadratic_equation_solver(equation)
-        if is_bigger:
-            answer = answers[-1]
+        if type(answers) is not float:
+            if is_bigger:
+                answer = answers[-1]
+            else:
+                answer = answers[0]
         else:
-            answer = answers[0]
+            answer = answers
         if to_multiply:
             answer = answer * multiplicative
         answer = round(answer)
@@ -625,15 +628,5 @@ if __name__ == '__main__':
     # print(hm.decision_branch("The aforementioned number does not occur to be in increasing order."))
     # print(hm.decision_branch("Number is made up of 4 ones in its binary form."))
 
-    u = Student(56)
-    print(u.decision_branch("This number is comprised of a digit where 3.0000 times the bigger result for the following quadratic equation:\"67x + 32x2 - 60x2 + 74x2 - 76 - 98 + 95 + 18x - 98x - 86x + 17 - 68x2 + 100x + 181 = 98\" is rounded to closest integer."))
-    print(u.decision_branch("The given number includes a digit where 0.5625 times the bigger result for the following quadratic equation:\"59x2 - 57x + 97x2 + 45x + 87 + 67 + 41x = - 58x + 87 - 61 + 82x + 4x + 48 + 159x2\" is rounded to closest integer."))
-    print(u.decision_branch("Number includes a digit, where the bigger result for the following quadratic equation:\"- 39 + 41x + 75x + 54 - 67x + 171 - 70x2 - 27 - 90 - 48x = 0\" is divided by 0.3333 and is rounded to closest integer."))
-    print(u.decision_branch("This number, that you need to guess includes a digit where -4.9020 times the smaller result for the following quadratic equation:\"47x2 + 1x - 33x2 - 29 + 93 + 69x2 - 115 = - 38x2 + 71x2\" is rounded to closest integer."))
-
-    uf = Student(100)
-    print(uf.decision_branch("The aforementioned number involves a digit, where the smaller result for the following quadratic equation:\"- 17x2 + 79x2 = 97x + 2x2 + 117x2 - 46x - 61x + 27x - 18x - 42 - 46x2\" is divided by -0.2121 and is rounded to closest integer."))
-    print(uf.decision_branch("This number contains a digit, where the bigger result for the following quadratic equation:\"- 52x + 69x = - 67x2 - 49x2 + 145x - 41x2 + 3x2 - 58x - 71x + 10 - 86x2 + 175x2\" is divided by 0.3846 and is rounded to closest integer."))
-
     uga = Student(100)
-    print(uga.decision_branch("This number includes a digit, where the bigger result for the following quadratic equation:\"- 32 + 53x2 - 43x2 - 76x = 0\" is divided by 1.6000 and is rounded to closest integer."))
+    print(uga.decision_branch("This number is comprised of a digit where 1.0000 times the bigger result for the following quadratic equation:\"2x - 6 = 0\" is rounded to closest integer."))
