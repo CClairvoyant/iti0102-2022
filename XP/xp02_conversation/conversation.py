@@ -200,7 +200,7 @@ class Student:
             answer = answers
         if to_multiply:
             answer = answer * multiplicative
-        answer = round(answer)
+        answer = normal_round(answer)
         self.deal_with_dec_value(str(answer))
 
     def deal_with_fibonacci_sequence(self, is_in: bool):
@@ -576,6 +576,12 @@ def catalan(num):
     for i in range(num):
         result += catalan(i) * catalan(num - i - 1)
     return result
+
+
+def normal_round(n):
+    if n - math.floor(n) < 0.5:
+        return math.floor(n)
+    return math.ceil(n)
 
 
 # regex_a = "(.*)"
