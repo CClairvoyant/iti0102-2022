@@ -614,25 +614,25 @@ if __name__ == '__main__':
     # print("c")
     # print_regex_results(regex_c, f2)  # 5, 4
 
-    # print(quadratic_equation_solver("x2 + 2x = 3"))  # => "x2 + 2x - 3 = 0"
-    # print(quadratic_equation_solver("0 = 3 + 1x2"))  # => "x2 + 3 = 0"
-    # print(quadratic_equation_solver("2x + 2 = 2x2"))  # => "2x2 - 2x - 2 = 0"
-    # print(quadratic_equation_solver("0x2 - 2x = 1"))  # => "2x + 1 = 0"
-    # print(quadratic_equation_solver("0x2 - 2x = 1"))  # => "2x + 1 = 0"
-    # print(quadratic_equation_solver("2x2 + 3x - 4 + 0x2 - x1 + 0x1 + 12 - 12x2 = 4x2 + x1 - 2"))  # => "14x2 - x - 10 = 0"
-    # print(quadratic_equation_solver("- x2 - 4x + 5 = 0"))  # => "- x2 - 4x + 5 = 0" => (-5.0, 1.0)
-    # print(quadratic_equation_solver("9x2 + 12x + 4 = 0"))
-    # print(quadratic_equation_solver("3x2 + 0 + 27x = 0"))
-    # print(quadratic_equation_solver("- x2 - 2x + 3 = 0"))
-    # print(quadratic_equation_solver("2x2 + 3x - 1 = 0"))
-    # print(quadratic_equation_solver("67x + 32x2 - 60x2 + 74x2 - 76 - 98 + 95 + 18x - 98x - 86x + 17 - 68x2 + 100x + 181 = 98"))
+    print(quadratic_equation_solver("x2 + 2x = 3"))  # => "x2 + 2x - 3 = 0"
+    print(quadratic_equation_solver("0 = 3 + 1x2"))  # => "x2 + 3 = 0"
+    print(quadratic_equation_solver("2x + 2 = 2x2"))  # => "2x2 - 2x - 2 = 0"
+    print(quadratic_equation_solver("0x2 - 2x = 1"))  # => "2x + 1 = 0"
+    print(quadratic_equation_solver("0x2 - 2x = 1"))  # => "2x + 1 = 0"
+    print(quadratic_equation_solver("2x2 + 3x - 4 + 0x2 - x1 + 0x1 + 12 - 12x2 = 4x2 + x1 - 2"))  # => "14x2 - x - 10 = 0"
+    print(quadratic_equation_solver("- x2 - 4x + 5 = 0"))  # => "- x2 - 4x + 5 = 0" => (-5.0, 1.0)
+    print(quadratic_equation_solver("9x2 + 12x + 4 = 0"))
+    print(quadratic_equation_solver("3x2 + 0 + 27x = 0"))
+    print(quadratic_equation_solver("- x2 - 2x + 3 = 0"))
+    print(quadratic_equation_solver("2x2 + 3x - 1 = 0"))
+    print(quadratic_equation_solver("67x + 32x2 - 60x2 + 74x2 - 76 - 98 + 95 + 18x - 98x - 86x + 17 - 68x2 + 100x + 181 = 98"))
 
-    # hm = Student(100)
-    # print(hm.decision_branch("This number, that you need to guess is composite."))
-    # print(hm.decision_branch("Number includes decimal value: \"4\"."))
-    # print(hm.decision_branch("Number is not in increasing order."))
-    # print(hm.decision_branch("The aforementioned number does not occur to be in increasing order."))
-    # print(hm.decision_branch("Number is made up of 4 ones in its binary form."))
+    hm = Student(100)
+    print(hm.decision_branch("This number, that you need to guess is composite."))
+    print(hm.decision_branch("Number includes decimal value: \"4\"."))
+    print(hm.decision_branch("Number is not in increasing order."))
+    print(hm.decision_branch("The aforementioned number does not occur to be in increasing order."))
+    print(hm.decision_branch("Number is made up of 4 ones in its binary form."))
 
     u = Student(56)
     print(u.decision_branch(
@@ -646,10 +646,13 @@ if __name__ == '__main__':
 
     uf = Student(100)
     print(uf.decision_branch(
-        "The aforementioned number involves a digit, where the smaller result for the following quadratic equation:\"- 17x2 + 79x2 = 97x + 2x2 + 117x2 - 46x - 61x + 27x - 18x - 42 - 46x2\" is divided by -0.2121 and is rounded to closest integer."))
+        "I am losing my mind, because the aforementioned number involves a digit, where the smaller result for the following quadratic equation:\"- 17x2 + 79x2 = 97x + 2x2 + 117x2 - 46x - 61x + 27x - 18x - 42 - 46x2\" is divided by -0.2121 and is rounded to closest integer."))
     print(uf.decision_branch(
         "This number contains a digit, where the bigger result for the following quadratic equation:\"- 52x + 69x = - 67x2 - 49x2 + 145x - 41x2 + 3x2 - 58x - 71x + 10 - 86x2 + 175x2\" is divided by 0.3846 and is rounded to closest integer."))
 
     uga = Student(1000)
     print(uga.decision_branch(
         "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+
+    sus = Student(1000)
+    print(sus.decision_branch("This number I am going insane includes a digit, where the smaller result for the following quadratic equation:\"4x2 + 12x = - 5\" is divided by -1.0000 and is rounded to closest integer."))
