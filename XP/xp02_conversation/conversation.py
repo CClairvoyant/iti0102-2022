@@ -69,8 +69,10 @@ class Student:
         else:
             return "Something's really wrong."
         if len(self.possible_answers) == 1:
-            answer = self.possible_answers.pop()
+            answer = list(self.possible_answers)[0]
             return f"The number I needed to guess was {answer}."
+        if len(self.possible_answers) == 0:
+            return sentence
         return f"Possible answers are {sorted(self.possible_answers)}."
 
     def intersect_possible_answers(self, update: list):
@@ -653,6 +655,178 @@ if __name__ == '__main__':
     uga = Student(1000)
     print(uga.decision_branch(
         "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
 
-    sus = Student(1000)
-    print(sus.decision_branch("This number I am going insane includes a digit, where the smaller result for the following quadratic equation:\"4x2 + 12x = - 5\" is divided by -1.0000 and is rounded to closest integer."))
+
+    print(uga.decision_branch("This number I am going insane includes a digit, where the smaller result for the following quadratic equation:\"4x2 + 12x = - 5\" is divided by -1.0000 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the smaller result for the following quadratic equation:\"4x2 + 12x = - 5\" is divided by -1.0000 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the smaller result for the following quadratic equation:\"4x2 + 12x = - 5\" is divided by -1.0000 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the smaller result for the following quadratic equation:\"4x2 + 12x = - 5\" is divided by -1.0000 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the smaller result for the following quadratic equation:\"4x2 + 12x = - 5\" is divided by -1.0000 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the smaller result for the following quadratic equation:\"4x2 + 12x = - 5\" is divided by -1.0000 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the smaller result for the following quadratic equation:\"4x2 + 12x = - 5\" is divided by -1.0000 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the smaller result for the following quadratic equation:\"4x2 + 12x = - 5\" is divided by -1.0000 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the smaller result for the following quadratic equation:\"4x2 + 12x = - 5\" is divided by -1.0000 and is rounded to closest integer."))
+    print(uga.decision_branch(
+        "This number I am going insane includes a digit, where the smaller result for the following quadratic equation:\"x2 - 9x + 8 = 0\" is divided by 0.5000 and is rounded to closest integer."))
+
+
+
+
+
+
