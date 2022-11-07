@@ -638,7 +638,7 @@ if __name__ == '__main__':
     print(u.decision_branch(
         "This number is comprised of a digit where 3.0000 times the bigger result for the following quadratic equation:\"67x + 32x2 - 60x2 + 74x2 - 76 - 98 + 95 + 18x - 98x - 86x + 17 - 68x2 + 100x + 181 = 98\" is rounded to closest integer."))
     print(u.decision_branch(
-        "The given number includes a digit where 0.5625 times the bigger result for the following quadratic equation:\"59x2 - 57x + 97x2 + 45x + 87 + 67 + 41x = - 58x + 87 - 61 + 82x + 4x + 48 + 159x2\" is rounded to closest integer."))
+        "The given ungabunga number includes a digit where 0.5625 times the bigger result for the following quadratic equation:\"59x2 - 57x + 97x2 + 45x + 87 + 67 + 41x = - 58x + 87 - 61 + 82x + 4x + 48 + 159x2\" is rounded to closest integer."))
     print(u.decision_branch(
         "Number includes sadsada a digit, where the bigger result for the following quadratic equation:\"- 39 + 41x + 75x + 54 - 67x + 171 - 70x2 - 27 - 90 - 48x = 0\" is divided by 0.3333 and is rounded to closest integer."))
     print(u.decision_branch(
