@@ -33,15 +33,15 @@ class Student:
                     self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), True, float(
                         re.search(r"(?<=where ).+(?= times)", sentence).group()), True)
                 elif re.search("divided", sentence):
-                    self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), False, 1 / (
-                        float(re.search(r"(?<=divided by ).+(?= and)", sentence).group())), True)
+                    self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), False, float(
+                        re.search(r"(?<=divided by ).+(?= and)", sentence).group()), True)
             elif re.search("smaller", sentence):
                 if re.search("times", sentence):
                     self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), True, float(
                         re.search(r"(?<=where ).+(?= times)", sentence).group()), False)
                 elif re.search("divided", sentence):
-                    self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), False, 1 / (
-                        float(re.search(r"(?<=divided by ).+(?= and)", sentence).group())), False)
+                    self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), False, float(
+                        re.search(r"(?<=divided by ).+(?= and)", sentence).group()), False)
         elif re.search("binary", sentence):
             if re.search("one in its binary", sentence) or re.search("ones in its binary", sentence):
                 self.deal_with_number_of_ones(int(re.search(r"\d+(?= ones? in its binary)", sentence).group()))
