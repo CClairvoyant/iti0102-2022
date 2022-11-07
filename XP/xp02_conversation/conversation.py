@@ -28,25 +28,9 @@ class Student:
         f"The number I needed to guess was {final_answer}." if the result is certain
         """
         if re.search("quadratic", sentence):
-            if re.search("bigger", sentence):
-                if re.search("times", sentence):
-                    self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), True, float(
-                        re.search(r"(?<=where ).+(?= times)", sentence).group()), True)
-                elif re.search("divided", sentence):
-                    self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), False, float(
-                        re.search(r"(?<=divided by ).+(?= and)", sentence).group()), True)
-            elif re.search("smaller", sentence):
-                if re.search("times", sentence):
-                    self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), True, float(
-                        re.search(r"(?<=where ).+(?= times)", sentence).group()), False)
-                elif re.search("divided", sentence):
-                    self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), False, float(
-                        re.search(r"(?<=divided by ).+(?= and)", sentence).group()), False)
+            self.handle_quadratic_equation(sentence)
         elif re.search("binary", sentence):
-            if re.search("one in its binary", sentence) or re.search("ones in its binary", sentence):
-                self.deal_with_number_of_ones(int(re.search(r"\d+(?= ones? in its binary)", sentence).group()))
-            else:
-                self.deal_with_number_of_zeroes(int(re.search(r"\d+(?= zeroe?s? in its binary)", sentence).group()))
+            self.find_binary(sentence)
         elif re.search("prime", sentence):
             self.deal_with_primes(not bool(re.search("doesn't|does not|isn't|is not", sentence)))
         elif re.search("composite", sentence):
@@ -62,14 +46,34 @@ class Student:
         elif re.search("order", sentence):
             self.deal_with_number_order(bool(re.search("increasing", sentence)),
                                         not bool(re.search("doesn't|does not|isn't|is not", sentence)))
-        else:
-            return "Something's really wrong."
         if len(self.possible_answers) == 1:
             answer = list(self.possible_answers)[0]
             return f"The number I needed to guess was {answer}."
-        if len(self.possible_answers) == 0:
-            return "There are no possible answers."
         return f"Possible answers are {sorted(self.possible_answers)}."
+
+    def find_binary(self, sentence):
+        """Figure out if the number of zeroes is presented or the number of ones."""
+        if re.search("one in its binary", sentence) or re.search("ones in its binary", sentence):
+            self.deal_with_number_of_ones(int(re.search(r"\d+(?= ones? in its binary)", sentence).group()))
+        else:
+            self.deal_with_number_of_zeroes(int(re.search(r"\d+(?= zeroe?s? in its binary)", sentence).group()))
+
+    def handle_quadratic_equation(self, sentence):
+        """Extract from decision branch, because it was too long."""
+        if re.search("bigger", sentence):
+            if re.search("times", sentence):
+                self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), True, float(
+                    re.search(r"(?<=where ).+(?= times)", sentence).group()), True)
+            elif re.search("divided", sentence):
+                self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), False, float(
+                    re.search(r"(?<=divided by ).+(?= and)", sentence).group()), True)
+        elif re.search("smaller", sentence):
+            if re.search("times", sentence):
+                self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), True, float(
+                    re.search(r"(?<=where ).+(?= times)", sentence).group()), False)
+            elif re.search("divided", sentence):
+                self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), False, float(
+                    re.search(r"(?<=divided by ).+(?= and)", sentence).group()), False)
 
     def intersect_possible_answers(self, update: list):
         """
@@ -290,89 +294,15 @@ def normalize_quadratic_equation(equation: str):
     num_list = []
     if equation[-3:] != "= 0":
         while equation[-1] != "=":
-            if "= + " in equation:
-                equation = equation.replace("= + ", "= ")
-            if re.search(r"(?<==)( (?:- )?\d+)x2", equation):
-                if "-" in re.search(r"(?<==)( (?:- )?\d+)x2", equation).group():
-                    x2_list.append(int(re.search(r"(?<==)( (?:- )?\d+)x2", equation).group()[2:-2]))
-                else:
-                    x2_list.append(int("-" + re.search(r"(?<==)( (?:- )?\d+)x2", equation).group()[1:-2]))
-                equation = equation.replace("=" + re.search(r"(?<==)( (?:- )?\d+)x2", equation).group(), "=")
-            elif re.search(r"(?<== )x2", equation):
-                x2_list.append(-1)
-                equation = equation.replace("= x2", "=")
-            elif re.search(r"(?<== - )x2", equation):
-                x2_list.append(1)
-                equation = equation.replace("= - x2", "=")
-            elif "= x" in equation or "= x1" in equation:
-                x_list.append(-1)
-                if "= x1" in equation:
-                    equation = equation.replace("= x1", "=")
-                else:
-                    equation = equation.replace("= x", "=")
-            elif "= - x" in equation or "= - x1" in equation:
-                x_list.append(1)
-                if "= - x1" in equation:
-                    equation = equation.replace("= - x1", "=")
-                else:
-                    equation = equation.replace("= - x", "=")
-            elif re.search(r"(?<==)( (?:- )?\d+)x(?!2)", equation):
-                if "-" in re.search(r"(?<==)( (?:- )?\d+)x(?!2)", equation).group():
-                    x_list.append(int(re.search(r"(?<==)( (?:- )?\d+)x(?!2)", equation).group()[2:-1]))
-                else:
-                    x_list.append(int("-" + re.search(r"(?<==)( (?:- )?\d+)x(?!2)", equation).group()[1:-1]))
-                equation = equation.replace("=" + re.search(r"(?<==)( (?:- )?\d+)x(?!2)", equation).group(), "=")
-            elif re.search(r"(?<==)( (?:- )?\d+)(?!x)", equation):
-                if "-" in re.search(r"(?<==)( (?:- )?\d+)(?!x)", equation).group():
-                    num_list.append(int(re.search(r"(?<==)( (?:- )?\d+)(?!x)", equation).group()[2:]))
-                else:
-                    num_list.append(int("-" + re.search(r"(?<==)( (?:- )?\d+)(?!x)", equation).group()[1:]))
-                equation = equation.replace("=" + re.search(r"(?<==)( (?:- )?\d+)(?!x)", equation).group(), "=")
+            equation = second_half(equation, num_list, x2_list, x_list)
         equation = equation + " 0"
     while equation != "= 0":
         if equation[:2] == "+ ":
             equation = equation[2:]
         if equation[:2] == "- ":
-            equation = equation[2:]
-            first_space = equation.find(" ")
-            if re.search(r"(\d+)(?=x2)", equation[:first_space]):
-                x2_list.append(int("-" + re.search(r"(\d+)(?=x2)", equation[:first_space]).group()))
-                equation = equation[first_space + 1:]
-            elif equation[:2] == "x2":
-                x2_list.append(-1)
-                equation = equation[3:]
-            elif equation[0] == "x" or equation[:2] == "x1":
-                x_list.append(-1)
-                if equation[:2] == "x1":
-                    equation = equation[3:]
-                else:
-                    equation = equation[2:]
-            elif re.search(r"(\d+)(?=x[ |1])", equation[:first_space + 1]):
-                x_list.append(int("-" + re.search(r"(\d+)(?=x)", equation[:first_space]).group()))
-                equation = equation[first_space + 1:]
-            elif re.search(r"(\d+)(?!x)", equation[:first_space]):
-                num_list.append(int("-" + re.search(r"(\d+)(?!x)", equation[:first_space]).group()))
-                equation = equation[first_space + 1:]
+            equation = first_num_negative(equation, num_list, x2_list, x_list)
         else:
-            first_space = equation.find(" ")
-            if re.search(r"(\d+)(?=x2)", equation[:first_space]):
-                x2_list.append(int(re.search(r"(\d+)(?=x2)", equation[:first_space]).group()))
-                equation = equation[first_space + 1:]
-            elif equation[:2] == "x2":
-                x2_list.append(1)
-                equation = equation[3:]
-            elif equation[0] == "x" or equation[:2] == "x1":
-                x_list.append(1)
-                if equation[:2] == "x1":
-                    equation = equation[3:]
-                else:
-                    equation = equation[2:]
-            elif re.search(r"(\d+)(?=x[ |1])", equation[:first_space + 1]):
-                x_list.append(int(re.search(r"(\d+)(?=x)", equation[:first_space]).group()))
-                equation = equation[first_space + 1:]
-            elif re.search(r"(\d+)(?!x)", equation[:first_space]):
-                num_list.append(int(re.search(r"(\d+)(?!x)", equation[:first_space]).group()))
-                equation = equation[first_space + 1:]
+            equation = first_num_positive(equation, num_list, x2_list, x_list)
     x2_sum = sum(x2_list)
     x_sum = sum(x_list)
     num_sum = sum(num_list)
@@ -385,24 +315,137 @@ def normalize_quadratic_equation(equation: str):
         num_sum = -num_sum
     if not x2_sum and not x_sum and num_sum < 0:
         num_sum = -num_sum
-    if num_list and num_sum > 0:
-        equation = f"+ {num_sum} " + equation
-    if num_list and num_sum < 0:
-        equation = f"- {-num_sum} " + equation
-    if x_list and x_sum == 1:
-        equation = "+ x " + equation
-    if x_list and x_sum == -1:
-        equation = "- x " + equation
-    if x_list and x_sum > 1:
-        equation = f"+ {x_sum}x " + equation
-    if x_list and x_sum < -1:
-        equation = f"- {-x_sum}x " + equation
-    if x2_list and x2_sum == 1:
-        equation = "x2 " + equation
-    if x2_list and x2_sum > 1:
-        equation = f"{x2_sum}x2 " + equation
+    if num_list:
+        equation = num_not_zero(equation, num_sum)
+    if x_list:
+        equation = x_not_zero(equation, x_sum)
+    if x2_list:
+        equation = x2_not_zero(equation, x2_sum)
     if equation[0] == "+":
         equation = equation[2:]
+    return equation
+
+
+def x2_not_zero(equation, x2_sum):
+    """If sum x2 value is not zero, call this function."""
+    if x2_sum == 1:
+        equation = "x2 " + equation
+    if x2_sum > 1:
+        equation = f"{x2_sum}x2 " + equation
+    return equation
+
+
+def num_not_zero(equation, num_sum):
+    """If sum num value is not zero, call this function."""
+    if num_sum > 0:
+        equation = f"+ {num_sum} " + equation
+    if num_sum < 0:
+        equation = f"- {-num_sum} " + equation
+    return equation
+
+
+def x_not_zero(equation, x_sum):
+    """If sum x value is not zero, call this function."""
+    if x_sum == 1:
+        equation = "+ x " + equation
+    if x_sum == -1:
+        equation = "- x " + equation
+    if x_sum > 1:
+        equation = f"+ {x_sum}x " + equation
+    if x_sum < -1:
+        equation = f"- {-x_sum}x " + equation
+    return equation
+
+
+def first_num_positive(equation, num_list, x2_list, x_list):
+    """Deal with first number if it's positive."""
+    first_space = equation.find(" ")
+    if re.search(r"(\d+)(?=x2)", equation[:first_space]):
+        x2_list.append(int(re.search(r"(\d+)(?=x2)", equation[:first_space]).group()))
+        equation = equation[first_space + 1:]
+    elif equation[:2] == "x2":
+        x2_list.append(1)
+        equation = equation[3:]
+    elif equation[0] == "x" or equation[:2] == "x1":
+        x_list.append(1)
+        if equation[:2] == "x1":
+            equation = equation[3:]
+        else:
+            equation = equation[2:]
+    elif re.search(r"(\d+)(?=x[ |1])", equation[:first_space + 1]):
+        x_list.append(int(re.search(r"(\d+)(?=x)", equation[:first_space]).group()))
+        equation = equation[first_space + 1:]
+    elif re.search(r"(\d+)(?!x)", equation[:first_space]):
+        num_list.append(int(re.search(r"(\d+)(?!x)", equation[:first_space]).group()))
+        equation = equation[first_space + 1:]
+    return equation
+
+
+def first_num_negative(equation, num_list, x2_list, x_list):
+    """Deal with first number if it's negative."""
+    equation = equation[2:]
+    first_space = equation.find(" ")
+    if re.search(r"(\d+)(?=x2)", equation[:first_space]):
+        x2_list.append(int("-" + re.search(r"(\d+)(?=x2)", equation[:first_space]).group()))
+        equation = equation[first_space + 1:]
+    elif equation[:2] == "x2":
+        x2_list.append(-1)
+        equation = equation[3:]
+    elif equation[0] == "x" or equation[:2] == "x1":
+        x_list.append(-1)
+        if equation[:2] == "x1":
+            equation = equation[3:]
+        else:
+            equation = equation[2:]
+    elif re.search(r"(\d+)(?=x[ |1])", equation[:first_space + 1]):
+        x_list.append(int("-" + re.search(r"(\d+)(?=x)", equation[:first_space]).group()))
+        equation = equation[first_space + 1:]
+    elif re.search(r"(\d+)(?!x)", equation[:first_space]):
+        num_list.append(int("-" + re.search(r"(\d+)(?!x)", equation[:first_space]).group()))
+        equation = equation[first_space + 1:]
+    return equation
+
+
+def second_half(equation, num_list, x2_list, x_list):
+    """Collects second half of the equation to lists."""
+    if "= + " in equation:
+        equation = equation.replace("= + ", "= ")
+    if re.search(r"(?<==)( (?:- )?\d+)x2", equation):
+        if "-" in re.search(r"(?<==)( (?:- )?\d+)x2", equation).group():
+            x2_list.append(int(re.search(r"(?<==)( (?:- )?\d+)x2", equation).group()[2:-2]))
+        else:
+            x2_list.append(int("-" + re.search(r"(?<==)( (?:- )?\d+)x2", equation).group()[1:-2]))
+        equation = equation.replace("=" + re.search(r"(?<==)( (?:- )?\d+)x2", equation).group(), "=")
+    elif re.search(r"(?<== )x2", equation):
+        x2_list.append(-1)
+        equation = equation.replace("= x2", "=")
+    elif re.search(r"(?<== - )x2", equation):
+        x2_list.append(1)
+        equation = equation.replace("= - x2", "=")
+    elif "= x" in equation or "= x1" in equation:
+        x_list.append(-1)
+        if "= x1" in equation:
+            equation = equation.replace("= x1", "=")
+        else:
+            equation = equation.replace("= x", "=")
+    elif "= - x" in equation or "= - x1" in equation:
+        x_list.append(1)
+        if "= - x1" in equation:
+            equation = equation.replace("= - x1", "=")
+        else:
+            equation = equation.replace("= - x", "=")
+    elif re.search(r"(?<==)( (?:- )?\d+)x(?!2)", equation):
+        if "-" in re.search(r"(?<==)( (?:- )?\d+)x(?!2)", equation).group():
+            x_list.append(int(re.search(r"(?<==)( (?:- )?\d+)x(?!2)", equation).group()[2:-1]))
+        else:
+            x_list.append(int("-" + re.search(r"(?<==)( (?:- )?\d+)x(?!2)", equation).group()[1:-1]))
+        equation = equation.replace("=" + re.search(r"(?<==)( (?:- )?\d+)x(?!2)", equation).group(), "=")
+    elif re.search(r"(?<==)( (?:- )?\d+)(?!x)", equation):
+        if "-" in re.search(r"(?<==)( (?:- )?\d+)(?!x)", equation).group():
+            num_list.append(int(re.search(r"(?<==)( (?:- )?\d+)(?!x)", equation).group()[2:]))
+        else:
+            num_list.append(int("-" + re.search(r"(?<==)( (?:- )?\d+)(?!x)", equation).group()[1:]))
+        equation = equation.replace("=" + re.search(r"(?<==)( (?:- )?\d+)(?!x)", equation).group(), "=")
     return equation
 
 
@@ -426,32 +469,7 @@ def quadratic_equation_solver(equation: str):
         if equation[:2] == "+ ":
             equation = equation[2:]
         if equation[:2] == "- ":
-            equation = equation[2:]
-            first_space = equation.find(" ")
-            if equation[first_space - 2:first_space] == "x2":
-                if equation[0].isdigit():
-                    x2 = int("-" + equation[:first_space - 2])
-                    equation = equation[first_space + 1:]
-                else:
-                    x2 = -1
-                    equation = equation[3:]
-            elif equation[first_space - 1:first_space] == "x":
-                if equation[0].isdigit():
-                    x = int("-" + equation[:first_space - 1:])
-                    equation = equation[first_space + 1:]
-                else:
-                    x = -1
-                    equation = equation[2:]
-            elif equation[first_space - 2:first_space] == "x1":
-                if equation[0].isdigit():
-                    x = int("-" + equation[:first_space - 2])
-                    equation = equation[first_space + 1:]
-                else:
-                    x = -1
-                    equation = equation[3:]
-            elif equation[:first_space].isdigit():
-                num = int("-" + equation[:first_space])
-                equation = equation[first_space + 1:]
+            equation, num, x, x2 = first_number_negative(equation, num, x, x2)
         else:
             first_space = equation.find(" ")
             if equation[first_space - 2:first_space] == "x2":
@@ -483,11 +501,41 @@ def quadratic_equation_solver(equation: str):
         solution2 = (-x - math.sqrt(x ** 2 - 4 * x2 * num)) / (2 * x2)
         if solution1 != solution2:
             return tuple(sorted([solution1, solution2]))
-        else:
-            return solution1
+        return solution1
     elif not x2 and x:
         return -num / x
     return None
+
+
+def first_number_negative(equation, num, x, x2):
+    """Execute if equation's first number is negative."""
+    equation = equation[2:]
+    first_space = equation.find(" ")
+    if equation[first_space - 2:first_space] == "x2":
+        if equation[0].isdigit():
+            x2 = int("-" + equation[:first_space - 2])
+            equation = equation[first_space + 1:]
+        else:
+            x2 = -1
+            equation = equation[3:]
+    elif equation[first_space - 1:first_space] == "x":
+        if equation[0].isdigit():
+            x = int("-" + equation[:first_space - 1:])
+            equation = equation[first_space + 1:]
+        else:
+            x = -1
+            equation = equation[2:]
+    elif equation[first_space - 2:first_space] == "x1":
+        if equation[0].isdigit():
+            x = int("-" + equation[:first_space - 2])
+            equation = equation[first_space + 1:]
+        else:
+            x = -1
+            equation = equation[3:]
+    elif equation[:first_space].isdigit():
+        num = int("-" + equation[:first_space])
+        equation = equation[first_space + 1:]
+    return equation, num, x, x2
 
 
 def find_primes_in_range(biggest_number: int):
