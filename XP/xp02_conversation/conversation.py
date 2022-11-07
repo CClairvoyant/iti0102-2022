@@ -33,19 +33,15 @@ class Student:
                     self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), True, float(
                         re.search(r"(?<=where ).+(?= times)", sentence).group()), True)
                 elif re.search("divided", sentence):
-                    self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), True, 1 / (
+                    self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), False, 1 / (
                         float(re.search(r"(?<=divided by ).+(?= and)", sentence).group())), True)
-                else:
-                    self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), False, 1, True)
             elif re.search("smaller", sentence):
                 if re.search("times", sentence):
                     self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), True, float(
                         re.search(r"(?<=where ).+(?= times)", sentence).group()), False)
                 elif re.search("divided", sentence):
-                    self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), True, 1 / (
+                    self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), False, 1 / (
                         float(re.search(r"(?<=divided by ).+(?= and)", sentence).group())), False)
-                else:
-                    self.deal_with_quadratic_equation(re.search(r"(?<=\").+(?=\")", sentence).group(), False, 1, False)
         elif re.search("binary", sentence):
             if re.search("one in its binary", sentence) or re.search("ones in its binary", sentence):
                 self.deal_with_number_of_ones(int(re.search(r"\d+(?= ones? in its binary)", sentence).group()))
@@ -72,7 +68,7 @@ class Student:
             answer = list(self.possible_answers)[0]
             return f"The number I needed to guess was {answer}."
         if len(self.possible_answers) == 0:
-            return sentence
+            return "There are no possible answers."
         return f"Possible answers are {sorted(self.possible_answers)}."
 
     def intersect_possible_answers(self, update: list):
@@ -202,11 +198,10 @@ class Student:
             answer = answers
         if to_multiply:
             answer = answer * multiplicative
-        answer = normal_round(answer)
-        if answer not in self.possible_answers:
-            self.possible_answers = equation + str(to_multiply) + str(multiplicative) + str(is_bigger)
         else:
-            self.deal_with_dec_value(str(answer))
+            answer = answer / multiplicative
+        answer = normal_round(answer)
+        self.deal_with_dec_value(str(answer))
 
     def deal_with_fibonacci_sequence(self, is_in: bool):
         """
@@ -641,11 +636,11 @@ if __name__ == '__main__':
 
     u = Student(56)
     print(u.decision_branch(
-        "This number is comprised dasdas of a digit where 3.0000 times the bigger result for the following quadratic equation:\"67x + 32x2 - 60x2 + 74x2 - 76 - 98 + 95 + 18x - 98x - 86x + 17 - 68x2 + 100x + 181 = 98\" is rounded to closest integer."))
+        "This number is comprised of a digit where 3.0000 times the bigger result for the following quadratic equation:\"67x + 32x2 - 60x2 + 74x2 - 76 - 98 + 95 + 18x - 98x - 86x + 17 - 68x2 + 100x + 181 = 98\" is rounded to closest integer."))
     print(u.decision_branch(
-        "The given ungabunga number includes a digit where 0.5625 times the bigger result for the following quadratic equation:\"59x2 - 57x + 97x2 + 45x + 87 + 67 + 41x = - 58x + 87 - 61 + 82x + 4x + 48 + 159x2\" is rounded to closest integer."))
+        "The given number includes a digit where 0.5625 times the bigger result for the following quadratic equation:\"59x2 - 57x + 97x2 + 45x + 87 + 67 + 41x = - 58x + 87 - 61 + 82x + 4x + 48 + 159x2\" is rounded to closest integer."))
     print(u.decision_branch(
-        "Number includes sadsada a digit, where the bigger result for the following quadratic equation:\"- 39 + 41x + 75x + 54 - 67x + 171 - 70x2 - 27 - 90 - 48x = 0\" is divided by 0.3333 and is rounded to closest integer."))
+        "Number includes a digit, where the bigger result for the following quadratic equation:\"- 39 + 41x + 75x + 54 - 67x + 171 - 70x2 - 27 - 90 - 48x = 0\" is divided by 0.3333 and is rounded to closest integer."))
     print(u.decision_branch(
         "This number, that you need to guess includes a digit where -4.9020 times the smaller result for the following quadratic equation:\"47x2 + 1x - 33x2 - 29 + 93 + 69x2 - 115 = - 38x2 + 71x2\" is rounded to closest integer."))
 
@@ -658,16 +653,3 @@ if __name__ == '__main__':
     uga = Student(1000)
     print(uga.decision_branch(
         "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
-    print(uga.decision_branch(
-        "This number I am going insane includes a digit, where the bigger result for the following quadratic equation:\"- 44 - 48x2 - 85 + 340 + 69x2 = 48 + 90x - 91x + 86x2 + 97\" is divided by 0.2031 and is rounded to closest integer."))
-
-
-    ugabuga = Student(1000)
-    ugabuga.deal_with_quadratic_equation("- 44 - 48x2 - 85 + 340 + -x2 = 48 + 90x - 91x + 86x2 + 97", True, -5.0000, True)
-    print(ugabuga.possible_answers)
-    # ugugagagadasdasdasdasdfasdasdasdas suht rõve
-
-    dada = Student(1000)
-    print(dada.decision_branch("This number I am going insane includes a digit, where the smaller result for the following quadratic equation:\"17x + 42x2 + 29x + 82 - 46 - 45x - 91x2 + 89x2 - 58x2 - 17 = 0\" is divided by 1.00 and is rounded to closest integer."))
-    print(quadratic_equation_solver("17x + 42x2 + 29x + 82 - 46 - 45x - 91x2 + 89x2 - 58x2 - 17 = 0"))
-    print(quadratic_equation_solver("- 18x2 + x + 19 = 0"))
