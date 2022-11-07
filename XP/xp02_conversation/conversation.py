@@ -665,7 +665,7 @@ if __name__ == '__main__':
     ugabuga = Student(1000)
     ugabuga.deal_with_quadratic_equation("- 44 - 48x2 - 85 + 340 + -x2 = 48 + 90x - 91x + 86x2 + 97", True, -5.0000, True)
     print(ugabuga.possible_answers)
-    # ugugagagadasdasdasdasdfasdasdasdas
+    # ugugagagadasdasdasdasdfasdasdasdas suht rõve
 
     dada = Student(1000)
     print(dada.decision_branch("This number I am going insane includes a digit, where the smaller result for the following quadratic equation:\"17x + 42x2 + 29x + 82 - 46 - 45x - 91x2 + 89x2 - 58x2 - 17 = 0\" is divided by 1.00 and is rounded to closest integer."))
