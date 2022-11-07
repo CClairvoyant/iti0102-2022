@@ -640,7 +640,7 @@ if __name__ == '__main__':
     print(u.decision_branch(
         "The given number includes a digit where 0.5625 times the bigger result for the following quadratic equation:\"59x2 - 57x + 97x2 + 45x + 87 + 67 + 41x = - 58x + 87 - 61 + 82x + 4x + 48 + 159x2\" is rounded to closest integer."))
     print(u.decision_branch(
-        "Number includes a digit, where the bigger result for the following quadratic equation:\"- 39 + 41x + 75x + 54 - 67x + 171 - 70x2 - 27 - 90 - 48x = 0\" is divided by 0.3333 and is rounded to closest integer."))
+        "Number includes sadsada a digit, where the bigger result for the following quadratic equation:\"- 39 + 41x + 75x + 54 - 67x + 171 - 70x2 - 27 - 90 - 48x = 0\" is divided by 0.3333 and is rounded to closest integer."))
     print(u.decision_branch(
         "This number, that you need to guess includes a digit where -4.9020 times the smaller result for the following quadratic equation:\"47x2 + 1x - 33x2 - 29 + 93 + 69x2 - 115 = - 38x2 + 71x2\" is rounded to closest integer."))
 
