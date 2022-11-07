@@ -317,14 +317,20 @@ def normalize_quadratic_equation(equation: str):
         num_sum = -num_sum
     if not x2_sum and not x_sum and num_sum < 0:
         num_sum = -num_sum
+    equation = not_zero(equation, num_list, num_sum, x2_list, x2_sum, x_list, x_sum)
+    if equation[0] == "+":
+        equation = equation[2:]
+    return equation
+
+
+def not_zero(equation, num_list, num_sum, x2_list, x2_sum, x_list, x_sum):
+    """Build the normalised equation."""
     if num_list:
         equation = num_not_zero(equation, num_sum)
     if x_list:
         equation = x_not_zero(equation, x_sum)
     if x2_list:
         equation = x2_not_zero(equation, x2_sum)
-    if equation[0] == "+":
-        equation = equation[2:]
     return equation
 
 
