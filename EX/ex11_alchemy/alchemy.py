@@ -86,9 +86,13 @@ class AlchemicalStorage:
         """
         content = "Content:"
         if not self.elements:
-            content += "\n Empty"
+            content += "\n Empty."
+        name_list = []
         for element in self.elements:
-            content += f"\n * {element.name} x {self.elements.count(element)}"
+            name_list.append(element.name)
+        for element in self.elements:
+            if element.name not in content:
+                content += f"\n * {element.name} x {name_list.count(element.name)}"
         return content
 
 
@@ -108,7 +112,11 @@ if __name__ == '__main__':
     # Content:
     #  * Fire x 1
     #  * Water x 1
-
+    storage.add(AlchemicalElement("Water"))
+    storage.add(AlchemicalElement("Water"))
+    storage.add(AlchemicalElement("Water"))
+    storage.add(AlchemicalElement("Water"))
+    print(storage.get_content())
     print(storage.extract())  # [<AE: Fire>, <AE: Water>]
     print(storage.get_content())
     # Content:
