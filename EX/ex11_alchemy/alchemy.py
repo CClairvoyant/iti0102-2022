@@ -90,42 +90,47 @@ class AlchemicalStorage:
         name_list = []
         for element in self.elements:
             name_list.append(element.name)
-        for element in self.elements:
-            if element.name not in content:
-                content += f"\n * {element.name} x {name_list.count(element.name)}"
+        for name in sorted(name_list):
+            if name not in content:
+                content += f"\n * {name} x {name_list.count(name)}"
         return content
 
 
 if __name__ == '__main__':
-    element_one = AlchemicalElement('Fire')
-    element_two = AlchemicalElement('Water')
-    element_three = AlchemicalElement('Water')
-    storage = AlchemicalStorage()
-
-    print(element_one)  # <AE: Fire>
-    print(element_two)  # <AE: Water>
-
-    storage.add(element_one)
-    storage.add(element_two)
-    print(storage.elements)
-    print(storage.get_content())
-    # Content:
-    #  * Fire x 1
-    #  * Water x 1
-    storage.add(AlchemicalElement("Water"))
-    storage.add(AlchemicalElement("Water"))
-    storage.add(AlchemicalElement("Water"))
-    storage.add(AlchemicalElement("Water"))
-    print(storage.get_content())
-    print(storage.extract())  # [<AE: Fire>, <AE: Water>]
-    print(storage.get_content())
-    # Content:
-    #  Empty
-
-    storage.add(element_one)
-    storage.add(element_two)
-    storage.add(element_three)
-
-    print(storage.pop('Water') == element_three)  # True
-    print(storage.pop('Water') == element_two)  # True
-
+    # element_one = AlchemicalElement('Fire')
+    # element_two = AlchemicalElement('Water')
+    # element_three = AlchemicalElement('Water')
+    # storage = AlchemicalStorage()
+    #
+    # print(element_one)  # <AE: Fire>
+    # print(element_two)  # <AE: Water>
+    #
+    # storage.add(element_one)
+    # storage.add(element_two)
+    # print(storage.elements)
+    # print(storage.get_content())
+    # # Content:
+    # #  * Fire x 1
+    # #  * Water x 1
+    # storage.add(AlchemicalElement("Water"))
+    # storage.add(AlchemicalElement("Water"))
+    # storage.add(AlchemicalElement("Water"))
+    # storage.add(AlchemicalElement("Water"))
+    # print(storage.get_content())
+    # print(storage.extract())  # [<AE: Fire>, <AE: Water>]
+    # print(storage.get_content())
+    # # Content:
+    # #  Empty
+    #
+    # storage.add(element_one)
+    # storage.add(element_two)
+    # storage.add(element_three)
+    #
+    # print(storage.pop('Water') == element_three)  # True
+    # print(storage.pop('Water') == element_two)  # True
+    storaage = AlchemicalStorage()
+    storaage.add(AlchemicalElement("Wind"))
+    storaage.add(AlchemicalElement("Fire"))
+    storaage.add(AlchemicalElement("Water"))
+    storaage.add(AlchemicalElement("Earth"))
+    print(storaage.get_content())
