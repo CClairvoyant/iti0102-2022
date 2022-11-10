@@ -194,7 +194,7 @@ class Cauldron(AlchemicalStorage):
 
         :param element: Input object to add to storage.
         """
-        self.elements.append(element)
+        AlchemicalStorage.add(self, element)
         for recipe in self.recipes.recipe_book:
             for item in self.elements:
                 for item2 in self.elements:
