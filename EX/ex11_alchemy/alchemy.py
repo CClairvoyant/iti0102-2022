@@ -194,6 +194,8 @@ class Cauldron(AlchemicalStorage):
 
         :param element: Input object to add to storage.
         """
+        if type(element) is not AlchemicalElement:
+            raise TypeError
         for recipe in self.recipes.recipe_book:
             for i in range(len(self.elements)):
                 if f"{self.elements[-i - 1].name} + {element.name}" in recipe or f"{element.name} + " \
@@ -211,7 +213,7 @@ if __name__ == '__main__':
     cauldron = Cauldron(recipes)
     cauldron.add(AlchemicalElement("Water"))
     cauldron.add(AlchemicalElement("Fire"))
-    cauldron.add(AlchemicalElement("Water"))
+    cauldron.add(2)
     print(cauldron.elements)
 
     # recipes = AlchemicalRecipes()
