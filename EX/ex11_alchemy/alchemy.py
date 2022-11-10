@@ -194,15 +194,15 @@ class Cauldron(AlchemicalStorage):
 
         :param element: Input object to add to storage.
         """
-        super().add(element)
         for recipe in self.recipes.recipe_book:
             for i in range(len(self.elements)):
-                for i2 in range(len(self.elements)):
-                    if f"{self.elements[-i - 1].name} + {self.elements[-i2 - 1].name}" in recipe:
-                        self.elements.pop(-i - 1)
-                        self.elements.pop(-i2 - 1)
-                        super().add(AlchemicalElement(recipe.split("= ")[-1]))
-                        return
+                if f"{self.elements[-i - 1].name} + {element.name}" in recipe or f"{element.name} + " \
+                                                                            f"{self.elements[-i - 1].name}" in recipe:
+                    self.elements.pop(-i - 1)
+                    super().add(AlchemicalElement(recipe.split("= ")[-1]))
+                    return
+        else:
+            super().add(element)
 
 
 if __name__ == '__main__':
