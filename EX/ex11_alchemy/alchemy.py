@@ -201,7 +201,7 @@ class Cauldron(AlchemicalStorage):
                     if f"{item.name} + {item2.name}" in recipe:
                         self.elements[::-1].remove(item)
                         self.elements[::-1].remove(item2)
-                        self.elements.append(AlchemicalElement(recipe.split("= ")[-1]))
+                        super().add(AlchemicalElement(recipe.split("= ")[-1]))
                         break
 
 
