@@ -196,92 +196,100 @@ class Cauldron(AlchemicalStorage):
         """
         super().add(element)
         for recipe in self.recipes.recipe_book:
-            for item in self.elements:
-                for item2 in self.elements:
-                    if f"{item.name} + {item2.name}" in recipe:
-                        self.elements[::-1].remove(item)
-                        self.elements[::-1].remove(item2)
+            for i in range(len(self.elements)):
+                for i2 in range(len(self.elements)):
+                    if f"{self.elements[-i - 1].name} + {self.elements[-i2 - 1].name}" in recipe:
+                        self.elements.pop(-i - 1)
+                        self.elements.pop(-i2 - 1)
                         super().add(AlchemicalElement(recipe.split("= ")[-1]))
-                        break
+                        return
 
 
 if __name__ == '__main__':
     recipes = AlchemicalRecipes()
-    recipes.add_recipe('Fire', 'Water', 'Steam')
-    recipes.add_recipe('Fire', 'Earth', 'Iron')
-    recipes.add_recipe('Water', 'Iron', 'Rust')
-
-    print(recipes.recipe_book)
-
-    print(recipes.get_product_name('Water', 'Fire'))  # -> 'Steam'
-
-    try:
-        recipes.add_recipe('Fire', 'Something else', 'Fire')
-        print('Did not raise, not working as intended.')
-
-    except DuplicateRecipeNamesException:
-        print('Raised DuplicateRecipeNamesException, working as intended!')
-
-    try:
-        recipes.add_recipe('Fire', 'Earth', 'Gold')
-        print('Did not raise, not working as intended.')
-
-    except RecipeOverlapException:
-        print('Raised RecipeOverlapException, working as intended!')
-
+    recipes.add_recipe("Water", "Fire", "Steam")
     cauldron = Cauldron(recipes)
-    cauldron.add(AlchemicalElement('Earth'))
-    cauldron.add(AlchemicalElement('Water'))
-    cauldron.add(AlchemicalElement('Fire'))
+    cauldron.add(AlchemicalElement("Water"))
+    cauldron.add(AlchemicalElement("Fire"))
+    cauldron.add(AlchemicalElement("Water"))
+    print(cauldron.elements)
 
-    print(cauldron.extract())  # -> [<AE: Earth>, <AE: Steam>]
-
-    cauldron.add(AlchemicalElement('Earth'))
-    cauldron.add(AlchemicalElement('Earth'))
-    cauldron.add(AlchemicalElement('Earth'))
-    cauldron.add(AlchemicalElement('Fire'))
-    cauldron.add(AlchemicalElement('Fire'))
-    cauldron.add(AlchemicalElement('Water'))
-
-    print(cauldron.extract())  # -> [<AE: Earth>, <AE: Iron>, <AE: Rust>]
-
-    element_one = AlchemicalElement('Fire')
-    element_two = AlchemicalElement('Water')
-    element_three = AlchemicalElement('Water')
-    storage = AlchemicalStorage()
-
-    print(element_one)  # <AE: Fire>
-    print(element_two)  # <AE: Water>
-
-    storage.add(element_one)
-    storage.add(element_two)
-    print(storage.elements)
-    print(storage.get_content())
-    # Content:
-    #  * Fire x 1
-    #  * Water x 1
-    storage.add(AlchemicalElement("Water"))
-    storage.add(AlchemicalElement("Water"))
-    storage.add(AlchemicalElement("Water"))
-    storage.add(AlchemicalElement("Water"))
-    print(storage.get_content())
-    print(storage.extract())  # [<AE: Fire>, <AE: Water>]
-    print(storage.get_content())
-    # Content:
-    #  Empty
-
-    storage.add(element_one)
-    storage.add(element_two)
-    storage.add(element_three)
-
-    print(storage.pop('Water') == element_three)  # True
-    print(storage.pop('Water') == element_two)  # True
-
-    storaage = AlchemicalStorage()
-    storaage.add(AlchemicalElement("Wind"))
-    storaage.add(AlchemicalElement("Fire"))
-    storaage.add(AlchemicalElement("Water"))
-    storaage.add(AlchemicalElement("Earth"))
-    print(storaage.get_content())
-
-    print(storaage.elements)
+    # recipes = AlchemicalRecipes()
+    # recipes.add_recipe('Fire', 'Water', 'Steam')
+    # recipes.add_recipe('Fire', 'Earth', 'Iron')
+    # recipes.add_recipe('Water', 'Iron', 'Rust')
+    #
+    # print(recipes.recipe_book)
+    #
+    # print(recipes.get_product_name('Water', 'Fire'))  # -> 'Steam'
+    #
+    # try:
+    #     recipes.add_recipe('Fire', 'Something else', 'Fire')
+    #     print('Did not raise, not working as intended.')
+    #
+    # except DuplicateRecipeNamesException:
+    #     print('Raised DuplicateRecipeNamesException, working as intended!')
+    #
+    # try:
+    #     recipes.add_recipe('Fire', 'Earth', 'Gold')
+    #     print('Did not raise, not working as intended.')
+    #
+    # except RecipeOverlapException:
+    #     print('Raised RecipeOverlapException, working as intended!')
+    #
+    # cauldron = Cauldron(recipes)
+    # cauldron.add(AlchemicalElement('Earth'))
+    # cauldron.add(AlchemicalElement('Water'))
+    # cauldron.add(AlchemicalElement('Fire'))
+    #
+    # print(cauldron.extract())  # -> [<AE: Earth>, <AE: Steam>]
+    #
+    # cauldron.add(AlchemicalElement('Earth'))
+    # cauldron.add(AlchemicalElement('Earth'))
+    # cauldron.add(AlchemicalElement('Earth'))
+    # cauldron.add(AlchemicalElement('Fire'))
+    # cauldron.add(AlchemicalElement('Fire'))
+    # cauldron.add(AlchemicalElement('Water'))
+    #
+    # print(cauldron.extract())  # -> [<AE: Earth>, <AE: Iron>, <AE: Rust>]
+    #
+    # element_one = AlchemicalElement('Fire')
+    # element_two = AlchemicalElement('Water')
+    # element_three = AlchemicalElement('Water')
+    # storage = AlchemicalStorage()
+    #
+    # print(element_one)  # <AE: Fire>
+    # print(element_two)  # <AE: Water>
+    #
+    # storage.add(element_one)
+    # storage.add(element_two)
+    # print(storage.elements)
+    # print(storage.get_content())
+    # # Content:
+    # #  * Fire x 1
+    # #  * Water x 1
+    # storage.add(AlchemicalElement("Water"))
+    # storage.add(AlchemicalElement("Water"))
+    # storage.add(AlchemicalElement("Water"))
+    # storage.add(AlchemicalElement("Water"))
+    # print(storage.get_content())
+    # print(storage.extract())  # [<AE: Fire>, <AE: Water>]
+    # print(storage.get_content())
+    # # Content:
+    # #  Empty
+    #
+    # storage.add(element_one)
+    # storage.add(element_two)
+    # storage.add(element_three)
+    #
+    # print(storage.pop('Water') == element_three)  # True
+    # print(storage.pop('Water') == element_two)  # True
+    #
+    # storaage = AlchemicalStorage()
+    # storaage.add(AlchemicalElement("Wind"))
+    # storaage.add(AlchemicalElement("Fire"))
+    # storaage.add(AlchemicalElement("Water"))
+    # storaage.add(AlchemicalElement("Earth"))
+    # print(storaage.get_content())
+    #
+    # print(storaage.elements)
