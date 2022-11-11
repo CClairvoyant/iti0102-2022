@@ -292,9 +292,9 @@ class Purifier(AlchemicalStorage):
         """
         if type(element) in [AlchemicalElement, Catalyst]:
             for recipe in self.recipes.recipe_book:
-                if element.name in recipe.split("= ")[-1]:
-                    super().add(AlchemicalElement(self.recipes.get_component_names(recipe.split("= ")[-1])[0]))
-                    super().add(AlchemicalElement(self.recipes.get_component_names(recipe.split("= ")[-1])[1]))
+                if element.name == recipe.split("= ")[-1]:
+                    self.add(AlchemicalElement(self.recipes.get_component_names(recipe.split("= ")[-1])[0]))
+                    self.add(AlchemicalElement(self.recipes.get_component_names(recipe.split("= ")[-1])[1]))
                     return
             else:
                 super().add(element)
