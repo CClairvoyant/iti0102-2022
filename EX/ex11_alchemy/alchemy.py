@@ -215,24 +215,21 @@ class Cauldron(AlchemicalStorage):
                         if type(self.elements[-i - 1]) is AlchemicalElement:
                             self.elements.pop(-i - 1)
                             self.add(AlchemicalElement(recipe.split("= ")[-1]))
-                            return
                         elif self.elements[-i - 1].uses > 0:
                             self.elements[-i - 1].uses -= 1
                             self.add(AlchemicalElement(recipe.split("= ")[-1]))
-                            return
                     else:
                         if type(self.elements[-i - 1]) is AlchemicalElement and element.uses > 0:
                             self.elements.pop(-i - 1)
                             element.uses -= 1
                             super().add(element)
                             self.add(AlchemicalElement(recipe.split("= ")[-1]))
-                            return
                         elif element.uses > 0 and self.elements[-i - 1].uses > 0:
                             element.uses -= 1
                             self.elements[-i - 1].uses -= 1
                             super().add(element)
                             self.add(AlchemicalElement(recipe.split("= ")[-1]))
-                            return
+                    return
         else:
             super().add(element)
 
