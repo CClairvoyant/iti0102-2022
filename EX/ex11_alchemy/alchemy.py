@@ -325,6 +325,8 @@ if __name__ == '__main__':
     purifier.add(AlchemicalElement('Talisman'))
     print(purifier.extract())  # -> [<AE: Earth>, <AE: Fire>, <AE: Crystal>]  (in any order)
 
+    # random text so I can push again
+
     # philosophers_stone = Catalyst("Philosophers' stone", 2)
     #
     # recipes = AlchemicalRecipes()
