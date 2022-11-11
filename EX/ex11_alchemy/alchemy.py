@@ -125,8 +125,8 @@ class AlchemicalRecipes:
         if len({first_component_name, second_component_name, product_name}) < 3:
             raise DuplicateRecipeNamesException
         for recipe in self.recipe_book:
-            if f"{first_component_name} + {second_component_name}" in recipe or \
-                    f"{second_component_name} + {first_component_name}" in recipe:
+            if f"{first_component_name} + {second_component_name}" == recipe.split(" =")[0] or \
+                    f"{second_component_name} + {first_component_name}" == recipe.split(" =")[0]:
                 raise RecipeOverlapException
         else:
             self.recipe_book.append(f"{first_component_name} + {second_component_name} = {product_name}")
@@ -209,8 +209,8 @@ class Cauldron(AlchemicalStorage):
             raise TypeError
         for recipe in self.recipes.recipe_book:
             for i in range(len(self.elements)):
-                if f"{self.elements[-i - 1].name} + {element.name}" in recipe or f"{element.name} + " \
-                        f"{self.elements[-i - 1].name}" in recipe:
+                if f"{self.elements[-i - 1].name} + {element.name}" == recipe.split(" =")[0] or f"{element.name} + " \
+                        f"{self.elements[-i - 1].name}" == recipe.split(" =")[0]:
                     if type(element) is AlchemicalElement:
                         if type(self.elements[-i - 1]) is AlchemicalElement:
                             self.elements.pop(-i - 1)
@@ -304,13 +304,52 @@ class Purifier(AlchemicalStorage):
 
 if __name__ == '__main__':
     recipes = AlchemicalRecipes()
-    recipes.add_recipe("Philosophers' stone", 'Mercury', 'Gold')
-    recipes.add_recipe("Earth", "Fire", "Philosophers' stone")
-    purifier = Purifier(recipes)
-    purifier.add(AlchemicalElement("Gold"))
-    print(purifier.get_content())
-    purifier.add(Catalyst("Philosophers' stone", 3))
-    print(purifier.get_content())
+    recipes.add_recipe("A", "B", "AB")
+    recipes.add_recipe("A", "C", "AC")
+    recipes.add_recipe("B", "C", "BC")
+    recipes.add_recipe("A", "D", "AD")
+    recipes.add_recipe("B", "D", "BD")
+    recipes.add_recipe("C", "D", "CD")
+    recipes.add_recipe("A", "E", "AE")
+    recipes.add_recipe("B", "E", "BE")
+    recipes.add_recipe("C", "E", "CE")
+    recipes.add_recipe("D", "E", "DE")
+    recipes.add_recipe("AB", "CD", "ABCD")
+    recipes.add_recipe("BC", "DE", "BCDE")
+    recipes.add_recipe("AB", "DE", "ABDE")
+    recipes.add_recipe("ABC", "DE", "ABCDE")
+    recipes.add_recipe("ABC", "D", "ABCD")
+    recipes.add_recipe("AB", "C", "ABC")
+    recipes.add_recipe("AB", "D", "ABD")
+    recipes.add_recipe("AB", "E", "ABE")
+    recipes.add_recipe("AC", "DE", "ACDE")
+    recipes.add_recipe("AB", "CE", "ABCE")
+    recipes.add_recipe("BC", "D", "BCD")
+    recipes.add_recipe("BC", "E", "BCE")
+    recipes.add_recipe("BD", "E", "BDE")
+    recipes.add_recipe("BE", "CD", "BECD")
+    recipes.add_recipe("CD", "E", "CDE")
+    cauldron = Cauldron(recipes)
+    cauldron.add(AlchemicalElement("A"))
+    print(cauldron.get_content())
+    cauldron.add(AlchemicalElement("B"))
+    print(cauldron.get_content())
+    cauldron.add(AlchemicalElement("C"))
+    print(cauldron.get_content())
+    cauldron.add(AlchemicalElement("E"))
+    print(cauldron.get_content())
+    cauldron.add(AlchemicalElement("D"))
+    print(cauldron.get_content())
+
+
+
+    # recipes.add_recipe("Philosophers' stone", 'Mercury', 'Gold')
+    # recipes.add_recipe("Earth", "Fire", "Philosophers' stone")
+    # purifier = Purifier(recipes)
+    # purifier.add(AlchemicalElement("Gold"))
+    # print(purifier.get_content())
+    # purifier.add(Catalyst("Philosophers' stone", 3))
+    # print(purifier.get_content())
 
     # recipes.add_recipe("Earth", "Fire", "Result")
     # recipes.add_recipe("Steam", "Dirt", "Mud")
