@@ -25,7 +25,7 @@ class AlchemicalStorage:
         """
         self.elements = []
 
-    def add(self, element: AlchemicalElement):
+    def add(self, element):
         """
         Add element to storage.
 
@@ -34,7 +34,7 @@ class AlchemicalStorage:
 
         :param element: Input object to add to storage.
         """
-        if type(element) is AlchemicalElement:
+        if type(element) in [AlchemicalElement, Catalyst]:
             self.elements.append(element)
         else:
             raise TypeError
@@ -157,6 +157,14 @@ class AlchemicalRecipes:
         else:
             return None
 
+    def get_component_names(self, product_name: str) -> tuple[str, str] or None:
+        """Return the components required to make a product."""
+        for recipe in self.recipe_book:
+            if product_name == recipe.split("= ")[-1]:
+                return recipe.split(" +")[0], recipe.split(" =")[0].split("+ ")[-1]
+        else:
+            return None
+
 
 class DuplicateRecipeNamesException(Exception):
     """Raised when attempting to add a recipe that has same names for components and product."""
@@ -178,7 +186,7 @@ class Cauldron(AlchemicalStorage):
         super(Cauldron, self).__init__()
         self.recipes = recipes
 
-    def add(self, element: AlchemicalElement):
+    def add(self, element):
         """
         Add element to storage and check if it can combine with anything already inside.
 
@@ -194,27 +202,138 @@ class Cauldron(AlchemicalStorage):
 
         :param element: Input object to add to storage.
         """
-        if type(element) is not AlchemicalElement:
+        if type(element) not in [AlchemicalElement, Catalyst]:
             raise TypeError
         for recipe in self.recipes.recipe_book:
             for i in range(len(self.elements)):
                 if f"{self.elements[-i - 1].name} + {element.name}" in recipe or f"{element.name} + " \
                                                                             f"{self.elements[-i - 1].name}" in recipe:
-                    self.elements.pop(-i - 1)
-                    super().add(AlchemicalElement(recipe.split("= ")[-1]))
-                    return
+                    if type(element) is AlchemicalElement:
+                        if type(self.elements[-i - 1]) is AlchemicalElement:
+                            self.elements.pop(-i - 1)
+                            super().add(AlchemicalElement(recipe.split("= ")[-1]))
+                            return
+                        elif self.elements[-i - 1].uses > 0:
+                            self.elements[-i - 1].uses -= 1
+                            super().add(AlchemicalElement(recipe.split("= ")[-1]))
+                            return
+                    else:
+                        super().add(element)
+                        if type(self.elements[-i - 1]) is AlchemicalElement and element.uses > 0:
+                            self.elements.pop(-i - 1)
+                            element.uses -= 1
+                            super().add(AlchemicalElement(recipe.split("= ")[-1]))
+                            return
+                        elif element.uses > 0 and self.elements[-i - 1].uses > 0:
+                            element.uses -= 1
+                            self.elements[-i - 1].uses -= 1
+                            super().add(AlchemicalElement(recipe.split("= ")[-1]))
+                            return
         else:
             super().add(element)
 
 
+class Catalyst(AlchemicalElement):
+    """Catalyst class."""
+
+    def __init__(self, name: str, uses: int):
+        """
+        Initialize the Catalyst class.
+
+        :param name: The name of the Catalyst.
+        :param uses: The number of uses the Catalyst has.
+        """
+        super().__init__(name)
+        self.uses = uses
+
+    def __repr__(self) -> str:
+        """
+        Representation of the Catalyst class.
+
+        Example:
+            catalyst = Catalyst("Philosophers' stone", 3)
+            print(catalyst) # -> <C: Philosophers' stone (3)>
+
+        :return: String representation of the Catalyst.
+        """
+        return f"<C: {self.name} ({self.uses})>"
+
+
+class Purifier(AlchemicalStorage):
+    """
+    Purifier class.
+
+    Extends the 'AlchemicalStorage' class.
+    """
+
+    def __init__(self, recipes: AlchemicalRecipes):
+        """Initialize the Purifier class."""
+        super().__init__()
+        self.recipes = recipes
+
+    def add(self, element: AlchemicalElement):
+        """
+        Add element to storage and check if it can be split into anything.
+
+        Use the 'recipes' object that was given in the constructor to determine the combinations.
+
+        Example:
+            recipes = AlchemicalRecipes()
+            recipes.add_recipe('Water', 'Wind', 'Ice')
+            purifier = Purifier(recipes)
+            purifier.add(AlchemicalElement('Ice'))
+            purifier.extract() # -> [<AE: Water>, <AE: Wind>]   or  [<AE: Wind>, <AE: Water>]
+
+        :param element: Input object to add to storage.
+        """
+        if type(element) is AlchemicalElement:
+            for recipe in self.recipes.recipe_book:
+                if element.name in recipe.split("= ")[-1]:
+                    super().add(AlchemicalElement(self.recipes.get_component_names(recipe.split("= ")[-1])[0]))
+                    super().add(AlchemicalElement(self.recipes.get_component_names(recipe.split("= ")[-1])[1]))
+                    return
+            else:
+                super().add(element)
+        else:
+            raise TypeError
+
+
 if __name__ == '__main__':
+    philosophers_stone = Catalyst("Philosophers' stone", 2)
+
     recipes = AlchemicalRecipes()
-    recipes.add_recipe("Water", "Fire", "Steam")
+    recipes.add_recipe("Philosophers' stone", 'Mercury', 'Gold')
+    recipes.add_recipe("Fire", 'Earth', 'Iron')
+
     cauldron = Cauldron(recipes)
-    cauldron.add(AlchemicalElement("Water"))
-    cauldron.add(AlchemicalElement("Fire"))
-    cauldron.add(2)
-    print(cauldron.elements)
+    cauldron.add(philosophers_stone)
+    cauldron.add(AlchemicalElement('Mercury'))
+    print(cauldron.extract())  # -> [<C: Philosophers' stone (1)>, <AE: Gold>]
+
+    cauldron.add(philosophers_stone)
+    cauldron.add(AlchemicalElement('Mercury'))
+    print(cauldron.extract())  # -> [<C: Philosophers' stone (0)>, <AE: Gold>]
+
+    cauldron.add(philosophers_stone)
+    cauldron.add(AlchemicalElement('Mercury'))
+    print(cauldron.extract())  # -> [<C: Philosophers' stone (0)>, <AE: Mercury>]
+
+    purifier = Purifier(recipes)
+    purifier.add(AlchemicalElement('Iron'))
+    print(purifier.extract())  # -> [<AE: Fire>, <AE: Earth>]    or      [<AE: Earth>, <AE: Fire>]
+
+    # recipes = AlchemicalRecipes()
+    # recipes.add_recipe("Water", "Fire", "Steam")
+    # cauldron = Cauldron(recipes)
+    # cauldron.add(AlchemicalElement("Water"))
+    # cauldron.add(AlchemicalElement("Fire"))
+    # try:
+    #     # noinspection PyTypeChecker
+    #     cauldron.add(69)
+    # except TypeError:
+    #     print("Raised TypeError correctly.")
+    #
+    # print(cauldron.elements)
 
     # recipes = AlchemicalRecipes()
     # recipes.add_recipe('Fire', 'Water', 'Steam')
