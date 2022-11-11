@@ -341,8 +341,6 @@ if __name__ == '__main__':
     cauldron.add(AlchemicalElement("D"))
     print(cauldron.get_content())
 
-
-
     # recipes.add_recipe("Philosophers' stone", 'Mercury', 'Gold')
     # recipes.add_recipe("Earth", "Fire", "Philosophers' stone")
     # purifier = Purifier(recipes)
