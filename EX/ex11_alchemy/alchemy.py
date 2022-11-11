@@ -7,10 +7,13 @@ class AlchemicalElement:
 
     Every element must have a name.
     """
+
     def __init__(self, name: str):
+        """Initialize the AlchemicalElement class."""
         self.name = name
 
     def __repr__(self):
+        """Representation of the AlchemicalElement class."""
         return f"<AE: {self.name}>"
 
 
@@ -207,7 +210,7 @@ class Cauldron(AlchemicalStorage):
         for recipe in self.recipes.recipe_book:
             for i in range(len(self.elements)):
                 if f"{self.elements[-i - 1].name} + {element.name}" in recipe or f"{element.name} + " \
-                                                                            f"{self.elements[-i - 1].name}" in recipe:
+                        f"{self.elements[-i - 1].name}" in recipe:
                     if type(element) is AlchemicalElement:
                         if type(self.elements[-i - 1]) is AlchemicalElement:
                             self.elements.pop(-i - 1)
@@ -218,15 +221,16 @@ class Cauldron(AlchemicalStorage):
                             super().add(AlchemicalElement(recipe.split("= ")[-1]))
                             return
                     else:
-                        super().add(element)
                         if type(self.elements[-i - 1]) is AlchemicalElement and element.uses > 0:
                             self.elements.pop(-i - 1)
                             element.uses -= 1
+                            super().add(element)
                             super().add(AlchemicalElement(recipe.split("= ")[-1]))
                             return
                         elif element.uses > 0 and self.elements[-i - 1].uses > 0:
                             element.uses -= 1
                             self.elements[-i - 1].uses -= 1
+                            super().add(element)
                             super().add(AlchemicalElement(recipe.split("= ")[-1]))
                             return
         else:
@@ -286,7 +290,7 @@ class Purifier(AlchemicalStorage):
 
         :param element: Input object to add to storage.
         """
-        if type(element) is AlchemicalElement:
+        if type(element) in [AlchemicalElement, Catalyst]:
             for recipe in self.recipes.recipe_book:
                 if element.name in recipe.split("= ")[-1]:
                     super().add(AlchemicalElement(self.recipes.get_component_names(recipe.split("= ")[-1])[0]))
