@@ -22,8 +22,7 @@ class Adventurer:
 
     def add_power(self, power: int):
         """Increase the power stat."""
-        if power > 0:
-            self.power += power
+        self.power += power
 
     def add_experience(self, exp: int):
         """Increase the experience stat. If experience is 100 or more, increase power instead."""
