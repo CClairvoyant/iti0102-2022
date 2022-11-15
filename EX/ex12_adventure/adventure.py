@@ -44,10 +44,14 @@ class Monster:
         """Class constructor."""
         self.type = type
         self.power = power
+        self.__name = name
+
+    @property
+    def name(self):
         if self.type == "Zombie":
-            self.name = "Undead " + name
+            return "Undead " + self.__name
         else:
-            self.name = name
+            return self.__name
 
     def __repr__(self):
         """Class representation."""
@@ -60,8 +64,11 @@ class World:
     def __init__(self, master):
         self.master = master
         self.adventurer_list = []
+        self.active_adventurer_list = []
         self.monster_list = []
+        self.active_monster_list = []
         self.graveyard = []
+        self.necromancers = False
 
     def get_python_master(self):
         """Return the python master."""
@@ -69,11 +76,11 @@ class World:
 
     def get_monster_list(self):
         """Return the monster list."""
-        return self.monster_list
+        return list(filter(lambda x: x not in self.active_monster_list, self.monster_list))
 
     def get_adventurer_list(self):
         """Return the adventurer list."""
-        return self.adventurer_list
+        return list(filter(lambda x: x not in self.active_adventurer_list, self.adventurer_list))
 
     def get_graveyard(self):
         """Return the graveyard list."""
@@ -88,6 +95,90 @@ class World:
         """Add monster to the list."""
         if type(monster) is Monster:
             self.monster_list.append(monster)
+
+    def remove_character(self, name: str):
+        adv_names_list = list(map(lambda x: x.name, self.adventurer_list))
+        mon_names_list = list(map(lambda x: x.name, self.monster_list))
+        grave_names_list = list(map(lambda x: x.name, self.graveyard))
+        if name in adv_names_list:
+            self.graveyard.append(self.adventurer_list.pop(adv_names_list.index(name)))
+        elif name in mon_names_list:
+            self.graveyard.append(self.monster_list.pop(mon_names_list.index(name)))
+        elif name in grave_names_list:
+            self.graveyard.pop(grave_names_list.index(name))
+
+    def necromancers_active(self, active: bool):
+        self.necromancers = active
+
+    def revive_graveyard(self):
+        if self.necromancers:
+            for dead in self.graveyard:
+                if type(dead) is Monster:
+                    dead.type = "Zombie"
+                    self.monster_list.append(dead)
+                elif type(dead) is Adventurer:
+                    self.monster_list.append(Monster("Undead " + dead.name, "Zombie " + dead.class_type, dead.power))
+            self.graveyard = []
+            self.necromancers = False
+
+    def get_active_adventurers(self):
+        return sorted(self.active_adventurer_list, key=lambda x: -x.experience)
+
+    def add_strongest_adventurer(self, class_type: str):
+        for adventurer in filter(lambda x: x.class_type == class_type, sorted(self.adventurer_list, key=lambda x: -x.power)):
+            if adventurer not in self.active_adventurer_list:
+                self.active_adventurer_list.append(adventurer)
+                return
+
+    def add_weakest_adventurer(self, class_type: str):
+        for adventurer in filter(lambda x: x.class_type == class_type, sorted(self.adventurer_list, key=lambda x: x.power)):
+            if adventurer not in self.active_adventurer_list:
+                self.active_adventurer_list.append(adventurer)
+                return
+
+    def add_most_experienced_adventurer(self, class_type: str):
+        for adventurer in filter(lambda x: x.class_type == class_type, sorted(self.adventurer_list, key=lambda x: -x.experience)):
+            if adventurer not in self.active_adventurer_list:
+                self.active_adventurer_list.append(adventurer)
+                return
+
+    def add_least_experienced_adventurer(self, class_type: str):
+        for adventurer in filter(lambda x: x.class_type == class_type, sorted(self.adventurer_list, key=lambda x: -x.experience)):
+            if adventurer not in self.active_adventurer_list:
+                self.active_adventurer_list.append(adventurer)
+                return
+
+    def add_adventurer_by_name(self, name: str):
+        for adventurer in filter(lambda x: x.name == name, self.adventurer_list):
+            if adventurer not in self.active_adventurer_list:
+                self.active_adventurer_list.append(adventurer)
+                return
+
+    def add_all_adventurers_of_class_type(self, class_type: str):
+        for adventurer in filter(lambda x: x.class_type == class_type, self.adventurer_list):
+            if adventurer not in self.active_adventurer_list:
+                self.active_adventurer_list.append(adventurer)
+
+    def add_all_adventurers(self):
+        self.active_adventurer_list += list(filter(lambda x: x not in self.active_adventurer_list, self.adventurer_list))
+
+    def get_active_monsters(self):
+        return sorted(self.active_monster_list, key=lambda x: -x.power)
+
+    def add_monster_by_name(self, name: str):
+        self.active_monster_list += list(filter(lambda x: x not in self.active_monster_list and x.name == name, self.monster_list))
+
+    def add_strongest_monster(self):
+        self.active_monster_list.append(sorted(list(filter(lambda x: x not in self.active_monster_list, self.monster_list)), key=lambda x: -x.power)[0])
+
+    def add_weakest_monster(self):
+        self.active_monster_list.append(sorted(list(filter(lambda x: x not in self.active_monster_list, self.monster_list)), key=lambda x: x.power)[0])
+
+    def add_all_monsters_of_type(self, type: str):
+        self.active_monster_list += list(filter(lambda x: x not in self.active_monster_list and x.type == type, self.monster_list))
+
+    def add_all_monsters(self):
+        self.active_monster_list += list(filter(lambda x: x not in self.active_monster_list, self.monster_list))
 
 
 if __name__ == "__main__":
@@ -108,7 +199,6 @@ if __name__ == "__main__":
     print(friend)  # -> "Peep, the Druid, Power: 25, Experience: 0."
     print(another_friend)  # -> "Toots, the Wizard, Power: 40, Experience: 0."
     print()
-
     print("Peep, sa tundud kuidagi nõrk, ma lisasin sulle natukene tugevust.")
     friend.add_power(20)
     print(friend)  # -> "Peep, the Druid, Power: 45, Experience: 0."
@@ -117,6 +207,7 @@ if __name__ == "__main__":
     world.add_adventurer(hero)
     world.add_adventurer(friend)
     world.add_adventurer(another_friend)
+    print(world.remove_character("Sander"))
     print(world.get_adventurer_list())  # -> Sander, Peep ja Toots
 
     world.add_monster(annoying_friend)
@@ -140,6 +231,7 @@ if __name__ == "__main__":
     print()
     print("Mängime esimese seikluse läbi!")
     world.add_strongest_adventurer("Druid")
+    print(world.active_adventurer_list)
     world.add_strongest_monster()
     print(world.get_active_adventurers())  # -> Peep
     print(world.get_active_monsters())  # -> [Goblin Spearman of type Goblin, Power: 10.]
