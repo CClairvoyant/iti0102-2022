@@ -125,16 +125,16 @@ class World:
         return sorted(self.active_adventurer_list, key=lambda x: -x.experience)
 
     def add_strongest_adventurer(self, class_type: str):
-        self.active_adventurer_list += list(filter(lambda x: x.class_type == class_type and x not in self.active_adventurer_list, sorted(self.adventurer_list, key=lambda x: -x.power)))[0]
+        self.active_adventurer_list.append(list(filter(lambda x: x.class_type == class_type and x not in self.active_adventurer_list, sorted(self.adventurer_list, key=lambda x: -x.power)))[0])
 
     def add_weakest_adventurer(self, class_type: str):
-        self.active_adventurer_list += list(filter(lambda x: x.class_type == class_type and x not in self.active_adventurer_list, sorted(self.adventurer_list, key=lambda x: x.power)))[0]
+        self.active_adventurer_list.append(list(filter(lambda x: x.class_type == class_type and x not in self.active_adventurer_list, sorted(self.adventurer_list, key=lambda x: x.power)))[0])
 
     def add_most_experienced_adventurer(self, class_type: str):
-        self.active_adventurer_list += list(filter(lambda x: x.class_type == class_type and x not in self.active_adventurer_list, sorted(self.adventurer_list, key=lambda x: -x.experience)))[0]
+        self.active_adventurer_list.append(list(filter(lambda x: x.class_type == class_type and x not in self.active_adventurer_list, sorted(self.adventurer_list, key=lambda x: -x.experience)))[0])
 
     def add_least_experienced_adventurer(self, class_type: str):
-        self.active_adventurer_list += list(filter(lambda x: x.class_type == class_type and x not in self.active_adventurer_list, sorted(self.adventurer_list, key=lambda x: x.experience)))[0]
+        self.active_adventurer_list.append(list(filter(lambda x: x.class_type == class_type and x not in self.active_adventurer_list, sorted(self.adventurer_list, key=lambda x: x.experience)))[0])
 
     def add_adventurer_by_name(self, name: str):
         self.active_adventurer_list += filter(lambda x: x.name == name and x not in self.active_adventurer_list, self.adventurer_list)
