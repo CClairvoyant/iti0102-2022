@@ -125,46 +125,31 @@ class World:
         return sorted(self.active_adventurer_list, key=lambda x: -x.experience)
 
     def add_strongest_adventurer(self, class_type: str):
-        for adventurer in filter(lambda x: x.class_type == class_type, sorted(self.adventurer_list, key=lambda x: -x.power)):
-            if adventurer not in self.active_adventurer_list:
-                self.active_adventurer_list.append(adventurer)
-                return
+        self.active_adventurer_list += list(filter(lambda x: x.class_type == class_type and x not in self.active_adventurer_list, sorted(self.adventurer_list, key=lambda x: -x.power)))[0]
 
     def add_weakest_adventurer(self, class_type: str):
-        for adventurer in filter(lambda x: x.class_type == class_type, sorted(self.adventurer_list, key=lambda x: x.power)):
-            if adventurer not in self.active_adventurer_list:
-                self.active_adventurer_list.append(adventurer)
-                return
+        self.active_adventurer_list += list(filter(lambda x: x.class_type == class_type and x not in self.active_adventurer_list, sorted(self.adventurer_list, key=lambda x: x.power)))[0]
 
     def add_most_experienced_adventurer(self, class_type: str):
-        for adventurer in filter(lambda x: x.class_type == class_type, sorted(self.adventurer_list, key=lambda x: -x.experience)):
-            if adventurer not in self.active_adventurer_list:
-                self.active_adventurer_list.append(adventurer)
-                return
+        self.active_adventurer_list += list(filter(lambda x: x.class_type == class_type and x not in self.active_adventurer_list, sorted(self.adventurer_list, key=lambda x: -x.experience)))[0]
 
     def add_least_experienced_adventurer(self, class_type: str):
-        for adventurer in filter(lambda x: x.class_type == class_type, sorted(self.adventurer_list, key=lambda x: x.experience)):
-            if adventurer not in self.active_adventurer_list:
-                self.active_adventurer_list.append(adventurer)
-                return
+        self.active_adventurer_list += list(filter(lambda x: x.class_type == class_type and x not in self.active_adventurer_list, sorted(self.adventurer_list, key=lambda x: x.experience)))[0]
 
     def add_adventurer_by_name(self, name: str):
-        for adventurer in filter(lambda x: x.name == name, self.adventurer_list):
-            if adventurer not in self.active_adventurer_list:
-                self.active_adventurer_list.append(adventurer)
-                return
+        self.active_adventurer_list += filter(lambda x: x.name == name and x not in self.active_adventurer_list, self.adventurer_list)
 
     def add_all_adventurers_of_class_type(self, class_type: str):
-        self.active_adventurer_list += list(filter(lambda x: x.class_type == class_type and x not in self.active_adventurer_list, self.adventurer_list))
+        self.active_adventurer_list += filter(lambda x: x.class_type == class_type and x not in self.active_adventurer_list, self.adventurer_list)
 
     def add_all_adventurers(self):
-        self.active_adventurer_list += list(filter(lambda x: x not in self.active_adventurer_list, self.adventurer_list))
+        self.active_adventurer_list += filter(lambda x: x not in self.active_adventurer_list, self.adventurer_list)
 
     def get_active_monsters(self):
         return sorted(self.active_monster_list, key=lambda x: -x.power)
 
     def add_monster_by_name(self, name: str):
-        self.active_monster_list += list(filter(lambda x: x not in self.active_monster_list and x.name == name, self.monster_list))
+        self.active_monster_list += filter(lambda x: x not in self.active_monster_list and x.name == name, self.monster_list)
 
     def add_strongest_monster(self):
         self.active_monster_list.append(sorted(list(filter(lambda x: x not in self.active_monster_list, self.monster_list)), key=lambda x: -x.power)[0])
@@ -173,10 +158,10 @@ class World:
         self.active_monster_list.append(sorted(list(filter(lambda x: x not in self.active_monster_list, self.monster_list)), key=lambda x: x.power)[0])
 
     def add_all_monsters_of_type(self, type: str):
-        self.active_monster_list += list(filter(lambda x: x not in self.active_monster_list and x.type == type, self.monster_list))
+        self.active_monster_list += filter(lambda x: x not in self.active_monster_list and x.type == type, self.monster_list)
 
     def add_all_monsters(self):
-        self.active_monster_list += list(filter(lambda x: x not in self.active_monster_list, self.monster_list))
+        self.active_monster_list += filter(lambda x: x not in self.active_monster_list, self.monster_list)
 
 
 if __name__ == "__main__":
