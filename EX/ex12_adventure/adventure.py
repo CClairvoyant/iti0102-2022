@@ -143,7 +143,7 @@ class World:
                 return
 
     def add_least_experienced_adventurer(self, class_type: str):
-        for adventurer in filter(lambda x: x.class_type == class_type, sorted(self.adventurer_list, key=lambda x: -x.experience)):
+        for adventurer in filter(lambda x: x.class_type == class_type, sorted(self.adventurer_list, key=lambda x: x.experience)):
             if adventurer not in self.active_adventurer_list:
                 self.active_adventurer_list.append(adventurer)
                 return
@@ -155,9 +155,7 @@ class World:
                 return
 
     def add_all_adventurers_of_class_type(self, class_type: str):
-        for adventurer in filter(lambda x: x.class_type == class_type, self.adventurer_list):
-            if adventurer not in self.active_adventurer_list:
-                self.active_adventurer_list.append(adventurer)
+        self.active_adventurer_list += list(filter(lambda x: x.class_type == class_type and x not in self.active_adventurer_list, self.adventurer_list))
 
     def add_all_adventurers(self):
         self.active_adventurer_list += list(filter(lambda x: x not in self.active_adventurer_list, self.adventurer_list))
