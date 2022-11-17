@@ -163,6 +163,41 @@ class World:
     def add_all_monsters(self):
         self.active_monster_list += filter(lambda x: x not in self.active_monster_list, self.monster_list)
 
+    def go_adventure(self, deadly: bool = False):
+        if list(filter(lambda x: x.class_type == "Druid", self.active_adventurer_list)):
+            self.active_monster_list = list(filter(lambda x: x.type not in ["Animal", "Ent"], self.active_monster_list))
+        if list(filter(lambda x: "Zombie" in x.type, self.active_monster_list)):
+            for paladin in list(filter(lambda x: x.class_type == "Paladin", self.active_adventurer_list)):
+                paladin.power = paladin.power * 2
+        gained_xp = sum(list(map(lambda x: x.power, self.active_monster_list))) // len(self.active_adventurer_list)
+        if sum(list(map(lambda x: x.power, self.active_adventurer_list))) > sum(list(map(lambda x: x.power, self.active_monster_list))):
+            if deadly:
+                for adventurer in self.active_adventurer_list:
+                    adventurer.experience += gained_xp * 2
+                self.active_adventurer_list.clear()
+                self.monster_list = list(filter(lambda x: x not in self.active_monster_list, self.monster_list))
+                self.graveyard += self.active_monster_list
+                self.active_monster_list.clear()
+            else:
+                for adventurer in self.active_adventurer_list:
+                    adventurer.experience += gained_xp
+                self.active_adventurer_list.clear()
+                self.active_monster_list.clear()
+        elif sum(list(map(lambda x: x.power, self.active_adventurer_list))) < sum(list(map(lambda x: x.power, self.active_monster_list))):
+            if deadly:
+                self.active_monster_list.clear()
+                self.adventurer_list = list(filter(lambda x: x not in self.active_adventurer_list, self.adventurer_list))
+                self.graveyard += self.active_adventurer_list
+                self.active_adventurer_list.clear()
+            else:
+                self.active_adventurer_list.clear()
+                self.active_monster_list.clear()
+        else:
+            for adventurer in self.active_adventurer_list:
+                adventurer.experience += gained_xp // 2
+            self.active_adventurer_list.clear()
+            self.active_monster_list.clear()
+
 
 if __name__ == "__main__":
     print("Kord oli maailm.")
