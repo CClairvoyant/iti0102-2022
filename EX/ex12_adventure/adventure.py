@@ -171,6 +171,8 @@ class World:
                 paladin.power = paladin.power * 2
         gained_xp = sum(list(map(lambda x: x.power, self.active_monster_list))) // len(self.active_adventurer_list)
         if sum(list(map(lambda x: x.power, self.active_adventurer_list))) > sum(list(map(lambda x: x.power, self.active_monster_list))):
+            for paladin in list(filter(lambda x: x.class_type == "Paladin", self.active_adventurer_list)):
+                paladin.power = paladin.power // 2
             if deadly:
                 for adventurer in self.active_adventurer_list:
                     adventurer.add_experience(gained_xp * 2)
@@ -184,6 +186,8 @@ class World:
                 self.active_adventurer_list.clear()
                 self.active_monster_list.clear()
         elif sum(list(map(lambda x: x.power, self.active_adventurer_list))) < sum(list(map(lambda x: x.power, self.active_monster_list))):
+            for paladin in list(filter(lambda x: x.class_type == "Paladin", self.active_adventurer_list)):
+                paladin.power = paladin.power // 2
             if deadly:
                 self.active_monster_list.clear()
                 self.adventurer_list = list(filter(lambda x: x not in self.active_adventurer_list, self.adventurer_list))
@@ -193,6 +197,8 @@ class World:
                 self.active_adventurer_list.clear()
                 self.active_monster_list.clear()
         else:
+            for paladin in list(filter(lambda x: x.class_type == "Paladin", self.active_adventurer_list)):
+                paladin.power = paladin.power // 2
             for adventurer in self.active_adventurer_list:
                 adventurer.add_experience(gained_xp // 2)
             self.active_adventurer_list.clear()
@@ -249,10 +255,13 @@ if __name__ == "__main__":
     print()
     print("Mängime esimese seikluse läbi!")
     world.add_strongest_adventurer("Druid")
+    world.add_adventurer_by_name("Toots")
     print(world.active_adventurer_list)
     world.add_strongest_monster()
     print(world.get_active_adventurers())  # -> Peep
     print(world.get_active_monsters())  # -> [Goblin Spearman of type Goblin, Power: 10.]
+    print()
+    print(world.get_graveyard())
     print()
 
     world.go_adventure(True)
