@@ -173,14 +173,14 @@ class World:
         if sum(list(map(lambda x: x.power, self.active_adventurer_list))) > sum(list(map(lambda x: x.power, self.active_monster_list))):
             if deadly:
                 for adventurer in self.active_adventurer_list:
-                    adventurer.experience += gained_xp * 2
+                    Adventurer.add_experience(adventurer, gained_xp * 2)
                 self.active_adventurer_list.clear()
                 self.monster_list = list(filter(lambda x: x not in self.active_monster_list, self.monster_list))
                 self.graveyard += self.active_monster_list
                 self.active_monster_list.clear()
             else:
                 for adventurer in self.active_adventurer_list:
-                    adventurer.experience += gained_xp
+                    Adventurer.add_experience(adventurer, gained_xp)
                 self.active_adventurer_list.clear()
                 self.active_monster_list.clear()
         elif sum(list(map(lambda x: x.power, self.active_adventurer_list))) < sum(list(map(lambda x: x.power, self.active_monster_list))):
@@ -194,7 +194,7 @@ class World:
                 self.active_monster_list.clear()
         else:
             for adventurer in self.active_adventurer_list:
-                adventurer.experience += gained_xp // 2
+                Adventurer.add_experience(adventurer, gained_xp // 2)
             self.active_adventurer_list.clear()
             self.active_monster_list.clear()
 
