@@ -190,7 +190,7 @@ def create_student(name: str, grades: list, credit_points: int) -> Student:
     Round the average grade up to three decimal places.
     If the list of grades is empty, the average grade will be 0.
     """
-    pass
+    return Student(name, round(sum(grades) / (len(grades) + 0.0000000001), 3), credit_points)
 
 
 def get_top_student_with_credit_points(students: list, min_credit_points: int):
@@ -200,7 +200,11 @@ def get_top_student_with_credit_points(students: list, min_credit_points: int):
     If there are no students with enough credit points, return None.
     If several students have the same average score, return the first.
     """
-    pass
+    enough_points_students = list(filter(lambda x: x.credit_points >= min_credit_points, students))
+    if enough_points_students:
+        return max(enough_points_students, key=lambda x: x.average_grade)
+    else:
+        return None
 
 
 def add_result_to_student(student: Student, grades_count: int, new_grade: int, credit_points) -> Student:
@@ -235,7 +239,9 @@ def add_result_to_student(student: Student, grades_count: int, new_grade: int, c
 
     Return the modified student object.
     """
-    pass
+    student.credit_points += credit_points
+    student.average_grade = round((student.average_grade * grades_count + new_grade) / (grades_count + 1), 3)
+    return student
 
 
 def get_ordered_students(students: list) -> list:
@@ -244,7 +250,7 @@ def get_ordered_students(students: list) -> list:
 
     credit points (higher first), average_grade (higher first), name (a to z).
     """
-    pass
+    return sorted(students, key=lambda x: (-x.credit_points, -x.average_grade, x.name))
 
 
 class Room:
