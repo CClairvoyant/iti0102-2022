@@ -161,8 +161,7 @@ def longest_substring(text: str) -> str:
                         temp = temp[:-1]
                     if len(temp) > len(longest):
                         return temp
-                    else:
-                        return longest
+                    return longest
                 temp += text[index]
                 index += 1
             if temp[-1].lower() in temp[:-1].lower():
@@ -171,8 +170,7 @@ def longest_substring(text: str) -> str:
                 longest = temp
             text = text[1:]
         return longest
-    else:
-        return text
+    return text
 
 
 class Student:
