@@ -148,9 +148,14 @@ def longest_substring(text: str) -> str:
         while text:
             temp = text[0:2]
             index = 2
+            if index == len(text):
+                if temp[-1].lower() in temp[:-1].lower():
+                    temp = temp[:-1]
+                if len(temp) > len(longest):
+                    return temp
+                else:
+                    return longest
             while temp[-1].lower() not in temp[:-1].lower():
-                temp += text[index]
-                index += 1
                 if index == len(text):
                     if temp[-1].lower() in temp[:-1].lower():
                         temp = temp[:-1]
@@ -158,13 +163,13 @@ def longest_substring(text: str) -> str:
                         return temp
                     else:
                         return longest
+                temp += text[index]
+                index += 1
             if temp[-1].lower() in temp[:-1].lower():
                 temp = temp[:-1]
             if len(temp) > len(longest):
                 longest = temp
             text = text[1:]
-            if index - 1 == len(text):
-                break
         return longest
     else:
         return text
@@ -365,6 +370,7 @@ if __name__ == '__main__':
     print(longest_substring("abBcd"))  # => Bcd
     print(longest_substring(
         "xY`w`bCJ.}Nm~S8_2X;FW)"))  # => ''
+    print(longest_substring("$ir6,D&<I2nwzw\+PT0xQSHY:3<TQJjp)G;-q]j,yV=Wg'ojr51`/$k*$]y\"Ysr`!mxY`w`bCJ.}Nm~S8_2X;FW)"))
 
     hotel = Hotel()
     room1 = Room(1, 100)
