@@ -99,7 +99,7 @@ def tic_tac_toe(game: list) -> int:
         return 0
 
 
-def rainbows(field: str, lower=False) -> int:
+def rainbows(field: str) -> int:
     """
     Count rainbows.
 
@@ -114,7 +114,13 @@ def rainbows(field: str, lower=False) -> int:
     :param field: string to search rainbows from
     :return: number of rainbows in the string
     """
-    pass
+    field = field.lower()
+    if not field:
+        return 0
+    elif field[:7] in ["rainbow", "wobniar"]:
+        return 1 + rainbows(field[7:])
+    else:
+        return rainbows(field[1:])
 
 
 def longest_substring(text: str) -> str:
