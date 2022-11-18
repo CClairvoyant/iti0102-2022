@@ -48,6 +48,7 @@ class Monster:
 
     @property
     def name(self):
+        """Name property."""
         if self.type == "Zombie":
             return "Undead " + self.__name
         else:
@@ -235,4 +236,3 @@ class World:
                 adventurer.add_experience(gained_xp)
             self.active_adventurer_list.clear()
             self.active_monster_list.clear()
-

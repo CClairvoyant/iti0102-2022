@@ -1,3 +1,6 @@
+"""Tests if adventure.py game works correctly."""
+
+
 import adventure as a
 
 
