@@ -150,6 +150,8 @@ def longest_substring(text: str) -> str:
                 temp += text[index]
                 index += 1
                 if index == len(text):
+                    if temp[-1].lower() in temp[:-1].lower():
+                        temp = temp[:-1]
                     if len(temp) > len(longest):
                         return temp
                     else:
@@ -163,8 +165,6 @@ def longest_substring(text: str) -> str:
         return longest
     else:
         return text
-
-
 
 
 class Student:
@@ -360,7 +360,7 @@ if __name__ == '__main__':
     print(longest_substring("abccba"))  # => abc
     print(longest_substring("babcdEFghij"))  # => abcdEFghij
     print(longest_substring("abBcd"))  # => Bcd
-    print(longest_substring(""))  # => ''
+    print(longest_substring("JEILjCPXcsCxWtCWsMGlMLeZasyl"))  # => ''
 
     hotel = Hotel()
     room1 = Room(1, 100)
