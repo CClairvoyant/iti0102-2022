@@ -141,7 +141,30 @@ def longest_substring(text: str) -> str:
     abBcd => Bcd
     '' -> ''
     """
-    pass
+    longest = ""
+    if len(text) > 1:
+        while text:
+            temp = text[0:2]
+            index = 2
+            while temp[-1].lower() not in temp[:-1].lower():
+                temp += text[index]
+                index += 1
+                if index == len(text):
+                    if len(temp) > len(longest):
+                        return temp
+                    else:
+                        return longest
+            temp = temp[:-1]
+            if len(temp) > len(longest):
+                longest = temp
+            text = text[1:]
+            if index == len(text):
+                break
+        return longest
+    else:
+        return text
+
+
 
 
 class Student:
@@ -330,6 +353,14 @@ if __name__ == '__main__':
     print(tic_tac_toe([[1, 2, 1], [2, 1, 2], [2, 2, 1]]))  # => 1
     print(tic_tac_toe([[1, 0, 1], [2, 1, 2], [2, 2, 0]]))  # => 0
     print(tic_tac_toe([[2, 2, 2], [0, 2, 0], [0, 1, 0]]))  # => 2
+    print()
+
+    print(longest_substring("aaa"))  # => a
+    print(longest_substring("abc"))  # => abc
+    print(longest_substring("abccba"))  # => abc
+    print(longest_substring("babcdEFghij"))  # => abcdEFghij
+    print(longest_substring("abBcd"))  # => Bcd
+    print(longest_substring(""))  # => ''
 
     hotel = Hotel()
     room1 = Room(1, 100)
