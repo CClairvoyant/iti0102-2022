@@ -36,7 +36,9 @@ def close_far(a: int, b: int, c: int) -> bool:
     close_far(1, 2, 3) => False
     close_far(4, 1, 3) => True
     """
-    return -2 < a - b < 2 and c - a not in range(-1, 2) and c - b not in range(-1, 2) or -2 < a - c < 2 and b - a not in range(-1, 2) and b - c not in range(-1, 2)
+    return -2 < a - b < 2 and c - a not in range(-1, 2) and c - b not in range(-1,
+                                                                               2) or -2 < a - c < 2 and b - a not in range(
+        -1, 2) and b - c not in range(-1, 2)
 
 
 def get_names_from_results(results_string: str, min_result: int) -> list:
@@ -156,11 +158,12 @@ def longest_substring(text: str) -> str:
                         return temp
                     else:
                         return longest
-            temp = temp[:-1]
+            if temp[-1].lower() in temp[:-1].lower():
+                temp = temp[:-1]
             if len(temp) > len(longest):
                 longest = temp
             text = text[1:]
-            if index == len(text):
+            if index - 1 == len(text):
                 break
         return longest
     else:
@@ -360,7 +363,8 @@ if __name__ == '__main__':
     print(longest_substring("abccba"))  # => abc
     print(longest_substring("babcdEFghij"))  # => abcdEFghij
     print(longest_substring("abBcd"))  # => Bcd
-    print(longest_substring("JEILjCPXcsCxWtCWsMGlMLeZasyl"))  # => ''
+    print(longest_substring(
+        "xY`w`bCJ.}Nm~S8_2X;FW)"))  # => ''
 
     hotel = Hotel()
     room1 = Room(1, 100)
