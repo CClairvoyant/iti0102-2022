@@ -34,7 +34,7 @@ def middle_chars(s: str) -> str:
     middle_chars("aabbcc") => "bb"
     middle_chars("") => ""
     """
-    return s[len(s) // 2 - 1] + s[len(s) // 2]
+    return s[len(s) // 2 - 1] + s[len(s) // 2] if s else ""
 
 
 def index_index_value(nums: list) -> int:
@@ -64,7 +64,7 @@ def index_index_value(nums: list) -> int:
     elif nums[nums[-1]] >= len(nums):
         return -2
     else:
-        return nums[nums[-1]]
+        return nums[nums[nums[-1]]]
 
 
 def count_clumps(nums: list) -> int:
@@ -82,18 +82,22 @@ def count_clumps(nums: list) -> int:
     :return: Number of clumps.
     """
     clumps = 0
-    other_list = nums[0:2]
-    if other_list[0] == other_list[-1]:
-        clumps += 1
-    for num in nums[2:]:
-        if num == other_list[-1]:
-            if num == other_list[-2]:
-                continue
-            else:
-                clumps += 1
-        other_list.append(num)
+    if len(nums) > 1:
+        other_list = nums[0:2]
+        if other_list[0] == other_list[-1]:
+            clumps += 1
+        for num in nums[2:]:
+            if num == other_list[-1]:
+                if num == other_list[-2]:
+                    continue
+                else:
+                    clumps += 1
+            other_list.append(num)
     return clumps
 
 
 if __name__ == '__main__':
-    print(count_clumps([1, 2, 3]))
+    print(index_index_value([0]))  # => 0
+    print(index_index_value([0, 2, 4, 1]))  # => 4
+    print(index_index_value([0, 2, 6, 2]))  # => -2
+    print(index_index_value([0, 2, 4, 5]))  # => -1
