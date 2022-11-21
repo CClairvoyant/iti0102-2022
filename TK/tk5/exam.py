@@ -112,7 +112,8 @@ def word_numeration(words: list) -> list:
     :param words: A list of strings.
     :return: List of string with numeration.
     """
-    new_list = []
-    for word in words:
-        new_list.append(f"{word}#{list(map(lambda x: x.lower()[:-2], new_list)).count(word.lower()) + 1}")
-    return new_list
+    return words
+    # new_list = []
+    # for word in words:
+    #     new_list.append(f"{word}#{list(map(lambda x: x.lower()[:-2], new_list)).count(word.lower()) + 1}")
+    # return new_list
