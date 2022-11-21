@@ -89,7 +89,7 @@ def min_diff(nums):
     elif diff2 is None:
         return abs(diff1)
     else:
-        return min(diff1, diff2)
+        return min(abs(diff1), abs(diff2))
 
 
 def word_numeration(words: list) -> list:
