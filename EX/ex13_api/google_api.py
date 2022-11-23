@@ -3,18 +3,19 @@
 
 from __future__ import print_function
 
-import os.path
+import os
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
+import google_auth_oauthlib.flow
+import googleapiclient.discovery
+import googleapiclient.errors
 
 
 def get_links_from_spreadsheet(id: str, token: str) -> list:
     """
     Return a list of strings from the first column of a Google Spreadsheet with the given ID.
+
     Example input with https://docs.google.com/spreadsheets/d/1WrCzu4p5lFwPljqZ6tMQEJb2vSJQSGjyMsqcYt-yS4M
         get_links_from_spreadsheet('1WrCzu4p5lFwPljqZ6tMQEJb2vSJQSGjyMsqcYt-yS4M', 'token.json')
 
@@ -35,7 +36,7 @@ def get_links_from_spreadsheet(id: str, token: str) -> list:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(
+            flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
                 'credentials.json', scopes)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
@@ -43,7 +44,7 @@ def get_links_from_spreadsheet(id: str, token: str) -> list:
             token.write(creds.to_json())
 
     try:
-        service = build('sheets', 'v4', credentials=creds)
+        service = googleapiclient.discovery.build('sheets', 'v4', credentials=creds)
 
         # Call the Sheets API
         sheet = service.spreadsheets()
@@ -59,9 +60,47 @@ def get_links_from_spreadsheet(id: str, token: str) -> list:
             list_of_links.append("".join(row))
         return list_of_links
 
-    except HttpError as err:
+    except googleapiclient.errors.HttpError as err:
         print(err)
 
 
+def get_links_from_playlist(link: str, developer_key: str) -> list:
+    """
+    Return a list of links to songs in the Youtube playlist with the given address.
+    Example input
+        get_links_from_playlist('https://www.youtube.com/playlist?list=PLFt_AvWsXl0ehjAfLFsp1PGaatzAwo0uK',
+                                'ThisIsNotARealKey_____ThisIsNotARealKey')
+
+    Returns
+        ['https://youtube.com/watch?v=r_It_X7v-1E', 'https://youtube.com/watch?v=U4ogK0MIzqk', ... and so on]
+    """
+    # Disable OAuthlib's HTTPS verification when running locally.
+    # *DO NOT* leave this option enabled in production.
+    os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
+
+    video_links = []
+
+    api_service_name = "youtube"
+    api_version = "v3"
+
+    youtube = googleapiclient.discovery.build(
+        api_service_name, api_version, developerKey=developer_key)
+
+    request = youtube.playlistItems().list(
+        part="contentDetails",
+        playlistId=link.split("=")[-1],
+        maxResults=50
+    )
+    response = request.execute()
+
+    for i in range(len(response["items"])):
+        video_links.append("https://www.youtube.com/watch?v=" + response["items"][i]["contentDetails"]["videoId"])
+
+    return video_links
+
+
 if __name__ == '__main__':
-    print(get_links_from_spreadsheet('1WrCzu4p5lFwPljqZ6tMQEJb2vSJQSGjyMsqcYt-yS4M', 'token.json'))
+    with open("developer_key.txt", "r") as file:
+        developer_key = file.read()
+    print(get_links_from_playlist("https://www.youtube.com/playlist?list=PLFt_AvWsXl0ehjAfLFsp1PGaatzAwo0uK", developer_key))
+    # print(get_links_from_spreadsheet('1WrCzu4p5lFwPljqZ6tMQEJb2vSJQSGjyMsqcYt-yS4M', 'token.json'))
