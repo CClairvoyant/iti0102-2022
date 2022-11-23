@@ -7,7 +7,9 @@ import os
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
-import google_auth_oauthlib.flow
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 import googleapiclient.discovery
 import googleapiclient.errors
 
@@ -36,7 +38,7 @@ def get_links_from_spreadsheet(id: str, token: str) -> list:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
+            flow = InstalledAppFlow.from_client_secrets_file(
                 'credentials.json', scopes)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
@@ -44,7 +46,7 @@ def get_links_from_spreadsheet(id: str, token: str) -> list:
             token.write(creds.to_json())
 
     try:
-        service = googleapiclient.discovery.build('sheets', 'v4', credentials=creds)
+        service = build('sheets', 'v4', credentials=creds)
 
         # Call the Sheets API
         sheet = service.spreadsheets()
@@ -60,7 +62,7 @@ def get_links_from_spreadsheet(id: str, token: str) -> list:
             list_of_links.append("".join(row))
         return list_of_links
 
-    except googleapiclient.errors.HttpError as err:
+    except HttpError as err:
         print(err)
 
 
@@ -92,9 +94,21 @@ def get_links_from_playlist(link: str, developer_key: str) -> list:
         maxResults=50
     )
     response = request.execute()
+    print(response)
 
     for i in range(len(response["items"])):
         video_links.append("https://www.youtube.com/watch?v=" + response["items"][i]["contentDetails"]["videoId"])
+
+    while "nextPageToken" in response:
+        request = youtube.playlistItems().list(
+            part="contentDetails",
+            playlistId=link.split("=")[-1],
+            maxResults=50,
+            pageToken=response["nextPageToken"]
+        )
+        response = request.execute()
+        for i in range(len(response["items"])):
+            video_links.append("https://www.youtube.com/watch?v=" + response["items"][i]["contentDetails"]["videoId"])
 
     return video_links
 
