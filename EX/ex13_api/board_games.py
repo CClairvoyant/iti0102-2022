@@ -71,8 +71,8 @@ class Statistics:
     def get_game_names(self) -> list[str]:
         """Return game names."""
         game_names = set()
-        for row in self.rows:
-            game_names.add(row.split(";")[0])
+        for match in self.matches:
+            game_names.add(match.game)
         return list(game_names)
 
     def get_games_played_amount(self) -> int:
