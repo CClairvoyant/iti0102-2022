@@ -21,7 +21,7 @@ class Statistics:
 
         def func(name: str):
             """Find a player object by name."""
-            return list(filter(lambda x: x.name == name, players))[0]
+            return list(filter(lambda x: x.name == name, players))[0] if list(filter(lambda x: x.name == name, players))[0] else None
 
         players = list(map(lambda x: Player(x, 0, 0, []), self.get_player_names()))
         for match in self.matches:
