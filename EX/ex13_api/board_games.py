@@ -173,8 +173,8 @@ class Statistics:
         matches = self.__get_matches(game_name)
         for match in matches:
             for score in match.result:
-                if int(score) > highest_score:
-                    highest_score = int(score)
+                if score > highest_score:
+                    highest_score = score
                     record_holder = match.players[match.result.index(score)]
         return record_holder
 
@@ -187,7 +187,10 @@ class Match:
         self.game = game
         self.players = players
         self.result_type = result_type
-        self.result = result
+        if result_type == "points":
+            self.result = list(map(int, result))
+        else:
+            self.result = result
 
     def __repr__(self):
         """Class representation."""
@@ -211,14 +214,15 @@ class Player:
 
 if __name__ == '__main__':
     stat = Statistics("game_results.txt")
-    print(
-        stat.get_player_names())  # ['ago', 'jan', 'jaak', 'mati', 'mart', 'ekke', 'gregor', 'kati', 'riho', 'kristjan', 'hans', 'joosep']
-    print(stat.get_game_names())  # ['7 wonders', 'terraforming mars', 'chess', 'game of thrones']
-    print(stat.get_games_played_amount())  # 5
-    print(stat.get_games_played_of_type("places"))  # 1
-    print(stat.get_games_amount_played_by("joosep"))  # 4
-    print(stat.get_favourite_game("joosep"))  # terraforming mars
-    print(stat.get_games_played_of_name("terraforming mars"))  # 2
-    print(stat.get_most_frequent_winner("terraforming mars"))
-    print(stat.get_record_holder("terraforming mars"))
-    print(stat.get_most_frequent_loser("terraforming mars"))
+    # print(
+    #     stat.get_player_names())  # ['ago', 'jan', 'jaak', 'mati', 'mart', 'ekke', 'gregor', 'kati', 'riho', 'kristjan', 'hans', 'joosep']
+    # print(stat.get_game_names())  # ['7 wonders', 'terraforming mars', 'chess', 'game of thrones']
+    # print(stat.get_games_played_amount())  # 5
+    # print(stat.get_games_played_of_type("places"))  # 1
+    # print(stat.get_games_amount_played_by("joosep"))  # 4
+    # print(stat.get_favourite_game("joosep"))  # terraforming mars
+    # print(stat.get_games_played_of_name("terraforming mars"))  # 2
+    # print(stat.get_most_frequent_winner("terraforming mars"))
+    # print(stat.get_record_holder("terraforming mars"))
+    # print(stat.get_most_frequent_loser("terraforming mars"))
+    print(stat.get_amount_of_games_won("joosep"))
