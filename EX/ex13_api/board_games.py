@@ -28,8 +28,8 @@ class Statistics:
             if match.result_type == "winner":
                 func(match.result[0]).wins += 1
             elif match.result_type == "places":
-                func(match.players[0]).wins += 1
-                func(match.players[-1]).losses += 1
+                func(match.result[0]).wins += 1
+                func(match.result[-1]).losses += 1
             elif match.result_type == "points":
                 max_position = match.result.index(max(match.result))
                 winner = match.players[max_position]
@@ -214,15 +214,15 @@ class Player:
 
 if __name__ == '__main__':
     stat = Statistics("game_results.txt")
-    print(
-        stat.get_player_names())  # ['ago', 'jan', 'jaak', 'mati', 'mart', 'ekke', 'gregor', 'kati', 'riho', 'kristjan', 'hans', 'joosep']
-    print(stat.get_game_names())  # ['7 wonders', 'terraforming mars', 'chess', 'game of thrones']
-    print(stat.get_games_played_amount())  # 5
-    print(stat.get_games_played_of_type("places"))  # 1
-    print(stat.get_games_amount_played_by("joosep"))  # 4
-    print(stat.get_favourite_game("joosep"))  # terraforming mars
-    print(stat.get_games_played_of_name("terraforming mars"))  # 2
-    print(stat.get_most_frequent_winner("terraforming mars"))
-    print(stat.get_record_holder("terraforming mars"))
-    print(stat.get_most_frequent_loser("terraforming mars"))
+    # print(
+    #     stat.get_player_names())  # ['ago', 'jan', 'jaak', 'mati', 'mart', 'ekke', 'gregor', 'kati', 'riho', 'kristjan', 'hans', 'joosep']
+    # print(stat.get_game_names())  # ['7 wonders', 'terraforming mars', 'chess', 'game of thrones']
+    # print(stat.get_games_played_amount())  # 5
+    # print(stat.get_games_played_of_type("places"))  # 1
+    # print(stat.get_games_amount_played_by("joosep"))  # 4
+    # print(stat.get_favourite_game("joosep"))  # terraforming mars
+    # print(stat.get_games_played_of_name("terraforming mars"))  # 2
+    # print(stat.get_most_frequent_winner("terraforming mars"))
+    # print(stat.get_record_holder("terraforming mars"))
+    # print(stat.get_most_frequent_loser("terraforming mars"))
     print(stat.get_amount_of_games_won("joosep"))
