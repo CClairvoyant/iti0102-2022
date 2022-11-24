@@ -21,7 +21,7 @@ class Statistics:
 
         def func(name: str):
             """Find a player object by name."""
-            return list(filter(lambda x: x.name == name, players))[0] if list(filter(lambda x: x.name == name, players))[0] else None
+            return list(filter(lambda x: x.name == name, players))[0]
 
         players = list(map(lambda x: Player(x, 0, 0, []), self.get_player_names()))
         for match in self.matches:
@@ -46,8 +46,9 @@ class Statistics:
         """Return list of matches."""
         matches = []
         for row in self.rows:
-            data = row.split(";")
-            matches.append(Match(data[0], data[1].split(","), data[2], data[3].split(",")))
+            if ";" in row:
+                data = row.split(";")
+                matches.append(Match(data[0], data[1].split(","), data[2], data[3].split(",")))
         return matches
 
     def __get_person_with_name(self, name: str):
@@ -62,9 +63,9 @@ class Statistics:
     def get_player_names(self) -> list[str]:
         """Return player names."""
         player_names = set()
-        for row in self.rows:
-            for name in row.split(";")[1].split(","):
-                player_names.add(name)
+        for match in self.matches:
+            for player in match.players:
+                player_names.add(player)
         return list(player_names)
 
     def get_game_names(self) -> list[str]:
@@ -76,11 +77,11 @@ class Statistics:
 
     def get_games_played_amount(self) -> int:
         """Return the amount of matches played by players."""
-        return len(self.rows)
+        return len(self.matches)
 
     def get_games_played_of_type(self, result_type: str) -> int:
         """Return the amount of matches played of result type (points, places, winner)."""
-        return len(list(filter(lambda x: x.split(";")[2] == result_type, self.rows)))
+        return len(list(filter(lambda x: x.result_type == result_type, self.matches)))
 
     def get_games_amount_played_by(self, player_name: str) -> int:
         """Return amount of matches played by a certain player."""
