@@ -117,9 +117,9 @@ class Statistics:
         matches = self.__get_matches(game_name)
         if matches[0].result_type == "points":
             for match in matches:
-                winner = match.players[match.result.index(max(match.result))]
+                winner = match.players[match.result.index(max(match.result, key=int))]
                 wins[winner] = wins.get(winner, 0) + 1
-                loser = match.players[match.result.index(min(match.result))]
+                loser = match.players[match.result.index(min(match.result, key=int))]
                 losses[loser] = losses.get(loser, 0) + 1
         elif matches[0].result_type in ["places", "winner"]:
             for match in matches:
@@ -221,3 +221,4 @@ if __name__ == '__main__':
     print(stat.get_games_played_of_name("terraforming mars"))  # 2
     print(stat.get_most_frequent_winner("terraforming mars"))
     print(stat.get_record_holder("terraforming mars"))
+    print(stat.get_most_frequent_loser("terraforming mars"))
