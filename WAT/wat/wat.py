@@ -35,7 +35,7 @@ def function_g(num: int):
 
 class Foo:
 
-    def __eq__(self):
+    def __eq__(self, num):
         return True
 
 
