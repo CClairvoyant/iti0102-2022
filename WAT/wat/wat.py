@@ -17,7 +17,7 @@ def function_c(num):
 
 
 def function_d(num):
-    return num * 577_590
+    return num * 139_650
 
 
 def function_e(num):
@@ -33,7 +33,7 @@ def function_g(num: int):
 
 
 def function_h(num):
-    return test_h()
+    return num
 
 
 if __name__ == '__main__':
