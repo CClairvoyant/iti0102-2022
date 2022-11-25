@@ -34,7 +34,7 @@ def only_one_pair(numbers: list) -> bool:
     nums_count = []
     for num in set(numbers):
         nums_count.append(numbers.count(num))
-    return nums_count.count(2) == 1 and set(nums_count) == {1, 2}
+    return nums_count.count(2) == 1 and set(nums_count) in [{1, 2}, {2}]
 
 
 def pentabonacci(n: int) -> int:
