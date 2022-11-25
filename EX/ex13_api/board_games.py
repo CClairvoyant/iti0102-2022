@@ -212,6 +212,19 @@ class Player:
         return self.name
 
 
+class Controller:
+    """Controller class."""
+
+    def __init__(self, statistics):
+        """Class constructor."""
+        self.statistics = statistics
+
+    def get(self, path: str):
+        """Command."""
+        if path == "/players":
+            return self.statistics.get_player_names()
+
+
 if __name__ == '__main__':
     stat = Statistics("game_results.txt")
     # print(
