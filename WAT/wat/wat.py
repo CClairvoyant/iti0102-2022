@@ -1,4 +1,4 @@
-"""Wat???"""
+"""Wat."""
 
 
 def function_a(num):
