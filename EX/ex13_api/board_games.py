@@ -221,21 +221,56 @@ class Controller:
 
     def get(self, path: str):
         """Command."""
+        commands = path.split("/")
         if path == "/players":
             return self.statistics.get_player_names()
+        elif path == "/games":
+            return self.statistics.get_game_names()
+        elif path == "/total":
+            return len(self.statistics.matches)
+        elif commands[1] == "total":
+            return len(list(filter(lambda x: x.result_type == commands[2], self.statistics.matches)))
+        elif commands[1] == "player":
+            if commands[3] == "amount":
+                return self.statistics.get_games_amount_played_by(commands[2])
+            if commands[3] == "favourite":
+                return self.statistics.get_favourite_game(commands[2])
+            if commands[3] == "won":
+                return self.statistics.get_amount_of_games_won(commands[2])
+        elif commands[1] == "game":
+            return self.__game_commands(commands)
+
+    def __game_commands(self, commands):
+        """Deal with commands about a game."""
+        if commands[3] == "amount":
+            return self.statistics.get_games_played_of_name(commands[2])
+        elif commands[3] == "player-amount":
+            return self.statistics.get_amount_of_players_most_often_played_with(commands[2])
+        elif commands[3] == "most-wins":
+            return self.statistics.get_player_with_most_amount_of_wins(commands[2])
+        elif commands[3] == "most-frequent-winner":
+            return self.statistics.get_most_frequent_winner(commands[2])
+        elif commands[3] == "most-losses":
+            return self.statistics.get_player_with_most_amount_of_losses(commands[2])
+        elif commands[3] == "most-frequent-loser":
+            return self.statistics.get_most_frequent_loser(commands[2])
+        elif commands[3] == "record-holder":
+            return self.statistics.get_record_holder(commands[2])
 
 
 if __name__ == '__main__':
     stat = Statistics("game_results.txt")
-    # print(
-    #     stat.get_player_names())  # ['ago', 'jan', 'jaak', 'mati', 'mart', 'ekke', 'gregor', 'kati', 'riho', 'kristjan', 'hans', 'joosep']
-    # print(stat.get_game_names())  # ['7 wonders', 'terraforming mars', 'chess', 'game of thrones']
-    # print(stat.get_games_played_amount())  # 5
-    # print(stat.get_games_played_of_type("places"))  # 1
-    # print(stat.get_games_amount_played_by("joosep"))  # 4
-    # print(stat.get_favourite_game("joosep"))  # terraforming mars
-    # print(stat.get_games_played_of_name("terraforming mars"))  # 2
-    # print(stat.get_most_frequent_winner("terraforming mars"))
-    # print(stat.get_record_holder("terraforming mars"))
-    # print(stat.get_most_frequent_loser("terraforming mars"))
+    print(
+        stat.get_player_names())  # ['ago', 'jan', 'jaak', 'mati', 'mart', 'ekke', 'gregor', 'kati', 'riho', 'kristjan', 'hans', 'joosep']
+    print(stat.get_game_names())  # ['7 wonders', 'terraforming mars', 'chess', 'game of thrones']
+    print(stat.get_games_played_amount())  # 5
+    print(stat.get_games_played_of_type("places"))  # 1
+    print(stat.get_games_amount_played_by("joosep"))  # 4
+    print(stat.get_favourite_game("joosep"))  # terraforming mars
+    print(stat.get_games_played_of_name("terraforming mars"))  # 2
+    print(stat.get_most_frequent_winner("terraforming mars"))
+    print(stat.get_record_holder("terraforming mars"))
+    print(stat.get_most_frequent_loser("terraforming mars"))
     print(stat.get_amount_of_games_won("joosep"))
+    con = Controller(stat)
+    print(con.get("/game/terraforming mars/record-holder"))
