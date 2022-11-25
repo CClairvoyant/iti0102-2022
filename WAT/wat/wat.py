@@ -1,8 +1,11 @@
 """Wat???"""
 
 
+import math
+
+
 def function_a(num):
-    return num / num * 4
+    return num // num * 4
 
 
 def function_b(num):
@@ -10,7 +13,7 @@ def function_b(num):
 
 
 def function_c(num):
-    return num / num
+    return num // num
 
 
 def function_d(num):
@@ -22,7 +25,7 @@ def function_e(num):
 
 
 def function_f(num):
-    return num
+    return (num + 49) // 2
 
 
 def function_g(num: int):
@@ -30,5 +33,8 @@ def function_g(num: int):
 
 
 def function_h(num):
-    return num
+    return num ** math.pi
 
+
+if __name__ == '__main__':
+    print(function_h(18048))
