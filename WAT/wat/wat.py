@@ -33,7 +33,7 @@ def function_g(num: int):
 
 
 def function_h(num):
-    return num ** math.pi
+    return test_h()
 
 
 if __name__ == '__main__':
