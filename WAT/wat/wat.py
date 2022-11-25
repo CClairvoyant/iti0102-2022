@@ -26,7 +26,7 @@ def function_e(num):
 
 
 def function_f(num):
-    return (math.sqrt(num) / 1.4) ** 2
+    return Foo()
 
 
 def function_g(num: int):
