@@ -36,17 +36,17 @@ def function_g(num: int):
     return -num
 
 
+def function_h(num):
+    """Func."""
+    return Foo()
+
+
 class Foo:
     """Func."""
 
     def __eq__(self, num):
         """Func."""
         return True
-
-
-def function_h(num):
-    """Func."""
-    return Foo()
 
 
 if __name__ == '__main__':
@@ -63,3 +63,5 @@ if __name__ == '__main__':
     print(function_h(18048))  # 24716593775244672
     print(function_h(16690))  # 21136988643088060
     print(function_h(12481))  # 11820317350130219
+
+    print(function_h(123213) == 4)
