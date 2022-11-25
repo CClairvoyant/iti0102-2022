@@ -2,11 +2,11 @@
 
 
 def function_a(num):
-    return num
+    return num / num * 4
 
 
 def function_b(num):
-    return num
+    return num + 6
 
 
 def function_c(num):
