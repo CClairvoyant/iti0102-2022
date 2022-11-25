@@ -1,34 +1,34 @@
 """Wat???"""
 
 
-def function_a():
-    pass
+def function_a(something):
+    return something
 
 
-def function_b():
-    pass
+def function_b(something):
+    return something
 
 
-def function_c():
-    pass
+def function_c(something):
+    return something
 
 
-def function_d():
-    pass
+def function_d(something):
+    return something
 
 
-def function_e():
-    pass
+def function_e(something):
+    return something
 
 
-def function_f():
-    pass
+def function_f(something):
+    return something
 
 
-def function_g():
-    pass
+def function_g(something):
+    return something
 
 
-def function_h():
-    pass
+def function_h(something):
+    return something
 
