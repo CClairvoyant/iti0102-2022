@@ -1,34 +1,34 @@
 """Wat???"""
 
 
-def function_a(something):
-    return something
+def function_a(num):
+    return num
 
 
-def function_b(something):
-    return something
+def function_b(num):
+    return num
 
 
-def function_c(something):
-    return something
+def function_c(num):
+    return num / num
 
 
-def function_d(something):
-    return something
+def function_d(num):
+    return num * 577_590
 
 
-def function_e(something):
-    return something * 576
+def function_e(num):
+    return num * 576
 
 
-def function_f(something):
-    return something
+def function_f(num):
+    return num
 
 
 def function_g(num: int):
     return -num
 
 
-def function_h(something):
-    return something
+def function_h(num):
+    return num
 
