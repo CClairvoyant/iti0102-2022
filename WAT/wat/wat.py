@@ -1,45 +1,51 @@
 """Wat???"""
 
 
-import math
-import time
-
-
 def function_a(num):
+    """Func."""
     return num // num * 4
 
 
 def function_b(num):
+    """Func."""
     return num + 6
 
 
 def function_c(num):
+    """Func."""
     return num // num
 
 
 def function_d(num):
+    """Func."""
     return num ** 2 * 30
 
 
 def function_e(num):
+    """Func."""
     return num * 576
 
 
 def function_f(num):
+    """Func."""
     return Foo()
 
 
 def function_g(num: int):
+    """Func."""
     return -num
 
 
 class Foo:
+    """Func."""
 
     def __eq__(self, num):
+        """Func."""
         return True
 
 
 def function_h(num):
+    """Func."""
     return Foo()
 
 
@@ -57,9 +63,3 @@ if __name__ == '__main__':
     print(function_h(18048))  # 24716593775244672
     print(function_h(16690))  # 21136988643088060
     print(function_h(12481))  # 11820317350130219
-
-
-
-
-
-
