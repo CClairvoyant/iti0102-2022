@@ -18,15 +18,15 @@ def function_d(something):
 
 
 def function_e(something):
-    return something
+    return something * 576
 
 
 def function_f(something):
     return something
 
 
-def function_g(something):
-    return something
+def function_g(num: int):
+    return -num
 
 
 def function_h(something):
