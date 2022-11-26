@@ -31,7 +31,10 @@ def only_one_pair(numbers: list) -> bool:
     only_one_pair([1, 2, 1, 3, 1]) => False
     only_one_pair([1, 2, 1, 3, 1, 2]) => False
     """
-    return Foo()
+    nums_count = []
+    for num in set(numbers):
+        nums_count.append(numbers.count(num))
+    return nums_count.count(2) == 1 and set(nums_count) in [{1, 2}, {2}]
 
 
 def pentabonacci(n: int) -> int:
@@ -56,7 +59,16 @@ def pentabonacci(n: int) -> int:
     :param n: The last term to take into account.
     :return: Total number of odd values.
     """
-    return Foo()
+    if n < 1:
+        return 0
+    items = [0, 1, 1, 2, 4]
+    odds = 1
+    for i in range(5, n + 1):
+        new_element = sum(items[-5:])
+        if new_element % 2:
+            odds += 1
+        items.append(new_element)
+    return odds
 
 
 def swap_dict_keys_and_value_lists(d: dict) -> dict:
@@ -76,15 +88,14 @@ def swap_dict_keys_and_value_lists(d: dict) -> dict:
     swap_dict_keys_and_value_lists({}) => {}
     swap_dict_keys_and_value_lists({1: [2]}) => {2: [1]}
     """
-    return Foo()
-
-
-class Foo:
-    """Func."""
-
-    def __eq__(self, num):
-        """Func."""
-        return True
+    d2 = {}
+    for key in d:
+        for item in d[key]:
+            if item not in d2:
+                d2[item] = [key]
+            else:
+                d2[item].append(key)
+    return d2
 
 
 if __name__ == '__main__':
