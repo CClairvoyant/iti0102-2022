@@ -1,4 +1,4 @@
-from venv import FollowerBot
+from FollowerBot import FollowerBot
 
 
 def test_run(robot: FollowerBot):
