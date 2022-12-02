@@ -24,7 +24,7 @@ def drive_to_line(robot: FollowerBot):
 
     :param FollowerBot robot: instance of the robot that you need to make move
     """
-    robot.set_wheels_speed(5)
+    robot.set_wheels_speed(10   )
     while robot.get_right_line_sensor() == robot.get_left_line_sensor() == 1024:
         robot.sleep(0.1)
     start = robot.get_position()
