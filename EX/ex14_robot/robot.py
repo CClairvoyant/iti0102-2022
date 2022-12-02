@@ -27,9 +27,7 @@ def drive_to_line(robot: FollowerBot):
     robot.set_wheels_speed(10)
     while robot.get_right_line_sensor() == robot.get_left_line_sensor() != 0:
         robot.sleep(0.1)
-    start = robot.get_position()
-    while start[1] + 20 > robot.get_position()[1]:
-        robot.sleep(0.1)
+    robot.sleep(2)
     robot.done()
 
 
