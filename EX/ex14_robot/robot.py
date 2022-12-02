@@ -24,7 +24,17 @@ def drive_to_line(robot: FollowerBot):
 
     :param FollowerBot robot: instance of the robot that you need to make move
     """
-    pass
+    robot.set_right_wheel_speed(56.25)
+    robot.sleep(1)
+    robot.set_right_wheel_speed(0)
+    robot.set_wheels_speed(30)
+    while robot.get_line_sensors() == [1024, 1024, 1024, 1024, 1024, 1024]:
+        robot.sleep(0.1)
+    start = robot.get_position()
+    while start[1] - 20 < robot.get_position()[1]:
+        print(robot.get_position())
+        robot.sleep(0.1)
+    robot.done()
 
 
 def follow_the_line(robot: FollowerBot):
@@ -45,3 +55,8 @@ def the_true_follower(robot: FollowerBot):
     :param FollowerBot robot: instance of the robot that you need to make move
     """
     pass
+
+
+if __name__ == '__main__':
+    bot = FollowerBot()
+    print(drive_to_line(bot))
