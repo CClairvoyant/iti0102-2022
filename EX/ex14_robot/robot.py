@@ -49,7 +49,7 @@ def follow_the_line(robot: FollowerBot):
             robot.set_left_wheel_speed(10)
             robot.sleep(0.1)
         else:
-            robot.set_wheels_speed(20)
+            robot.set_wheels_speed(10)
             robot.sleep(0.1)
     robot.done()
 
@@ -64,4 +64,4 @@ def the_true_follower(robot: FollowerBot):
 
 if __name__ == '__main__':
     bot = FollowerBot(start_y=520, start_x=385, starting_orientation=90)
-    print(follow_the_line(bot))
+    follow_the_line(bot)
