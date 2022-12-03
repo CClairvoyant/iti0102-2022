@@ -46,13 +46,17 @@ def follow_the_line(robot: FollowerBot):
             robot.get_second_line_sensor_from_right() == 0 and robot.get_second_line_sensor_from_left() == 0:
         robot.set_wheels_speed(70)
         robot.sleep(0.01)
-        while robot.get_third_line_sensor_from_left() == 0:
-            robot.set_wheels_speed(0)
-            robot.set_right_wheel_speed(50)
+        if robot.get_third_line_sensor_from_left() == 0:
+            robot.set_wheels_speed(-70)
             robot.sleep(0.01)
-        while robot.get_third_line_sensor_from_right() == 0:
             robot.set_wheels_speed(0)
-            robot.set_left_wheel_speed(50)
+            robot.set_right_wheel_speed(70)
+            robot.sleep(0.01)
+        if robot.get_third_line_sensor_from_right() == 0:
+            robot.set_wheels_speed(-70)
+            robot.sleep(0.01)
+            robot.set_wheels_speed(0)
+            robot.set_left_wheel_speed(70)
             robot.sleep(0.01)
     robot.done()
 
