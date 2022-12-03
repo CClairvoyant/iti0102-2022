@@ -88,7 +88,7 @@ def the_true_follower(robot: FollowerBot):
         if 300 < robot.get_right_line_sensor() < 700:
             robot.set_right_wheel_speed(100)
             robot.set_left_wheel_speed(-100)
-            robot.sleep(0.287)
+            robot.sleep(0.289)
     robot.done()
 
 
