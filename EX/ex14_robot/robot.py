@@ -69,23 +69,18 @@ def the_true_follower(robot: FollowerBot):
         robot.set_wheels_speed(75)
         robot.sleep(0.01)
     while robot.get_position() != start:
-        while robot.get_third_line_sensor_from_right() != robot.get_third_line_sensor_from_left() == 0 and \
-                robot.get_left_line_sensor() != 0 or \
-                robot.get_third_line_sensor_from_right() != robot.get_third_line_sensor_from_left() == 0 and \
-                robot.get_right_line_sensor() != 0:
+        while robot.get_third_line_sensor_from_right() != robot.get_third_line_sensor_from_left() == 0:
             robot.set_left_wheel_speed(-74)
             robot.set_right_wheel_speed(74)
             robot.sleep(0.01)
-        while robot.get_third_line_sensor_from_left() != robot.get_third_line_sensor_from_right() == 0 and \
-                robot.get_left_line_sensor() != 0 or \
-                robot.get_third_line_sensor_from_left() != robot.get_third_line_sensor_from_right() == 0 and \
-                robot.get_right_line_sensor() != 0:
+        while robot.get_third_line_sensor_from_left() != robot.get_third_line_sensor_from_right() == 0:
             robot.set_right_wheel_speed(-74)
             robot.set_left_wheel_speed(74)
             robot.sleep(0.01)
-        robot.set_wheels_speed(75)
+        robot.set_wheels_speed(74)
         robot.sleep(0.01)
-        if 300 < robot.get_right_line_sensor() < 700:
+        if 300 < robot.get_right_line_sensor() < 700 or 300 < robot.get_left_line_sensor() < 700:
+            print("h4")
             robot.set_right_wheel_speed(100)
             robot.set_left_wheel_speed(-100)
             robot.sleep(0.288)
@@ -93,7 +88,7 @@ def the_true_follower(robot: FollowerBot):
 
 
 if __name__ == '__main__':
-    bot = FollowerBot(starting_orientation=90, start_x=265, start_y=310)
+    bot = FollowerBot(starting_orientation=90, start_x=265, start_y=310, timeout=180)
     the_true_follower(bot)
     # bot.set_right_wheel_speed(100)
     # bot.set_left_wheel_speed(-100)
