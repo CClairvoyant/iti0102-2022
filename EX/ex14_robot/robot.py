@@ -49,13 +49,11 @@ def follow_the_line(robot: FollowerBot):
         while robot.get_third_line_sensor_from_left() == 0:
             robot.set_wheels_speed(0)
             robot.set_right_wheel_speed(7)
-            robot.set_left_wheel_speed(-7)
-            robot.sleep(0.01)
+            robot.sleep(0.001)
         while robot.get_third_line_sensor_from_right() == 0:
             robot.set_wheels_speed(0)
             robot.set_left_wheel_speed(7)
-            robot.set_left_wheel_speed(-7)
-            robot.sleep(0.01)
+            robot.sleep(0.001)
     robot.done()
 
 
