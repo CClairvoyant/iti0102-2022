@@ -1,8 +1,8 @@
-"""Day 5 part 1."""
+"""Day 5 part 2."""
 
 
-def part_1(filename: str):
-    """Part 1."""
+def part_2(filename: str):
+    """Part 2."""
     with open(filename) as file:
         content = file.read()
     crates = content.split("\n\n")[0]
@@ -17,9 +17,10 @@ def part_1(filename: str):
         stack.reverse()
     for line in instructions.split("\n"):
         words = line.split()
-        for i in range(int(words[1])):
-            stacks[int(words[5]) - 1].append(stacks[int(words[3]) - 1].pop())
+        stacks[int(words[5]) - 1] += stacks[int(words[3]) - 1][-int(words[1]):]
+        stacks[int(words[3]) - 1] = stacks[int(words[3]) - 1][:-int(words[1])]
     last_crates = ""
     for stack in stacks:
+        print(stack)
         last_crates += stack[-1]
     return last_crates
