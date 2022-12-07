@@ -1,7 +1,7 @@
 """Merry Christmas!"""
 
 import requests
-import csv
+import os
 
 
 class Child:
@@ -37,6 +37,13 @@ class Gift:
         return self.name
 
 
+class Factory:
+    """Factory."""
+
+    def __init__(self):
+        pass
+
+
 def get_list_of_children(nice_file: str, naughty_file: str, wish_file: str):
     """Makes a list of children."""
     children = []
@@ -69,10 +76,69 @@ def get_list_of_children(nice_file: str, naughty_file: str, wish_file: str):
         children.append(Child(child, False, nice_dict[child], wish_list))
 
     for child in naughty_dict:
-        wish_list = [Gift("Coal", 1, 0, 100)]
+        wish_list = [Gift("Coal", 1, 0, 50000)]
         children.append(Child(child, True, naughty_dict[child], wish_list))
 
     return children
+
+
+def delivery_data(children_list: list):
+    """Figure out all about delivery orders."""
+    orders = []
+    countries = list(set(map(lambda x: x.country, children_list)))
+    for country in countries:
+        orders.append([])
+        for child in list(filter(lambda x: x.country == country, children_list)):
+            orders[-1].append(child)
+            if sum(list(map(lambda x: sum(list(map(lambda y: y.weight_in_grams, x.wishes))), orders[-1]))) > 50_000:
+                orders[-1].pop()
+                orders.append([])
+                orders[-1].append(child)
+    return orders
+
+
+def delivery_table(orders: list):
+    """Print order sheets."""
+    no = ""
+    name = "Name"
+    gifts = "Gifts"
+    if not os.path.exists("deliveries"):
+        os.mkdir("deliveries")
+    for i in range(len(orders)):
+        name_length = len(max(orders[i], key=lambda y: len(y.name)).name)
+        name_length = name_length if name_length >= 4 else 4
+        wishes = list(map(lambda z: ", ".join(list(map(lambda y: y.name, z.wishes))), orders[i]))
+        gifts_length = len(max(wishes, key=len))
+        gifts_length = gifts_length if gifts_length >= 5 else 5
+        with open(f"deliveries/delivery_{i + 1}.txt", "w") as file:
+            file.write(
+                "                        DELIVERY ORDER" + "\n"
+                "                                                          _v" + "\n"
+                "                                                     __* (__)" + "\n"
+                r"             ff     ff     ff     ff                {\/ (_(__).-." + "\n"
+                r"      ff    <_\__, <_\__, <_\__, <_\__,      __,~~.(`>|-(___)/ ,_)" + "\n"
+                r"    o<_\__,  (_ ff ~(_ ff ~(_ ff ~(_ ff~~~~~@ )\/_;-\"``     |" + "\n"
+                r"      (___)~~//<_\__, <_\__, <_\__, <_\__,    | \__________/|" + "\n"
+                r"      // >>     (___)~~(___)~~(___)~~(___)~~~~\\_/_______\_//" + "\n"
+                "                // >>  // >>  // >>  // >>     `'---------'`" + "\n"
+                "\n"
+                "FROM: NORTH POLE CHRISTMAS CHEER INCORPORATED" + "\n"
+                f"TO: {orders[i][0].country}" + "\n"
+                "\n"
+                fr"//{no:=<{name_length + 2}}[]{no:=<{gifts_length + 2}}[]{no:=<18}\\" + "\n"
+                fr"|| {name:^{name_length}} || {gifts:^{gifts_length}} || Total Weight(kg) ||" + "\n"
+                fr"|]{no:=<{name_length + 2}}[]{no:=<{gifts_length + 2}}[]{no:=<18}[|" + "\n"
+            )
+            for x, child in enumerate(orders[i]):
+                total_weight = str(round(sum(list(map(lambda y: y.weight_in_grams, child.wishes))) / 1000, 1))
+                if total_weight[-2:] == ".0":
+                    total_weight = total_weight[:-2]
+                file.write(
+                    fr"|| {child.name:<{name_length}} || {wishes[x]:<{gifts_length}} || {total_weight:>16} ||" + "\n"
+                )
+            file.write(
+                fr"\\{no:=<{name_length + 2}}[]{no:=<{gifts_length + 2}}[]{no:=<18}//"
+            )
 
 
 if __name__ == '__main__':
@@ -97,7 +163,7 @@ if __name__ == '__main__':
             Gift('Wall-mount diamond pickaxe', 15, 1, 123),
             Gift('LED light up sneakers', 15, 1, 912)
         ]),
-        Child("Eliza", False, "United Kingdom", [
+        Child("Elizabeth", False, "United Kingdom", [
             Gift('Briefcase of art supplies', 15, 1, 122),
             Gift('Toy train set', 15, 1, 1275),
             Gift('Mermaid barbie', 15, 1, 125)
@@ -113,6 +179,6 @@ if __name__ == '__main__':
             Gift('Wall-mount diamond pickaxe', 15, 1, 1253)
         ]),
     ]
-
+    print(delivery_table(delivery_data(get_list_of_children("nice_list.csv", "naughty_list.csv", "wish_list.csv"))))
 
 
