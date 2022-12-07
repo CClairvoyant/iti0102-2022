@@ -52,7 +52,10 @@ def join_pyramids(pyramid_a: list, pyramid_b: list) -> list:
     smaller_pyramid = [list(" " * len(smaller_pyramid[0]))] * (
         len(larger_pyramid) - len(smaller_pyramid)) + smaller_pyramid
 
-    merged_pyramid = [smaller_pyramid[i] + larger_pyramid[i] for i in range(len(smaller_pyramid))]
+    pyramid_1, pyramid_2 = (smaller_pyramid, larger_pyramid) \
+        if pyramid_b == larger_pyramid else (larger_pyramid, smaller_pyramid)
+
+    merged_pyramid = [pyramid_1[i] + pyramid_2[i] for i in range(len(pyramid_1))]
 
     return merged_pyramid
 
