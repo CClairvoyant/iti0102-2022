@@ -22,7 +22,6 @@ def make_pyramid(base: int, char: str) -> list:
     :param char: str
     :return: list
     """
-
     pyramid = [
         list(" " * ((base - i) // 2) + char * i + " " * ((base - i) // 2))
         for i in range(1 if base % 2 else 2, base + 1, 2)
@@ -48,10 +47,10 @@ def join_pyramids(pyramid_a: list, pyramid_b: list) -> list:
     :return: list
     """
     smaller_pyramid = pyramid_a if len(pyramid_a) < len(pyramid_b) else pyramid_b
-    larger_pyramid = pyramid_a if len(pyramid_a) > len(pyramid_b) else pyramid_b
+    larger_pyramid = pyramid_a if len(pyramid_a) >= len(pyramid_b) else pyramid_b
 
     smaller_pyramid = [list(" " * len(smaller_pyramid[0]))] * (
-                len(larger_pyramid) - len(smaller_pyramid)) + smaller_pyramid
+        len(larger_pyramid) - len(smaller_pyramid)) + smaller_pyramid
 
     merged_pyramid = [smaller_pyramid[i] + larger_pyramid[i] for i in range(len(smaller_pyramid))]
 
@@ -113,3 +112,5 @@ if __name__ == '__main__':
      A  aaaa
     AAAaaaaaa
     """
+
+    print(to_string(join_pyramids(make_pyramid(15, 'a'), make_pyramid(16, "g"))))
