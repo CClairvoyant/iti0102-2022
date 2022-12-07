@@ -1,6 +1,5 @@
 """A small exercise in zookeeping."""
 import math
-from functools import reduce
 
 
 class Animal:
@@ -68,7 +67,7 @@ def sort_alphabetically_by_scientific_name(animal_list: list) -> list:
     :param animal_list: input list
     :return: sorted list of animals
     """
-    pass
+    return sorted(animal_list, key=lambda x: x.scientific_name)
 
 
 def find_animals_whose_height_is_less_than(animal_list: list, height_limit: int) -> list:
@@ -82,7 +81,7 @@ def find_animals_whose_height_is_less_than(animal_list: list, height_limit: int)
     :param height_limit: upper limit for animal height
     :return: list of animals who do not grow taller than the height limit
     """
-    pass
+    return list(filter(lambda x: x.height_range[1] < height_limit, animal_list))
 
 
 def filter_animals_based_on_diet(animal_list: list, diet: str) -> list:
@@ -93,7 +92,7 @@ def filter_animals_based_on_diet(animal_list: list, diet: str) -> list:
     :param diet: the type of diet we are looking for
     :return: list of animals who eat this type of food
     """
-    pass
+    return list(filter(lambda x: x.diet == diet, animal_list))
 
 
 def find_animal_with_longest_lifespan(animal_list: list) -> Animal:
@@ -105,7 +104,7 @@ def find_animal_with_longest_lifespan(animal_list: list) -> Animal:
     :param animal_list: input list
     :return: Animal object
     """
-    pass
+    return list(filter(lambda x: x.age_up_to == max(animal_list, key=lambda y: y.age_up_to).age_up_to, animal_list))[0]
 
 
 def create_animal_descriptions(animal_list: list) -> list:
@@ -120,7 +119,9 @@ def create_animal_descriptions(animal_list: list) -> list:
     :param animal_list: input list
     :return: list of animal description strings
     """
-    pass
+    return list(map(lambda x: f"{x.species} ({x.scientific_name}) lives in {x.habitat} and its diet is {x.diet}. "
+                              f"These animals can live up to {x.age_up_to} years and they weigh between "
+                              f"{x.weight_range[0]} kg and {x.weight_range[1]} kg as adults.", animal_list))
 
 
 if __name__ == '__main__':
