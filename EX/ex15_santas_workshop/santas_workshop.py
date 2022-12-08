@@ -180,5 +180,3 @@ if __name__ == '__main__':
         ]),
     ]
     print(delivery_table(delivery_data(get_list_of_children("nice_list.csv", "naughty_list.csv", "wish_list.csv"))))
-
-
