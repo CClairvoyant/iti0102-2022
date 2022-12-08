@@ -50,19 +50,27 @@ class Factory:
         self.gifts = []
 
     def get_gifts(self):
-        """Gets data about gifts."""
+        """Gets data about gifts using multithreading and the concurrent.futures module."""
         presents = []
         with open(self.filename) as file:
             content = file.read().split("\n")
-        for row in content:
-            for gift in row.split(", ")[1:]:
+        # Use the map function to process the rows in the file in parallel
+        for row in concurrent.futures.ThreadPoolExecutor().map(self.__get_gifts_from_row, content):
+            for gift in row:
                 presents.append(gift)
         presents = list(set(presents))
-        for gift in presents:
-            threading.Thread(target=self.__request_data(gift)).start()
+        # Use the concurrent.futures module to make the requests in parallel
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            # Start a new thread for each request
+            executor.map(self.__request_data, presents)
+
+    @staticmethod
+    def __get_gifts_from_row(row):
+        """Extracts the gifts from a row in the file."""
+        return row.split(", ")[1:]
 
     def __request_data(self, gift: str):
-        """Request data."""
+        """Request data using multithreading."""
         specific_url = gift.replace(" ", "%20")
         present = requests.get(f"https://cs.ttu.ee/services/xmas/gift?name={specific_url}").json()
         self.gifts.append(Gift(gift, int(present["material_cost"]), int(present["production_time"]),
@@ -223,12 +231,15 @@ if __name__ == '__main__':
             Gift('Wall-mount diamond pickaxe', 15, 1, 1253)
         ]),
     ]
-    # delivery_table(delivery_data(get_list_of_children("nice_list.csv", "naughty_list.csv", "wish_list.csv")))aaa
+    start = time.time()
+    delivery_table(delivery_data(get_list_of_children("nice_list.csv", "naughty_list.csv", "wish_list.csv")))
+    end = time.time()
+    print(end - start)
     coded_string = "RGVhciBTYW50YSEKCkkgYW0gdmVyeSB0aGFua2Z1bCBmb3IgdGhlIG5pY2UgcHJlc2VudHMgeW91IGJyb" \
                    "3VnaHQgbWUgbGFzdCB5ZWFyLCBJIHN0aWxsIHBsYXkgd2l0aCB0aGVtIGV2ZXJ5IGRheSEKClNpbmNlcm" \
                    "VseSB5b3VycywKQWxleGlzLCBTb3V0aCBBZnJpY2E="
-    print(base64.b64decode(coded_string))
-    start = time.time()
-    get_letter("somethingweird.csv", 100)
-    end = time.time()
-    print(end - start)
+    # print(base64.b64decode(coded_string))
+    # start = time.time()
+    # get_letter("somethingweird.csv", 100)
+    # end = time.time()
+    # print(end - start)
