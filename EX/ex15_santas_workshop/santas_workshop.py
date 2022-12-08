@@ -50,27 +50,24 @@ class Factory:
         self.gifts = []
 
     def get_gifts(self):
-        """Gets data about gifts using multithreading and the concurrent.futures module."""
+        """Gets data about gifts using a thread pool."""
         presents = []
         with open(self.filename) as file:
             content = file.read().split("\n")
-        # Use the map function to process the rows in the file in parallel
-        for row in concurrent.futures.ThreadPoolExecutor().map(self.__get_gifts_from_row, content):
-            for gift in row:
+        for row in content:
+            for gift in row.split(", ")[1:]:
                 presents.append(gift)
         presents = list(set(presents))
-        # Use the concurrent.futures module to make the requests in parallel
-        with concurrent.futures.ThreadPoolExecutor() as executor:
-            # Start a new thread for each request
-            executor.map(self.__request_data, presents)
 
-    @staticmethod
-    def __get_gifts_from_row(row):
-        """Extracts the gifts from a row in the file."""
-        return row.split(", ")[1:]
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            # Submit all the requests to the thread pool
+            futures = [executor.submit(self.__request_data, gift) for gift in presents]
+            # Wait for all the requests to finish
+            for future in futures:
+                future.result()
 
     def __request_data(self, gift: str):
-        """Request data using multithreading."""
+        """Request data."""
         specific_url = gift.replace(" ", "%20")
         present = requests.get(f"https://cs.ttu.ee/services/xmas/gift?name={specific_url}").json()
         self.gifts.append(Gift(gift, int(present["material_cost"]), int(present["production_time"]),
