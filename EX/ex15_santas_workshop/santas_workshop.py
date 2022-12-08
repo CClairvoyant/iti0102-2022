@@ -223,7 +223,7 @@ if __name__ == '__main__':
             Gift('Wall-mount diamond pickaxe', 15, 1, 1253)
         ]),
     ]
-    # delivery_table(delivery_data(get_list_of_children("nice_list.csv", "naughty_list.csv", "wish_list.csv"))) why
+    # delivery_table(delivery_data(get_list_of_children("nice_list.csv", "naughty_list.csv", "wish_list.csv")))
     coded_string = "RGVhciBTYW50YSEKCkkgYW0gdmVyeSB0aGFua2Z1bCBmb3IgdGhlIG5pY2UgcHJlc2VudHMgeW91IGJyb" \
                    "3VnaHQgbWUgbGFzdCB5ZWFyLCBJIHN0aWxsIHBsYXkgd2l0aCB0aGVtIGV2ZXJ5IGRheSEKClNpbmNlcm" \
                    "VseSB5b3VycywKQWxleGlzLCBTb3V0aCBBZnJpY2E="
