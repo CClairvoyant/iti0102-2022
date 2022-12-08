@@ -2,6 +2,10 @@
 
 import requests
 import os
+import threading
+import base64
+import time
+import concurrent.futures
 
 
 class Child:
@@ -40,8 +44,29 @@ class Gift:
 class Factory:
     """Factory."""
 
-    def __init__(self):
-        pass
+    def __init__(self, filename):
+        """Class constructor."""
+        self.filename = filename
+        self.gifts = []
+
+    def get_gifts(self):
+        """Gets data about gifts."""
+        presents = []
+        with open(self.filename) as file:
+            content = file.read().split("\n")
+        for row in content:
+            for gift in row.split(", ")[1:]:
+                presents.append(gift)
+        presents = list(set(presents))
+        for gift in presents:
+            threading.Thread(target=self.__request_data(gift)).start()
+
+    def __request_data(self, gift: str):
+        """Request data."""
+        specific_url = gift.replace(" ", "%20")
+        present = requests.get(f"https://cs.ttu.ee/services/xmas/gift?name={specific_url}").json()
+        self.gifts.append(Gift(gift, int(present["material_cost"]), int(present["production_time"]),
+                               int(present["weight_in_grams"])))
 
 
 def get_list_of_children(nice_file: str, naughty_file: str, wish_file: str):
@@ -51,12 +76,15 @@ def get_list_of_children(nice_file: str, naughty_file: str, wish_file: str):
     naughty_dict = {}
     wish_dict = {}
 
+    factory = Factory(wish_file)
+    factory.get_gifts()
+
     with open(nice_file) as nice:
         nice_children = nice.read().split("\n")
     with open(naughty_file) as naughty:
-        naughty_children = naughty.read().splitlines()
+        naughty_children = naughty.read().split("\n")
     with open(wish_file) as wish:
-        wishes = wish.read().splitlines()
+        wishes = wish.read().split("\n")
 
     for child in nice_children:
         nice_dict[child.split(", ")[0]] = child.split(", ")[1]
@@ -69,14 +97,11 @@ def get_list_of_children(nice_file: str, naughty_file: str, wish_file: str):
         wish_list = []
         if child in wish_dict:
             for w in wish_dict[child]:
-                url = w.replace(" ", "%20")
-                present = requests.get(f"https://cs.ttu.ee/services/xmas/gift?name={url}").json()
-                wish_list.append(Gift(w, int(present["material_cost"]), int(present["production_time"]),
-                                      int(present["weight_in_grams"])))
+                wish_list.append(list(filter(lambda x: x.name == w, factory.gifts))[0])
         children.append(Child(child, False, nice_dict[child], wish_list))
 
     for child in naughty_dict:
-        wish_list = [Gift("Coal", 1, 0, 50000)]
+        wish_list = [Gift("Coal", 1, 0, 5000)]
         children.append(Child(child, True, naughty_dict[child], wish_list))
 
     return children
@@ -141,6 +166,25 @@ def delivery_table(orders: list):
             )
 
 
+def get_letter(wish_file: str, letter_count: int):
+    """Get letters to Santa from a website using multithreading."""
+    letters = []
+    threads = []
+    for i in range(letter_count):
+        thread = threading.Thread(target=__make_requests, args=(letters,))
+        thread.start()
+        threads.append(thread)
+    for thread in threads:
+        thread.join()
+    with open(wish_file, "a") as file:
+        file.write("\n".join(letters))
+
+
+def __make_requests(letters):
+    """Make requests using multithreading."""
+    letters.append(requests.get("https://cs.ttu.ee/services/xmas/letter").json()["letter"])
+
+
 if __name__ == '__main__':
     list_of_children = [
         Child("Joonas", False, "Estonia", [
@@ -179,6 +223,12 @@ if __name__ == '__main__':
             Gift('Wall-mount diamond pickaxe', 15, 1, 1253)
         ]),
     ]
-    print(delivery_table(delivery_data(get_list_of_children("nice_list.csv", "naughty_list.csv", "wish_list.csv"))))
-
-
+    # delivery_table(delivery_data(get_list_of_children("nice_list.csv", "naughty_list.csv", "wish_list.csv")))
+    coded_string = "RGVhciBTYW50YSEKCkkgYW0gdmVyeSB0aGFua2Z1bCBmb3IgdGhlIG5pY2UgcHJlc2VudHMgeW91IGJyb" \
+                   "3VnaHQgbWUgbGFzdCB5ZWFyLCBJIHN0aWxsIHBsYXkgd2l0aCB0aGVtIGV2ZXJ5IGRheSEKClNpbmNlcm" \
+                   "VseSB5b3VycywKQWxleGlzLCBTb3V0aCBBZnJpY2E="
+    print(base64.b64decode(coded_string))
+    start = time.time()
+    get_letter("somethingweird.csv", 100)
+    end = time.time()
+    print(end - start)
