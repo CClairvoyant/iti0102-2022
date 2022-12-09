@@ -1,11 +1,11 @@
-"""Merry Christmas!"""
+"""Merry Christmas."""
 
 import requests
 import os
 import threading
 import base64
 import time
-import concurrent.futures
+import re
 
 
 class Child:
@@ -27,10 +27,7 @@ class Gift:
     """Data about a gift."""
 
     def __init__(self, name: str, material_cost: int, production_time: int, weight_in_grams: int):
-        """
-        Initialize a new instance of the class with the given name, material cost, production time,
-        and weight in grams.
-        """
+        """Initialize a new instance with the given name, material cost, production time, and weight in grams."""
         self.name = name
         self.material_cost = material_cost
         self.production_time = production_time
@@ -50,24 +47,31 @@ class Factory:
         self.gifts = []
 
     def get_gifts(self):
-        """Gets data about gifts using a thread pool."""
+        """Get data about gifts using a thread pool."""
         presents = []
+
         with open(self.filename) as file:
             content = file.read().split("\n")
+
+        # Find all the gifts from the wish file.
         for row in content:
             for gift in row.split(", ")[1:]:
                 presents.append(gift)
         presents = list(set(presents))
 
-        with concurrent.futures.ThreadPoolExecutor() as executor:
-            # Submit all the requests to the thread pool
-            futures = [executor.submit(self.__request_data, gift) for gift in presents]
-            # Wait for all the requests to finish
-            for future in futures:
-                future.result()
+        # Create a list of threads for all the gifts
+        threads = [threading.Thread(target=self.__request_data, args=(gift,)) for gift in presents]
+
+        # Start all the threads
+        for thread in threads:
+            thread.start()
+
+        # Wait for all the threads to finish
+        for thread in threads:
+            thread.join()
 
     def __request_data(self, gift: str):
-        """Request data."""
+        """Request data using a thread from the thread pool and make Gift objects."""
         specific_url = gift.replace(" ", "%20")
         present = requests.get(f"https://cs.ttu.ee/services/xmas/gift?name={specific_url}").json()
         self.gifts.append(Gift(gift, int(present["material_cost"]), int(present["production_time"]),
@@ -75,15 +79,17 @@ class Factory:
 
 
 def get_list_of_children(nice_file: str, naughty_file: str, wish_file: str):
-    """Makes a list of children."""
+    """Make a list of children."""
     children = []
     nice_dict = {}
     naughty_dict = {}
     wish_dict = {}
 
+    # Get info about all the gifts in the wish file.
     factory = Factory(wish_file)
     factory.get_gifts()
 
+    # Get list of rows for each file.
     with open(nice_file) as nice:
         nice_children = nice.read().split("\n")
     with open(naughty_file) as naughty:
@@ -91,6 +97,7 @@ def get_list_of_children(nice_file: str, naughty_file: str, wish_file: str):
     with open(wish_file) as wish:
         wishes = wish.read().split("\n")
 
+    # Adds children names, countries and wishes to dictionaries.
     for child in nice_children:
         nice_dict[child.split(", ")[0]] = child.split(", ")[1]
     for child in naughty_children:
@@ -98,6 +105,7 @@ def get_list_of_children(nice_file: str, naughty_file: str, wish_file: str):
     for child in wishes:
         wish_dict[child.split(", ")[0]] = child.split(", ")[1:]
 
+    # Get Gift objects from factories and match them with nice children. Then create Children objects.
     for child in nice_dict:
         wish_list = []
         if child in wish_dict:
@@ -105,6 +113,7 @@ def get_list_of_children(nice_file: str, naughty_file: str, wish_file: str):
                 wish_list.append(list(filter(lambda x: x.name == w, factory.gifts))[0])
         children.append(Child(child, False, nice_dict[child], wish_list))
 
+    # Naughty kids get 5kg of coal for Christmas.
     for child in naughty_dict:
         wish_list = [Gift("Coal", 1, 0, 5000)]
         children.append(Child(child, True, naughty_dict[child], wish_list))
@@ -127,8 +136,9 @@ def delivery_data(children_list: list):
     return orders
 
 
-def delivery_table(orders: list):
+def delivery_sheets(nice_file: str, naughty_file: str, wish_file: str):
     """Print order sheets."""
+    orders = delivery_data(get_list_of_children(nice_file, naughty_file, wish_file))
     no = ""
     name = "Name"
     gifts = "Gifts"
@@ -171,22 +181,76 @@ def delivery_table(orders: list):
             )
 
 
+def decode_caesar(letter: str):
+    """Decode Caesar cipher."""
+    decoded_letter = ""
+    for character in letter:
+        if character.isalpha() and character.islower():
+            new_pos = (ord(character) - ord("a") - 4) % 26
+            decoded_letter += chr(new_pos + ord("a"))
+        elif character.isalpha() and character.isupper():
+            new_pos = (ord(character) - ord("A") - 4) % 26
+            decoded_letter += chr(new_pos + ord("A"))
+        else:
+            decoded_letter += character
+    return decoded_letter
+
+
+def decode_base64(letter: str):
+    """Decode base64 encoding."""
+    base64_bytes = letter.encode('ascii')
+    message_bytes = base64.b64decode(base64_bytes)
+    return message_bytes.decode('ascii')
+
+
 def get_letter(wish_file: str, letter_count: int):
     """Get letters to Santa from a website using multithreading."""
     letters = []
     threads = []
-    for i in range(letter_count):
+    wish_lines = []
+
+    for x in range(letter_count):
         thread = threading.Thread(target=__make_requests, args=(letters,))
         thread.start()
         threads.append(thread)
+
     for thread in threads:
         thread.join()
+
+    for letter in letters:
+        if "SSB3YW50" in letter or "SSB3aXNoIGZvcg==" in letter or "d2lzaGxpc3Q6" in letter:
+            normal_letter = decode_base64(letter)
+        elif "m aerx" in letter or "m amwl jsv" in letter or "amwlpmwx:" in letter:
+            normal_letter = decode_caesar(letter)
+        else:
+            normal_letter = letter
+        if "I want" in normal_letter or "I wish for" in normal_letter or "wishlist:" in normal_letter:
+            name = re.search(r"(?<=\n)(?<!\n\n)[A-Za-z]+(?=, )", normal_letter).group()
+            name = name.capitalize()
+            wishes = re.search(r"(?<=.{4}I want |I wish for |.wishlist: ).+(?=\.)", normal_letter, re.IGNORECASE).group()
+            if " , " in wishes:
+                wishes = wishes.replace(" , ", ", ")
+            if "." in wishes:
+                wishes = wishes.replace(".", ",")
+            wish_lines.append(name + ", " + wishes)
+
+    wish_lines = list(set(wish_lines))
+
+    if not os.path.exists(wish_file):
+        with open(wish_file, "w") as file:
+            file.write(wish_lines[0])
+
+    with open(wish_file, "r") as file:
+        content = file.read()
+
     with open(wish_file, "a") as file:
-        file.write("\n".join(letters))
+        for line in wish_lines:
+            if line.split(", ")[0] not in content:
+                file.write("\n" + line)
 
 
 def __make_requests(letters):
-    """Make requests using multithreading."""
+    """Make a request."""
     letters.append(requests.get("https://cs.ttu.ee/services/xmas/letter").json()["letter"])
 
 
@@ -228,15 +292,13 @@ if __name__ == '__main__':
             Gift('Wall-mount diamond pickaxe', 15, 1, 1253)
         ]),
     ]
-    start = time.time()
-    delivery_table(delivery_data(get_list_of_children("nice_list.csv", "naughty_list.csv", "wish_list.csv")))
-    end = time.time()
-    print(end - start)
-    coded_string = "RGVhciBTYW50YSEKCkkgYW0gdmVyeSB0aGFua2Z1bCBmb3IgdGhlIG5pY2UgcHJlc2VudHMgeW91IGJyb" \
-                   "3VnaHQgbWUgbGFzdCB5ZWFyLCBJIHN0aWxsIHBsYXkgd2l0aCB0aGVtIGV2ZXJ5IGRheSEKClNpbmNlcm" \
-                   "VseSB5b3VycywKQWxleGlzLCBTb3V0aCBBZnJpY2E="
-    # print(base64.b64decode(coded_string))
     # start = time.time()
-    # get_letter("somethingweird.csv", 100)
+    # delivery_sheets("nice_list.csv", "naughty_list.csv", "wish_list.csv")
     # end = time.time()
     # print(end - start)
+
+    start = time.time()
+    get_letter("somethingweird.csv", 100)
+    end = time.time()
+    print(end - start)
+
