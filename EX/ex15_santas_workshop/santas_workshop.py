@@ -123,7 +123,6 @@ def get_list_of_children(nice_file: str, naughty_file: str, wish_file: str):
 
 def delivery_data(children_list: list):
     """Figure out all about delivery orders."""
-
     # Make list for orders and countries they need to go to.
     orders = []
     countries = list(set(map(lambda x: x.country, children_list)))
@@ -276,7 +275,7 @@ def get_letter(wish_file: str, letter_count: int):
 
 
 def __remove_unwanted_punctuation(wishes):
-    """Remove unwanted punctuation (from acrylic paint brush set)"""
+    """Remove unwanted punctuation (from acrylic paint brush set)."""
     if " , " in wishes:
         wishes = wishes.replace(" , ", ", ")
     if "." in wishes:
