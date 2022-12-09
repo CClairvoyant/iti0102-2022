@@ -97,7 +97,7 @@ def get_list_of_children(nice_file: str, naughty_file: str, wish_file: str):
     with open(wish_file) as wish:
         wishes = wish.read().split("\n")
 
-    # Adds children names, countries and wishes to dictionaries.
+    # Add children names, countries and wishes to dictionaries.
     for child in nice_children:
         nice_dict[child.split(", ")[0]] = child.split(", ")[1]
     for child in naughty_children:
@@ -123,33 +123,48 @@ def get_list_of_children(nice_file: str, naughty_file: str, wish_file: str):
 
 def delivery_data(children_list: list):
     """Figure out all about delivery orders."""
+
+    # Make list for orders and countries they need to go to.
     orders = []
     countries = list(set(map(lambda x: x.country, children_list)))
+
+    # Make an order for every country.
     for country in countries:
         orders.append([])
+
+        # Find children that are from the country in hand and add their gifts to the sleigh.
         for child in list(filter(lambda x: x.country == country, children_list)):
             orders[-1].append(child)
+
+            # If the total weight of the gifts has gone over 50kg, add it to a new order instead.
             if sum(list(map(lambda x: sum(list(map(lambda y: y.weight_in_grams, x.wishes))), orders[-1]))) > 50_000:
                 orders[-1].pop()
                 orders.append([])
                 orders[-1].append(child)
+
     return orders
 
 
 def delivery_sheets(nice_file: str, naughty_file: str, wish_file: str):
     """Print order sheets."""
     orders = delivery_data(get_list_of_children(nice_file, naughty_file, wish_file))
-    no = ""
+
+    # Variables for text formatting.
+    empty = ""
     name = "Name"
     gifts = "Gifts"
+
     if not os.path.exists("deliveries"):
         os.mkdir("deliveries")
+
+    # For each order, find the length of the longest string in name and gifts category.
     for i in range(len(orders)):
         name_length = len(max(orders[i], key=lambda y: len(y.name)).name)
         name_length = name_length if name_length >= 4 else 4
         wishes = list(map(lambda z: ", ".join(list(map(lambda y: y.name, z.wishes))), orders[i]))
         gifts_length = len(max(wishes, key=len))
         gifts_length = gifts_length if gifts_length >= 5 else 5
+
         with open(f"deliveries/delivery_{i + 1}.txt", "w") as file:
             file.write(
                 "                        DELIVERY ORDER" + "\n"
@@ -165,10 +180,12 @@ def delivery_sheets(nice_file: str, naughty_file: str, wish_file: str):
                 "FROM: NORTH POLE CHRISTMAS CHEER INCORPORATED" + "\n"
                 f"TO: {orders[i][0].country}" + "\n"
                 "\n"
-                fr"//{no:=<{name_length + 2}}[]{no:=<{gifts_length + 2}}[]{no:=<18}\\" + "\n"
+                fr"//{empty:=<{name_length + 2}}[]{empty:=<{gifts_length + 2}}[]{empty:=<18}\\" + "\n"
                 fr"|| {name:^{name_length}} || {gifts:^{gifts_length}} || Total Weight(kg) ||" + "\n"
-                fr"|]{no:=<{name_length + 2}}[]{no:=<{gifts_length + 2}}[]{no:=<18}[|" + "\n"
+                fr"|]{empty:=<{name_length + 2}}[]{empty:=<{gifts_length + 2}}[]{empty:=<18}[|" + "\n"
             )
+
+            # Calculate the total weight of each child's gifts.
             for x, child in enumerate(orders[i]):
                 total_weight = str(round(sum(list(map(lambda y: y.weight_in_grams, child.wishes))) / 1000, 1))
                 if total_weight[-2:] == ".0":
@@ -176,23 +193,29 @@ def delivery_sheets(nice_file: str, naughty_file: str, wish_file: str):
                 file.write(
                     fr"|| {child.name:<{name_length}} || {wishes[x]:<{gifts_length}} || {total_weight:>16} ||" + "\n"
                 )
+
             file.write(
-                fr"\\{no:=<{name_length + 2}}[]{no:=<{gifts_length + 2}}[]{no:=<18}//"
+                fr"\\{empty:=<{name_length + 2}}[]{empty:=<{gifts_length + 2}}[]{empty:=<18}//"
             )
 
 
 def decode_caesar(letter: str):
     """Decode Caesar cipher."""
     decoded_letter = ""
+
     for character in letter:
+
         if character.isalpha() and character.islower():
             new_pos = (ord(character) - ord("a") - 4) % 26
             decoded_letter += chr(new_pos + ord("a"))
+
         elif character.isalpha() and character.isupper():
             new_pos = (ord(character) - ord("A") - 4) % 26
             decoded_letter += chr(new_pos + ord("A"))
+
         else:
             decoded_letter += character
+
     return decoded_letter
 
 
@@ -200,6 +223,7 @@ def decode_base64(letter: str):
     """Decode base64 encoding."""
     base64_bytes = letter.encode('ascii')
     message_bytes = base64.b64decode(base64_bytes)
+
     return message_bytes.decode('ascii')
 
 
@@ -209,14 +233,17 @@ def get_letter(wish_file: str, letter_count: int):
     threads = []
     wish_lines = []
 
+    # Make threads, start them, and add them to the threads list.
     for x in range(letter_count):
         thread = threading.Thread(target=__make_requests, args=(letters,))
         thread.start()
         threads.append(thread)
 
+    # Wait for the threads to finish.
     for thread in threads:
         thread.join()
 
+    # For each letter received, check if they have wishes in them and decode if necessary.
     for letter in letters:
         if "SSB3YW50" in letter or "SSB3aXNoIGZvcg==" in letter or "d2lzaGxpc3Q6" in letter:
             normal_letter = decode_base64(letter)
@@ -224,14 +251,13 @@ def get_letter(wish_file: str, letter_count: int):
             normal_letter = decode_caesar(letter)
         else:
             normal_letter = letter
+
+        # Find and collect wishes.
         if "I want" in normal_letter or "I wish for" in normal_letter or "wishlist:" in normal_letter:
             name = re.search(r"(?<=\n)(?<!\n\n)[A-Za-z]+(?=, )", normal_letter).group()
             name = name.capitalize()
             wishes = re.search(r"(?<=.{4}I want |I wish for |.wishlist: ).+(?=\.)", normal_letter, re.IGNORECASE).group()
-            if " , " in wishes:
-                wishes = wishes.replace(" , ", ", ")
-            if "." in wishes:
-                wishes = wishes.replace(".", ",")
+            wishes = __remove_unwanted_punctuation(wishes)
             wish_lines.append(name + ", " + wishes)
 
     wish_lines = list(set(wish_lines))
@@ -249,8 +275,17 @@ def get_letter(wish_file: str, letter_count: int):
                 file.write("\n" + line)
 
 
+def __remove_unwanted_punctuation(wishes):
+    """Remove unwanted punctuation (from acrylic paint brush set)"""
+    if " , " in wishes:
+        wishes = wishes.replace(" , ", ", ")
+    if "." in wishes:
+        wishes = wishes.replace(".", ",")
+    return wishes
+
+
 def __make_requests(letters):
-    """Make a request."""
+    """Make a request for a letter to Santa."""
     letters.append(requests.get("https://cs.ttu.ee/services/xmas/letter").json()["letter"])
 
 
@@ -301,4 +336,3 @@ if __name__ == '__main__':
     get_letter("somethingweird.csv", 100)
     end = time.time()
     print(end - start)
-
