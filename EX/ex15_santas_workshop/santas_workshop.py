@@ -13,7 +13,7 @@ class Child:
 
     def __init__(self, name: str, naughty: bool, country: str, wishes: list):
         """
-        Initializes a Child object with attributes:
+        Initialize a Child object.
 
         name: name of the child as a string
         naughty: a boolean indicating whether the child is naughty
@@ -31,7 +31,7 @@ class Gift:
 
     def __init__(self, name: str, material_cost: int, production_time: int, weight_in_grams: int):
         """
-        Initializes a Gift object with attributes:
+        Initialize a Gift object.
 
         name: name of the gift as a string
         material_cost: cost of materials required to make the gift as an integer
@@ -49,7 +49,7 @@ class Factory:
 
     def __init__(self, filename):
         """
-        Initializes a Factory object with attribute:
+        Initialize a Factory object.
 
         filename: the name of the file containing the gifts as a string
         """
