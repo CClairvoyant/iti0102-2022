@@ -12,42 +12,52 @@ class Child:
     """Data about a child."""
 
     def __init__(self, name: str, naughty: bool, country: str, wishes: list):
-        """Class constructor."""
+        """
+        Initializes a Child object with attributes:
+
+        name: name of the child as a string
+        naughty: a boolean indicating whether the child is naughty
+        country: country of the child as a string
+        wishes: a list of Gift objects representing the child's wishes
+        """
         self.name = name
         self.naughty = naughty
         self.country = country
         self.wishes = wishes
-
-    def __repr__(self):
-        """Class representation."""
-        return self.name
 
 
 class Gift:
     """Data about a gift."""
 
     def __init__(self, name: str, material_cost: int, production_time: int, weight_in_grams: int):
-        """Initialize a new instance with the given name, material cost, production time, and weight in grams."""
+        """
+        Initializes a Gift object with attributes:
+
+        name: name of the gift as a string
+        material_cost: cost of materials required to make the gift as an integer
+        production_time: time taken to produce the gift as an integer
+        weight_in_grams: weight of the gift in grams as an integer
+        """
         self.name = name
         self.material_cost = material_cost
         self.production_time = production_time
         self.weight_in_grams = weight_in_grams
-
-    def __repr__(self):
-        """Class representation."""
-        return self.name
 
 
 class Factory:
     """Factory."""
 
     def __init__(self, filename):
-        """Class constructor."""
+        """
+        Initializes a Factory object with attribute:
+
+        filename: the name of the file containing the gifts as a string
+        """
         self.filename = filename
         self.gifts = []
 
     def get_gifts(self):
-        """Get data about gifts using a thread pool."""
+        """Create a list of Gift objects from the data in the file passed to the Factory object's filename attribute."""
         presents = []
 
         with open(self.filename) as file:
@@ -203,15 +213,12 @@ def decode_caesar(letter: str):
     decoded_letter = ""
 
     for character in letter:
-
         if character.isalpha() and character.islower():
             new_pos = (ord(character) - ord("a") - 4) % 26
             decoded_letter += chr(new_pos + ord("a"))
-
         elif character.isalpha() and character.isupper():
             new_pos = (ord(character) - ord("A") - 4) % 26
             decoded_letter += chr(new_pos + ord("A"))
-
         else:
             decoded_letter += character
 
@@ -289,47 +296,10 @@ def __make_requests(letters):
 
 
 if __name__ == '__main__':
-    list_of_children = [
-        Child("Joonas", False, "Estonia", [
-            Gift('Wall-mount diamond pickaxe', 15, 1, 8200),
-            Gift('Mermaid barbie', 15, 1, 5000),
-            Gift('Pink fluffy pen', 15, 1, 6000)
-        ]),
-        Child("Toomas", False, "Estonia", [
-            Gift('LED light up sneakers', 15, 1, 12000),
-            Gift('Toy train set', 15, 1, 8000),
-            Gift('Book about dinosaurs', 15, 1, 9000)
-        ]),
-        Child("Albert", False, "Estonia", [
-            Gift('Dungeons and Dragons 5th Edition Starter Set', 15, 1, 5000),
-            Gift('Book about dinosaurs', 15, 1, 5000),
-            Gift('Wall-mount diamond pickaxe', 15, 1, 5000)
-        ]),
-        Child("Martha", False, "United Kingdom", [
-            Gift('Mermaid barbie', 15, 1, 125),
-            Gift('Wall-mount diamond pickaxe', 15, 1, 123),
-            Gift('LED light up sneakers', 15, 1, 912)
-        ]),
-        Child("Elizabeth", False, "United Kingdom", [
-            Gift('Briefcase of art supplies', 15, 1, 122),
-            Gift('Toy train set', 15, 1, 1275),
-            Gift('Mermaid barbie', 15, 1, 125)
-        ]),
-        Child("Donald", False, "United States of America", [
-            Gift('Briefcase of art supplies', 15, 1, 126),
-            Gift('LED light up sneakers', 15, 1, 128),
-            Gift('Wall-mount diamond pickaxe', 15, 1, 192)
-        ]),
-        Child("Joe", False, "United States of America", [
-            Gift('Book about dinosaurs', 15, 1, 1072),
-            Gift('Toy train set', 15, 1, 127),
-            Gift('Wall-mount diamond pickaxe', 15, 1, 1253)
-        ]),
-    ]
-    # start = time.time()
-    # delivery_sheets("nice_list.csv", "naughty_list.csv", "wish_list.csv")
-    # end = time.time()
-    # print(end - start)
+    start = time.time()
+    delivery_sheets("nice_list.csv", "naughty_list.csv", "wish_list.csv")
+    end = time.time()
+    print(end - start)
 
     start = time.time()
     get_letter("somethingweird.csv", 100)
