@@ -163,8 +163,11 @@ def delivery_sheets(nice_file: str, naughty_file: str, wish_file: str):
     name = "Name"
     gifts = "Gifts"
 
-    if not os.path.exists("deliveries"):
-        os.mkdir("deliveries")
+    if os.path.exists("deliveries"):
+        for file in os.listdir("deliveries"):
+            os.remove(f"deliveries/{file}")
+        os.rmdir("deliveries")
+    os.mkdir("deliveries")
 
     # For each order, find the length of the longest string in name and gifts category.
     for i in range(len(orders)):
@@ -295,7 +298,7 @@ def __make_requests(letters):
     letters.append(requests.get("https://cs.ttu.ee/services/xmas/letter").json()["letter"])
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     start = time.time()
     delivery_sheets("nice_list.csv", "naughty_list.csv", "wish_list.csv")
     end = time.time()
