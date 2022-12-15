@@ -11,7 +11,7 @@ class PlayerBot:
 
     def play(self, money: int, opponent_money: int, last_bid: int) -> int:
         """Play a round in the auction."""
-        return min(15, money)  # example algorithm that bids up to 15 every round
+        return min(money, last_bid + 1)  # example algorithm that bids up to 15 every round
 
 
 if __name__ == '__main__':
