@@ -7,6 +7,7 @@ class PlayerBot:
 
     def __init__(self):
         """Initialize the class, put all the variables that you want to save here."""
+        pass
 
     def play(self, money: int, opponent_money: int, last_bid: int) -> int:
         """Play a round in the auction."""
