@@ -5,7 +5,7 @@ class PlayerBot:
     """Bot algorithm."""
 
     @staticmethod
-    def play(self, money: int, opponent_money: int, last_bid: int) -> int:
+    def play(money: int, opponent_money: int, last_bid: int) -> int:
         """Play a round in the auction."""
         return min(money, last_bid + 2)
 
