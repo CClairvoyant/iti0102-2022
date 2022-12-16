@@ -1,5 +1,4 @@
 """MX Auction."""
-from auction import Auction  # copy the files auction.py and bots.py!
 
 
 class PlayerBot:
@@ -11,9 +10,11 @@ class PlayerBot:
 
     def play(self, money: int, opponent_money: int, last_bid: int) -> int:
         """Play a round in the auction."""
-        return min(money, last_bid + 1)  # example algorithm that bids up to 15 every round
+        return min(money, last_bid + 2)  # example algorithm that bids up to 15 every round
 
 
 if __name__ == '__main__':
+    from auction import Auction  # copy the files auction.py and bots.py!
+
     # play all the example bots against each other
     Auction(main_player=PlayerBot).simulate(auctions=99, rounds=99)
