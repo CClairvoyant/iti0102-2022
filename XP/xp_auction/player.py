@@ -4,13 +4,10 @@
 class PlayerBot:
     """Bot algorithm."""
 
-    def __init__(self):
-        """Initialize the class, put all the variables that you want to save here."""
-        pass
-
+    @staticmethod
     def play(self, money: int, opponent_money: int, last_bid: int) -> int:
         """Play a round in the auction."""
-        return min(money, last_bid + 2)  # example algorithm that bids up to 15 every round
+        return min(money, last_bid + 2)
 
 
 if __name__ == '__main__':
