@@ -45,7 +45,6 @@ class Auction:
     def __init__(self, bots: Optional[list[Type[Bot]]] = None, *, main_player: Optional[Type[Bot]] = None):
         """Initialize the auction."""
         from bots import active_bots_list
-
         default_bots = active_bots_list
         self.bots = bots or default_bots
         self.main_player = main_player
