@@ -16,5 +16,5 @@ class PlayerBot:
 if __name__ == '__main__':
     from auction import Auction  # copy the files auction.py and bots.py!
 
-    # play all the example bots against each other
+    # play all the example bots against each other.
     Auction(main_player=PlayerBot).simulate(auctions=99, rounds=99)
