@@ -30,6 +30,11 @@ class SentenceGenerator:
 
     def sentence_generator(self, syntax: str):
         """Build the sentence."""
+        count = 0
+        if "." in syntax:
+            count = syntax.count(".")
+            syntax.strip(".")
+
         syntaxes = syntax.split(" ")
 
         while True:
@@ -46,7 +51,7 @@ class SentenceGenerator:
                     for word in self.rule_dict[syn].split(" "):
                         result += "".join(self.get_word(word))
 
-            yield result[:-1]
+            yield result[:-1] + "." * count
 
     def get_word(self, word):
         """Use a rule to get a word."""
@@ -64,11 +69,11 @@ class SentenceGenerator:
 
 if __name__ == '__main__':
     rules = """
-    koer   
+a = tere
     """
 
     g = SentenceGenerator(rules)
-    gg = g.sentence_generator("   koer   ")
+    gg = g.sentence_generator("a.")
     print(next(gg))
     print(next(gg))
     print(next(gg))
