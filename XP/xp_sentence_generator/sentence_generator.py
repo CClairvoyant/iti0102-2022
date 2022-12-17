@@ -33,7 +33,7 @@ class SentenceGenerator:
         count = 0
         if "." in syntax:
             count = syntax.count(".")
-            syntax.strip(".")
+            syntax = syntax.strip(".")
 
         syntaxes = syntax.split(" ")
 
