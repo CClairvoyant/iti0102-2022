@@ -57,7 +57,7 @@ class SentenceGenerator:
         if word not in self.rule_dict:
             return word + " "
         else:
-            for i in range(len(self.rule_dict[word].split())):
+            for i in range(len(self.rule_dict[word].split(" "))):
                 something.append(self.get_word(self.rule_dict[word].split(" ")[i]))
         return something
 
