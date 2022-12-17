@@ -36,7 +36,9 @@ class SentenceGenerator:
 
             # Loop through the given syntaxes and use the saved indexes to build the sentence.
             for syn in syntaxes:
-                if isinstance(self.rule_dict.get(syn), list):
+                if syn not in self.rule_dict:
+                    continue
+                if isinstance(self.rule_dict[syn], list):
                     result += self.rule_dict[syn][self.indexes[syn] % len(self.rule_dict[syn])] + " "
                     self.indexes[syn] += 1
                 else:
