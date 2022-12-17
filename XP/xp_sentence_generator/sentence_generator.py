@@ -38,7 +38,7 @@ class SentenceGenerator:
             for syn in syntaxes:
                 if syn not in self.rule_dict:
                     result += syn
-                if isinstance(self.rule_dict[syn], list):
+                elif isinstance(self.rule_dict[syn], list):
                     result += self.rule_dict[syn][self.indexes[syn] % len(self.rule_dict[syn])] + " "
                     self.indexes[syn] += 1
                 else:
