@@ -6,7 +6,7 @@ class SentenceGenerator:
 
     def __init__(self, rules_string: str):
         """Initialize the class and save all the rules and indexes for each rule."""
-        self.rules = rules_string.strip().split("\n")
+        self.rules = rules_string.split("\n")
         self.rule_dict = {}
         self.indexes = {}
 
@@ -14,13 +14,13 @@ class SentenceGenerator:
         # (values as strings) if they contain previously defined rules.
         for rule in self.rules:
             if "|" in rule:
-                key = rule.strip().split(" =")[0]
+                key = rule.split(" =")[0]
                 self.indexes[key] = 0
                 self.rule_dict[key] = []
                 for word in rule.split("= ")[1].split(" | "):
                     self.rule_dict[key].append(word)
             else:
-                key = rule.strip().split(" =")[0]
+                key = rule.split(" =")[0]
                 # test_lines_with_some_rules
                 try:
                     self.rule_dict[key] = rule.split("= ")[1]
@@ -63,28 +63,5 @@ class SentenceGenerator:
 
 if __name__ == '__main__':
     rules = """
-    a.??? = koer | porgand | madis | kurk | tomat
-    target = koera | porgandit | madist | kurki | tomatit
-    verb = sööb | lööb | jagab | tahab | ei taha
-    adjective = ilus | kole | pahane | magus | sinu
-    targetadjective = ilusat | koledat | pahast | magusat | sinu
-    sentence = a.??? verb target .
-    beautifulsentence = adjective a.??? verb targetadjective target .
-    twosentences = sentence sentence
+    
     """
-
-    g = SentenceGenerator(rules)
-    gg = g.sentence_generator("a.???")
-    print(next(gg))
-    print(next(gg))
-    print(next(gg))
-    print(next(gg))
-    print(next(gg))
-    print(next(gg))
-    print(next(gg))
-    gg = g.sentence_generator("beautifulsentence a.???")
-    print(next(gg))
-    print(next(gg))
-    print(next(gg))
-    gg = g.sentence_generator("twosentences")
-    print(next(gg))
