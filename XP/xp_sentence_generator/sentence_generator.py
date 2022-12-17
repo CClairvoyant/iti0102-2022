@@ -21,7 +21,11 @@ class SentenceGenerator:
                     self.rule_dict[key].append(word)
             else:
                 key = rule.strip().split(" =")[0]
-                self.rule_dict[key] = rule.split("= ")[1]
+                # test_lines_with_some_rules
+                try:
+                    self.rule_dict[key] = rule.split("= ")[1]
+                except IndexError:
+                    pass
 
     def sentence_generator(self, syntax: str):
         """Build the sentence."""
@@ -42,6 +46,7 @@ class SentenceGenerator:
             yield result[:-1]
 
     def get_word(self, word):
+        """Use a rule to get a word."""
         if word in self.indexes:
             self.indexes[word] += 1
             return self.rule_dict[word][(self.indexes[word] - 1) % len(self.rule_dict[word])] + " "
