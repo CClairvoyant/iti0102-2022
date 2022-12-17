@@ -18,12 +18,15 @@ class SentenceGenerator:
                 self.indexes[key] = 0
                 self.rule_dict[key] = []
                 for word in rule.split("= ")[1].split(" | "):
-                    self.rule_dict[key].append(word)
+                    if key != word:
+                        self.rule_dict[key].append(word)
             else:
                 key = rule.split(" =")[0]
                 # test_lines_with_some_rules
                 try:
                     self.rule_dict[key] = rule.split("= ")[1]
+                    if self.rule_dict[key] == key:
+                        self.rule_dict[key] = "???"
                 except IndexError:
                     pass
         print(self.rule_dict)
@@ -70,10 +73,11 @@ class SentenceGenerator:
 if __name__ == '__main__':
     rules = """
 a = tere
+b = b | 2 | 3
     """
 
     g = SentenceGenerator(rules)
-    gg = g.sentence_generator("a.")
+    gg = g.sentence_generator("a b")
     print(next(gg))
     print(next(gg))
     print(next(gg))
