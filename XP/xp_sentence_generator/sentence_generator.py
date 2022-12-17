@@ -37,20 +37,17 @@ class SentenceGenerator:
                     self.indexes[syn] += 1
                 else:
                     for word in self.rule_dict[syn].split():
-                        if word not in self.rule_dict:
-                            result += word + " "
-                        else:
-                            result += "".join(self.get_word(word))
+                        result += "".join(self.get_word(word))
 
-            yield result[:-1]
+            yield result
 
-    def get_word(self, word, pos=0):
+    def get_word(self, word):
         if word in self.indexes:
             self.indexes[word] += 1
             return self.rule_dict[word][(self.indexes[word] - 1) % len(self.rule_dict[word])] + " "
         something = []
         if word not in self.rule_dict:
-            return word
+            return word + " "
         else:
             for i in range(len(self.rule_dict[word].split())):
                 something.append(self.get_word(self.rule_dict[word].split(" ")[i]))
@@ -59,18 +56,18 @@ class SentenceGenerator:
 
 if __name__ == '__main__':
     rules = """
-    noun = koer | porgand | madis | kurk | tomat
+    a.??? = koer | porgand | madis | kurk | tomat
     target = koera | porgandit | madist | kurki | tomatit
     verb = sööb | lööb | jagab | tahab | ei taha
     adjective = ilus | kole | pahane | magus | sinu
     targetadjective = ilusat | koledat | pahast | magusat | sinu
-    sentence = noun verb target .
-    beautifulsentence = adjective noun verb targetadjective target .
+    sentence = a.??? verb target .
+    beautifulsentence = adjective a.??? verb targetadjective target .
     twosentences = sentence sentence
     """
 
     g = SentenceGenerator(rules)
-    gg = g.sentence_generator("noun")
+    gg = g.sentence_generator("a.???")
     print(next(gg))
     print(next(gg))
     print(next(gg))
@@ -78,7 +75,7 @@ if __name__ == '__main__':
     print(next(gg))
     print(next(gg))
     print(next(gg))
-    gg = g.sentence_generator("beautifulsentence noun")
+    gg = g.sentence_generator("beautifulsentence a.???")
     print(next(gg))
     print(next(gg))
     print(next(gg))
