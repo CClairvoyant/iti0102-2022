@@ -26,6 +26,7 @@ class SentenceGenerator:
                     self.rule_dict[key] = rule.split("= ")[1]
                 except IndexError:
                     pass
+        print(self.rule_dict)
 
     def sentence_generator(self, syntax: str):
         """Build the sentence."""
@@ -42,7 +43,7 @@ class SentenceGenerator:
                     result += self.rule_dict[syn][self.indexes[syn] % len(self.rule_dict[syn])] + " "
                     self.indexes[syn] += 1
                 else:
-                    for word in self.rule_dict[syn].split():
+                    for word in self.rule_dict[syn].split(" "):
                         result += "".join(self.get_word(word))
 
             yield result[:-1]
@@ -63,5 +64,13 @@ class SentenceGenerator:
 
 if __name__ == '__main__':
     rules = """
-    
+word =    koer   
     """
+
+    g = SentenceGenerator(rules)
+    gg = g.sentence_generator("word")
+    print(next(gg))
+    print(next(gg))
+    print(next(gg))
+
+
