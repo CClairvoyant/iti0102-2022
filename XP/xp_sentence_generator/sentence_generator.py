@@ -39,7 +39,7 @@ class SentenceGenerator:
                     for word in self.rule_dict[syn].split():
                         result += "".join(self.get_word(word))
 
-            yield result
+            yield result[:-1]
 
     def get_word(self, word):
         if word in self.indexes:
