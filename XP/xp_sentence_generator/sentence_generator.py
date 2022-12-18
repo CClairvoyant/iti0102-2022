@@ -52,32 +52,30 @@ class SentenceGenerator:
 
     def sentence_generator(self, syntax: str):
         """Build the sentence."""
-        try:
-            count = 0
-            if "." in syntax:
-                count = syntax.count(".")
-                syntax = syntax.strip(".")
+        count = 0
+        if "." in syntax:
+            count = syntax.count(".")
+            syntax = syntax.strip(".")
 
-            syntaxes = syntax.split(" ")
+        syntaxes = syntax.split(" ")
 
-            while True:
-                result = ""
+        while True:
+            result = ""
 
-                # Loop through the given syntaxes and use the saved indexes to build the sentence.
-                for syn in syntaxes:
-                    if syn not in self.rule_dict:
-                        result += syn + " "
-                    elif isinstance(self.rule_dict[syn], list):
-                        result += self.rule_dict[syn][self.indexes[syn] % len(self.rule_dict[syn])] + " "
-                        self.indexes[syn] += 1
-                    else:
-                        for word in self.rule_dict[syn].split(" "):
-                            result += "".join(self.get_word(word))
+            # Loop through the given syntaxes and use the saved indexes to build the sentence.
+            for syn in syntaxes:
+                if syn not in self.rule_dict:
+                    result += syn + " "
+                elif isinstance(self.rule_dict[syn], list):
+                    result += self.rule_dict[syn][self.indexes[syn] % len(self.rule_dict[syn])] + " "
+                    self.indexes[syn] += 1
+                else:
+                    for word in self.rule_dict[syn].split(" "):
+                        result += "".join(self.get_word(word))
 
-                if " temp " in result:
-                    result = result.replace(" temp ", "")
-                yield result[:-1] + "." * count
-        except AssertionError:
+            if " temp " in result:
+                result = result.replace(" temp ", "")
+
             yield self.rules, syntax
 
     def get_word(self, word):
