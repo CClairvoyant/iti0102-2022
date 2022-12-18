@@ -87,10 +87,11 @@ class SentenceGenerator:
 
             if " temp " in result:
                 if result[:result.index(" temp ")] in self.rule_dict:
-                    result = next(self.sentence_generator(result[:result.index(" temp ")])) + result[result.index(" temp "):]
+                    result = next(self.sentence_generator(result[:result.index(" temp ")])) + \
+                             result[result.index(" temp "):]
                 result = result.replace(" temp ", "")
 
-            yield result[:-1] + "." * count
+            yield self.rules[5:]
 
     def get_word(self, word):
         """Use a rule to get a word."""
@@ -107,12 +108,16 @@ class SentenceGenerator:
 
 
 if __name__ == '__main__':
-    rules = 'a = tere | tsau.' + "\n" + \
-            'b = a.?? | .a' + "\n" + \
+    rules = 'a = 1' + "\n" + \
+            'a = 2' + "\n" + \
+            'a = 3' + "\n" + \
+            'b = a' + "\n" + \
+            'b = 4' + "\n" + \
+            'd = a a' + "\n" + \
             'c = b!!, b'
-
+    ['a = 1', 'a = 2', 'a = 3', 'b = a', 'b = 4', 'd = a a', ...], 'd'
     g = SentenceGenerator(rules)
-    gg = g.sentence_generator("c")
+    gg = g.sentence_generator("a a")
     print(next(gg))
     print(next(gg))
     print(next(gg))
