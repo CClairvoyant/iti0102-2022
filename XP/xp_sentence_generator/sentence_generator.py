@@ -90,7 +90,7 @@ class SentenceGenerator:
             for word in result.split(" "):
                 if word in self.rule_dict:
                     result = result[:result.index(word)] + next(self.sentence_generator(word)) + \
-                            result[result.index(word) + len(word):]
+                        result[result.index(word) + len(word):]
 
             if " temp " in result:
                 result = result.replace(" temp ", "")
