@@ -37,7 +37,13 @@ class SentenceGenerator:
                             punctuation_indexes.append(value.index("?"))
                         index = min(punctuation_indexes)
                         value = value[:index] + " temp " + value[index:]
-                    self.rule_dict[key] = value
+                    if key not in self.rule_dict:
+                        self.rule_dict[key] = value
+                    elif isinstance(self.rule_dict[key], list):
+                        self.rule_dict[key].append(value)
+                    else:
+                        self.indexes[key] = 0
+                        self.rule_dict[key] = [self.rule_dict[key], value]
                     if self.rule_dict[key] == key:
                         self.rule_dict[key] = "???"
                 except IndexError:
@@ -87,12 +93,13 @@ class SentenceGenerator:
 
 if __name__ == '__main__':
     rules = """
-a = tere | tulemast
-b = a?
+a = 1
+a = 2
+a = 3
     """
 
     g = SentenceGenerator(rules)
-    gg = g.sentence_generator("b")
+    gg = g.sentence_generator("a")
     print(next(gg))
     print(next(gg))
     print(next(gg))
