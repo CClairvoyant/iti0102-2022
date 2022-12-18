@@ -59,6 +59,8 @@ class SentenceGenerator:
                         self.rule_dict[key] = "???"
                 except IndexError:
                     pass
+                except ValueError:
+                    pass
         print(self.rule_dict)
 
     def sentence_generator(self, syntax: str):
