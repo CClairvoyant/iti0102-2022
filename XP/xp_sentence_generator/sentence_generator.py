@@ -34,7 +34,7 @@ class SentenceGenerator:
                         self.rule_dict[key].append(value)
             else:
                 # test_lines_with_some_rules
-                try:
+                if "=" in rule:
                     key, value = rule.split(" = ")
                     if any(["." in value, "," in value, "!" in value, "?" in value]):
                         punctuation_indexes = []
@@ -57,11 +57,6 @@ class SentenceGenerator:
                         self.rule_dict[key] = [self.rule_dict[key], value]
                     if self.rule_dict[key] == key:
                         self.rule_dict[key] = "???"
-                except IndexError:
-                    pass
-                except ValueError:
-                    pass
-        print(self.rule_dict)
 
     def sentence_generator(self, syntax: str):
         """Build the sentence."""
