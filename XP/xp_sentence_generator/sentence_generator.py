@@ -35,8 +35,7 @@ class SentenceGenerator:
             else:
                 # test_lines_with_some_rules
                 try:
-                    key = rule.split(" =")[0]
-                    value = rule.split("= ")[1]
+                    key, value = rule.split(" = ")
                     if any(["." in value, "," in value, "!" in value, "?" in value]):
                         punctuation_indexes = []
                         if "." in value:
@@ -64,10 +63,6 @@ class SentenceGenerator:
 
     def sentence_generator(self, syntax: str):
         """Build the sentence."""
-        count = 0
-        if "." in syntax:
-            count = syntax.count(".")
-            syntax = syntax.strip(".")
 
         syntaxes = syntax.split(" ")
 
@@ -93,7 +88,7 @@ class SentenceGenerator:
             if " temp " in result:
                 result = result.replace(" temp ", "")
 
-            yield result[:-1] + "." * count
+            yield result[:-1]
 
     def get_word(self, word):
         """Use a rule to get a word."""
