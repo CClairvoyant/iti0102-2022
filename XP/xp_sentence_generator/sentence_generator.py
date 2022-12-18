@@ -95,18 +95,7 @@ class SentenceGenerator:
 
             yield result[:-1] + "." * count
 
-    def get_word(self, word):
-        """Use a rule to get a word."""
-        if word in self.indexes:
-            self.indexes[word] += 1
-            return self.rule_dict[word][(self.indexes[word] - 1) % len(self.rule_dict[word])] + " "
-        something = []
-        if word not in self.rule_dict:
-            return word + " "
-        else:
-            for i in range(len(self.rule_dict[word].split(" "))):
-                something.append(self.get_word(self.rule_dict[word].split(" ")[i]))
-        return something
+
 
 
 if __name__ == '__main__':
