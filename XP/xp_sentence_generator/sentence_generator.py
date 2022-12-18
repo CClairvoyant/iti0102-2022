@@ -17,9 +17,21 @@ class SentenceGenerator:
                 key = rule.split(" =")[0]
                 self.indexes[key] = 0
                 self.rule_dict[key] = []
-                for word in rule.split("= ")[1].split(" | "):
-                    if key != word:
-                        self.rule_dict[key].append(word)
+                for value in rule.split("= ")[1].split(" | "):
+                    if key != value:
+                        if any(["." in value, "," in value, "!" in value, "?" in value]):
+                            punctuation_indexes = []
+                            if "." in value:
+                                punctuation_indexes.append(value.index("."))
+                            if "," in value:
+                                punctuation_indexes.append(value.index(","))
+                            if "!" in value:
+                                punctuation_indexes.append(value.index("!"))
+                            if "?" in value:
+                                punctuation_indexes.append(value.index("?"))
+                            index = min(punctuation_indexes)
+                            value = value[:index] + " temp " + value[index:]
+                        self.rule_dict[key].append(value)
             else:
                 # test_lines_with_some_rules
                 try:
@@ -74,9 +86,11 @@ class SentenceGenerator:
                         result += "".join(self.get_word(word))
 
             if " temp " in result:
+                if result[:result.index(" temp ")] in self.rule_dict:
+                    result = next(self.sentence_generator(result[:result.index(" temp ")])) + result[result.index(" temp "):]
                 result = result.replace(" temp ", "")
 
-            yield self.rules, syntax
+            yield result[:-1] + "." * count
 
     def get_word(self, word):
         """Use a rule to get a word."""
@@ -93,14 +107,12 @@ class SentenceGenerator:
 
 
 if __name__ == '__main__':
-    rules = """
-a = 1
-a = 2
-a = 3
-    """
+    rules = 'a = tere | tsau.' + "\n" + \
+            'b = a.?? | .a' + "\n" + \
+            'c = b!!, b'
 
     g = SentenceGenerator(rules)
-    gg = g.sentence_generator("a a")
+    gg = g.sentence_generator("c")
     print(next(gg))
     print(next(gg))
     print(next(gg))
