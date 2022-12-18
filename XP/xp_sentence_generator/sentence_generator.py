@@ -21,10 +21,23 @@ class SentenceGenerator:
                     if key != word:
                         self.rule_dict[key].append(word)
             else:
-                key = rule.split(" =")[0]
                 # test_lines_with_some_rules
                 try:
-                    self.rule_dict[key] = rule.split("= ")[1]
+                    key = rule.split(" =")[0]
+                    value = rule.split("= ")[1]
+                    if any(["." in value, "," in value, "!" in value, "?" in value]):
+                        punctuation_indexes = []
+                        if "." in value:
+                            punctuation_indexes.append(value.index("."))
+                        if "," in value:
+                            punctuation_indexes.append(value.index(","))
+                        if "!" in value:
+                            punctuation_indexes.append(value.index("!"))
+                        if "?" in value:
+                            punctuation_indexes.append(value.index("?"))
+                        index = min(punctuation_indexes)
+                        value = value[:index] + " temp " + value[index:]
+                    self.rule_dict[key] = value
                     if self.rule_dict[key] == key:
                         self.rule_dict[key] = "???"
                 except IndexError:
@@ -54,6 +67,8 @@ class SentenceGenerator:
                     for word in self.rule_dict[syn].split(" "):
                         result += "".join(self.get_word(word))
 
+            if " temp " in result:
+                result = result.replace(" temp ", "")
             yield result[:-1] + "." * count
 
     def get_word(self, word):
@@ -72,12 +87,12 @@ class SentenceGenerator:
 
 if __name__ == '__main__':
     rules = """
-a = tere
-b = b | 2 | 3
+a = tere | tulemast
+b = a?
     """
 
     g = SentenceGenerator(rules)
-    gg = g.sentence_generator("a b")
+    gg = g.sentence_generator("b")
     print(next(gg))
     print(next(gg))
     print(next(gg))
