@@ -53,13 +53,13 @@ def exchange_money(exchange_rates: dict) -> list:
     exchange_rates = dict(reversed(list(exchange_rates.items())))
 
     for i in range(1, len(exchange_rates)):
-        dates = list(exchange_rates)
-        if exchange_rates[dates[i - 1]] >= exchange_rates[dates[i]]:
+        temp_dates = list(exchange_rates)
+        if exchange_rates[temp_dates[i - 1]] >= exchange_rates[temp_dates[i]]:
             drops.append({
-                "start_date": dates[i - 1],
-                "end_date": dates[i],
-                "start_value": exchange_rates[dates[i - 1]],
-                "end_value": exchange_rates[dates[i]]
+                "start_date": temp_dates[i - 1],
+                "end_date": temp_dates[i],
+                "start_value": exchange_rates[temp_dates[i - 1]],
+                "end_value": exchange_rates[temp_dates[i]]
             })
 
     while len(drops) > len(combine_days(drops)):
@@ -104,4 +104,4 @@ def combine_days(drops: list[dict]) -> list[dict]:
 if __name__ == '__main__':
     result = get_currency_rates_from_file("article-report.csv")
     print(result)
-    print(exchange_money(result[1]))
+    print(len(exchange_money(result[1])))
