@@ -18,15 +18,19 @@ def get_currency_rates_from_file(filename: str) -> tuple:
     :return: Tuple that consists of currency name and dict with exchange rate history
     """
     values = {}
+
     with open(filename) as f:
         content = f.read().split("\n")
     currency = content[0].split(" ")[-1][:-1]
     lines = content[:2:-1]
+
     if not lines[0]:
         lines.pop(0)
+
     for line in lines:
         date, value = line.split(",")
         values[date] = float(value)
+
     return currency, values
 
 
@@ -68,11 +72,27 @@ def exchange_money(exchange_rates: dict) -> list:
     while len(drops) > len(optimal_merge(drops)):
         drops = optimal_merge(drops)
 
+    drops = remove_bad_drops(drops)
+
     for drop in drops:
         dates.append(drop["start_date"])
         dates.append(drop["end_date"])
 
     return dates
+
+
+def combine_days(drops: list[dict]) -> list[dict]:
+    """Combine target currency value drops if they are on consecutive days."""
+    for i in range(1, len(drops)):
+        if drops[i]["start_date"] == drops[i - 1]["end_date"]:
+            drops[i]["start_date"] = drops[i - 1]["start_date"]
+            drops[i]["start_value"] = drops[i - 1]["start_value"]
+            drops[i - 1] = {}
+
+    while {} in drops:
+        drops.remove({})
+
+    return drops
 
 
 def optimal_merge(drops: list[dict]) -> list[dict]:
@@ -84,20 +104,22 @@ def optimal_merge(drops: list[dict]) -> list[dict]:
             drops[i]["start_date"] = drops[i - 1]["start_date"]
             drops[i]["start_value"] = drops[i - 1]["start_value"]
             drops[i - 1] = {}
+
     while {} in drops:
         drops.remove({})
+
     return drops
 
 
-def combine_days(drops: list[dict]) -> list[dict]:
-    """Combine target currency value drops if they are on consecutive days."""
-    for i in range(1, len(drops)):
-        if drops[i]["start_date"] == drops[i - 1]["end_date"]:
-            drops[i]["start_date"] = drops[i - 1]["start_date"]
-            drops[i]["start_value"] = drops[i - 1]["start_value"]
-            drops[i - 1] = {}
+def remove_bad_drops(drops: list[dict]) -> list[dict]:
+    """Remove points, where investing would lose you money, due to bank's cut."""
+    for i in range(len(drops)):
+        if drops[i]["start_value"] * 99 / 100 / drops[i]["end_value"] * 99 / 100 < 1:
+            drops[i] = {}
+
     while {} in drops:
         drops.remove({})
+
     return drops
 
 
