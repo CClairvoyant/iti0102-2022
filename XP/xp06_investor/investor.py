@@ -96,10 +96,11 @@ def combine_days(drops: list[dict]) -> list[dict]:
 def optimal_merge(drops: list[dict]) -> list[dict]:
     """Find points where it isn't optimal to cash out and eliminate them from the dictionary."""
     for i in range(1, len(drops)):
-        if drops[i - i]["start_value"] * 99 / 100 / drops[i]["end_value"] * 99 / 100 > \
-                drops[i - i]["start_value"] * 99 / 100 / drops[i - 1]["end_value"] * 99 / 100 * \
+        if drops[i - 1]["start_value"] * 99 / 100 / drops[i]["end_value"] * 99 / 100 > \
+                drops[i - 1]["start_value"] * 99 / 100 / drops[i - 1]["end_value"] * 99 / 100 * \
                 (drops[i]["start_value"] * 99 / 100 / drops[i]["end_value"] * 99 / 100) and \
-                drops[i]["end_value"] < drops[i - 1]["end_value"]:
+                drops[i]["end_value"] < drops[i - 1]["end_value"] and \
+                drops[i]["start_value"] < drops[i - 1]["start_value"]:
             drops[i]["start_date"] = drops[i - 1]["start_date"]
             drops[i]["start_value"] = drops[i - 1]["start_value"]
             drops[i - 1] = {}
@@ -138,29 +139,29 @@ def remove_bad_drops(drops: list[dict]) -> list[dict]:
 
 if __name__ == '__main__':
     result = get_currency_rates_from_file("article-report.csv")
-    test_data = {
-        '31-10-2016': 1.0946,
-        '28-10-2016': 1.0922,
-        '27-10-2016': 1.0927,
-        '26-10-2016': 1.0925,
-        '25-10-2016': 1.0872,
-        '24-10-2016': 1.0891,
-        '21-10-2016': 1.0886,
-        '20-10-2016': 1.0980,
-        '19-10-2016': 1.0979,
-        '18-10-2016': 1.0993,
-        '17-10-2016': 1.0994,
-        '14-10-2016': 1.1002,
-        '13-10-2016': 1.1038,
-        '12-10-2016': 1.1020,
-        '11-10-2016': 1.1079,
-        '10-10-2016': 1.1160,
-        '07-10-2016': 1.1140,
-        '06-10-2016': 1.1185,
-        '05-10-2016': 1.1211,
-        '04-10-2016': 1.1161,
-        '03-10-2016': 1.1236
-    }
-    print(exchange_money(test_data))
+    # test_data = {
+    #     '31-10-2016': 1.0946,
+    #     '28-10-2016': 1.0922,
+    #     '27-10-2016': 1.0927,
+    #     '26-10-2016': 1.0925,
+    #     '25-10-2016': 1.0872,
+    #     '24-10-2016': 1.0891,
+    #     '21-10-2016': 1.0886,
+    #     '20-10-2016': 1.0980,
+    #     '19-10-2016': 1.0979,
+    #     '18-10-2016': 1.0993,
+    #     '17-10-2016': 1.0994,
+    #     '14-10-2016': 1.1002,
+    #     '13-10-2016': 1.1038,
+    #     '12-10-2016': 1.1020,
+    #     '11-10-2016': 1.1079,
+    #     '10-10-2016': 1.1160,
+    #     '07-10-2016': 1.1140,
+    #     '06-10-2016': 1.1185,
+    #     '05-10-2016': 1.1211,
+    #     '04-10-2016': 1.1161,
+    #     '03-10-2016': 1.1236
+    # }
+    print(exchange_money(result[1]))
     # 03 10 2016
     # 25 10 2016
