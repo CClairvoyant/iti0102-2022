@@ -66,9 +66,6 @@ def exchange_money(exchange_rates: dict) -> list:
                 "end_value": exchange_rates[temp_dates[i]]
             })
 
-    while len(drops) > len(combine_days(drops)):
-        drops = combine_days(drops)
-
     while len(drops) > len(optimal_merge(drops)):
         drops = optimal_merge(drops)
 
@@ -79,50 +76,20 @@ def exchange_money(exchange_rates: dict) -> list:
     return dates
 
 
-def combine_days(drops: list[dict]) -> list[dict]:
-    """Combine target currency value drops if they are on consecutive days."""
-    for i in range(1, len(drops)):
-        if drops[i]["start_date"] == drops[i - 1]["end_date"]:
-            drops[i]["start_date"] = drops[i - 1]["start_date"]
-            drops[i]["start_value"] = drops[i - 1]["start_value"]
-            drops[i - 1] = {}
-
-    while {} in drops:
-        drops.remove({})
-
-    return drops
-
-
 def optimal_merge(drops: list[dict]) -> list[dict]:
     """Find points where it isn't optimal to cash out and eliminate them from the dictionary."""
     for i in range(1, len(drops)):
-        if drops[i - 1]["start_value"] * 99 / 100 / drops[i]["end_value"] * 99 / 100 > \
-                drops[i - 1]["start_value"] * 99 / 100 / drops[i - 1]["end_value"] * 99 / 100 * \
-                (drops[i]["start_value"] * 99 / 100 / drops[i]["end_value"] * 99 / 100) and \
-                drops[i]["end_value"] < drops[i - 1]["end_value"] and \
+        if drops[i]["end_value"] < drops[i - 1]["end_value"] and \
                 drops[i]["start_value"] < drops[i - 1]["start_value"]:
             drops[i]["start_date"] = drops[i - 1]["start_date"]
             drops[i]["start_value"] = drops[i - 1]["start_value"]
             drops[i - 1] = {}
             break
 
-    while {} in drops:
+    if {} in drops:
         drops.remove({})
 
     return drops
-
-
-# def optimal_merge2(drops: list[dict], n: int) -> list[dict]:
-#     """
-#     Find points, where it is more optimal to keep money invested, than to cash out.
-#
-#     :param drops: List of dictionaries with all the drops in target currency value.
-#     :param n: Number of drops to compare to the next one.
-#     :return: Optimised drops.
-#     """
-#     for i in range(len(drops) - n):
-#         if drops[i]["start_value"] * 99 / 100 / drops[i + n]["end_value"] * 99 / 100 > \
-#                 drops[i]["start_value"] * 99 / 100 / drops[i + n - 1]["end_value"] * 99 / 100
 
 
 def remove_bad_drops(drops: list[dict]) -> list[dict]:
