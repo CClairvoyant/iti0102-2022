@@ -27,20 +27,18 @@ class SentenceGenerator:
                     if key != value:
                         value = self.check_punctuation(value)
                         self.rule_dict[key].append(value)
-            else:
-                # test_lines_with_some_rules
-                if "=" in rule:
-                    key, value = rule.split(" = ")
-                    value = self.check_punctuation(value)
-                    if key not in self.rule_dict:
-                        self.rule_dict[key] = value
-                    elif isinstance(self.rule_dict[key], list):
-                        self.rule_dict[key].append(value)
-                    else:
-                        self.indexes[key] = 0
-                        self.rule_dict[key] = [self.rule_dict[key], value]
-                    if self.rule_dict[key] == key:
-                        self.rule_dict[key] = "???"
+            elif "=" in rule:
+                key, value = rule.split(" = ")
+                value = self.check_punctuation(value)
+                if key not in self.rule_dict:
+                    self.rule_dict[key] = value
+                elif isinstance(self.rule_dict[key], list):
+                    self.rule_dict[key].append(value)
+                else:
+                    self.indexes[key] = 0
+                    self.rule_dict[key] = [self.rule_dict[key], value]
+                if self.rule_dict[key] == key:
+                    self.rule_dict[key] = "???"
 
     @staticmethod
     def check_punctuation(value: str):
@@ -117,18 +115,42 @@ class SentenceGenerator:
 
 
 if __name__ == '__main__':
-    rules = 'a = 1' + "\n" + \
-            'a = 2' + "\n" + \
-            'a = 3' + "\n" + \
-            'b = a' + "\n" + \
-            'b = 4' + "\n" + \
-            'd = a a' + "\n" + \
-            'd = b'
+    rules = """
+noun = koer | porgand | madis | kurk | tomat
+target = koera | porgandit | madist | kurki | tomatit
+verb = sööb | lööb | jagab | tahab | ei taha
+adjective = ilus | kole | pahane | magus | sinu
+targetadjective = ilusat | koledat | pahast | magusat | sinu
+sentence = noun verb target .
+beautifulsentence = adjective noun verb targetadjective target .
+twosentences = sentence sentence
+"""
+
     g = SentenceGenerator(rules)
-    gg = g.sentence_generator("d")
+    gg = g.sentence_generator("noun")
     print(next(gg))
     print(next(gg))
     print(next(gg))
     print(next(gg))
     print(next(gg))
+    print(next(gg))
+    print(next(gg))
+    gg = g.sentence_generator("beautifulsentence noun")
+    print(next(gg))
+    print(next(gg))
+    print(next(gg))
+
+    rules = """
+a = 1 2 3 4 5 | 6 7 8 9 0
+b = 12 a a 13 | 14 a a a 14
+c = b 20 b 21 | b 22 23 b
+d = c c c c | c c c | c b c
+aa = a b c d | d d c b a
+bb = aa 100 | 101 aa aa
+cc = aa bb aa | bb bb bb
+dd = cc bb bb bb cc
+aaa = aa bb cc dd cc dd | dd dd aa cc bb
+"""
+    g = SentenceGenerator(rules)
+    gg = g.sentence_generator("aaa")
     print(next(gg))
