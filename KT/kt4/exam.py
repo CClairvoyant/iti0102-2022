@@ -35,10 +35,7 @@ def sum_elements_around_last_three(nums: list) -> int:
     """
     if nums[1:-1].count(3) == 0:
         return 0
-    elif nums[::-1].index(3) == 0:
-        return nums[-nums[-2::-1].index(3) - 3] + nums[-nums[-2::-1].index(3) - 1]
-    else:
-        return nums[-nums[::-1].index(3) - 2] + nums[-nums[::-1].index(3)]
+    return nums[-nums[-2::-1].index(3) - 3] + nums[-nums[-2::-1].index(3) - 1]
 
 
 def max_block(s: str) -> int:
@@ -116,10 +113,16 @@ if __name__ == '__main__':
     assert two_digits_into_list(11) == [1, 1]
     assert two_digits_into_list(71) == [7, 1]
 
+    assert sum_elements_around_last_three([]) == 0
     assert sum_elements_around_last_three([1, 3, 7]) == 8
     assert sum_elements_around_last_three([1, 2, 3, 4, 6, 4, 3, 4, 5, 3, 4, 5, 6]) == 9
     assert sum_elements_around_last_three([1, 2, 3, 4, 6, 4, 3, 4, 5, 3, 3, 2, 3]) == 5
     assert sum_elements_around_last_three([1, 2, 3]) == 0
+    assert sum_elements_around_last_three([3, 1, 3]) == 0
+    assert sum_elements_around_last_three([1, 5, 4, 3]) == 0
+    assert sum_elements_around_last_three([3, 5, 1, 5]) == 0
+    assert sum_elements_around_last_three([3, 6, 7, 3]) == 0
+    assert sum_elements_around_last_three([3, 1, 7, 9, 0, 5, 7, 3, 5, 7, 3]) == 12
 
     assert max_block("hoopla") == 2
     assert max_block("abbCCCddBBBxx") == 3
