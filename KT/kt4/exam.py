@@ -42,7 +42,7 @@ def max_block(s: str) -> int:
     """
     Given a string, return the length of the largest "block" in the string.
 
-    A block is a run of adjacent chars that are the same.
+    A block is a run of adjacent  chars that are the same.
 
     max_block("hoopla") => 2
     max_block("abbCCCddBBBxx") => 3
