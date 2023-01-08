@@ -55,7 +55,7 @@ def g_happy(s: str) -> bool:
     g_happy("xxgxx") => False
     g_happy("xxggyygxx") => False
     """
-    return s
+    return "g" not in s.replace("gg", "xx")
 
 
 def merge_dictionary_paths(houses: dict, families: dict) -> dict:
