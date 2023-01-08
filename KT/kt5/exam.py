@@ -56,7 +56,13 @@ def g_happy(s: str) -> bool:
     g_happy("xxgxx") => False
     g_happy("xxggyygxx") => False
     """
-    return "g" not in s.replace("ggg", "").replace("gg", "")
+    sub = "g" * s.count("g")
+    for i in range(s.count("g")):
+        if len(sub) == 1:
+            break
+        s = s.replace(sub, "x" * len(sub))
+        sub = sub[1:]
+    return "g" not in s
 
 
 def merge_dictionary_paths(houses: dict, families: dict) -> dict:
@@ -129,7 +135,7 @@ if __name__ == '__main__':
     print(g_happy("xxggxx"))  # => True
     print(g_happy("xxgxx"))  # => False
     print(g_happy("xxggyygxx"))  # => False
-    print(g_happy("ggg"))
+    print(g_happy("gggggg"))
 
     houses = {"h1": ["a", "b"], "h2": ["b", "c"]}
     families = {"a": ["m", "n"], "b": ["k"], "c": ["x", "y"]}
