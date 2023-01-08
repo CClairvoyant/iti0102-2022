@@ -1,4 +1,5 @@
 """KT5."""
+import re
 
 
 def get_date_string(date: list) -> str:
@@ -55,7 +56,7 @@ def g_happy(s: str) -> bool:
     g_happy("xxgxx") => False
     g_happy("xxggyygxx") => False
     """
-    return "g" not in s.replace("gg", "")
+    return "g" not in s.replace("ggg", "").replace("gg", "")
 
 
 def merge_dictionary_paths(houses: dict, families: dict) -> dict:
@@ -128,7 +129,7 @@ if __name__ == '__main__':
     print(g_happy("xxggxx"))  # => True
     print(g_happy("xxgxx"))  # => False
     print(g_happy("xxggyygxx"))  # => False
-    print(g_happy("aaggaa"))
+    print(g_happy("ggg"))
 
     houses = {"h1": ["a", "b"], "h2": ["b", "c"]}
     families = {"a": ["m", "n"], "b": ["k"], "c": ["x", "y"]}
