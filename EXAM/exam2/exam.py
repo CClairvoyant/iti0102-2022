@@ -88,7 +88,7 @@ def sum_of_digits_recursion(s: str) -> int:
     Return sum of all the digits.
 
     The input string contains different symbols.
-    Sum all the digits. Yes.
+    Sum all the digits.
 
     The function has to be recursive (no loops allowed).
 
