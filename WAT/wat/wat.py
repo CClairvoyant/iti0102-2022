@@ -47,7 +47,7 @@ class Foo:
 
     def __eq__(self, num):
         """Func."""
-        return True
+        return False
 
 
 if __name__ == '__main__':
