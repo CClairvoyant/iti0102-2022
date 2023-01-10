@@ -1,4 +1,5 @@
 """Wat."""
+import time
 
 
 def function_a(num):
@@ -38,7 +39,7 @@ def function_g(num: int):
 
 def function_h(num):
     """Func."""
-    return Foo()
+    return ((num * int(time.time())) // 88) * 18 * num
 
 
 class Foo:
