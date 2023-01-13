@@ -1,6 +1,5 @@
 """API task."""
 
-
 from __future__ import print_function
 
 import os
@@ -12,6 +11,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 import googleapiclient.discovery
 import googleapiclient.errors
+from time import perf_counter
 
 
 def get_links_from_spreadsheet(id: str, token: str) -> list:
@@ -55,7 +55,7 @@ def get_links_from_spreadsheet(id: str, token: str) -> list:
         values = result.get('values')
 
         if not values:
-            return 'No data found.'
+            return []
 
         for row in values:
             # Print columns A and E, which correspond to indices 0 and 4.
@@ -98,7 +98,7 @@ def get_links_from_playlist(link: str, developer_key: str) -> list:
 
     for i in range(len(response["items"])):
         video_links.append("https://www.youtube.com/watch?v=" + response["items"][i]["contentDetails"]["videoId"])
-    print(response)
+
     while "nextPageToken" in response:
         request = youtube.playlistItems().list(
             part="contentDetails",
@@ -116,5 +116,12 @@ def get_links_from_playlist(link: str, developer_key: str) -> list:
 if __name__ == '__main__':
     with open("developer_key.txt", "r") as file:
         developer_key = file.read()
-    print(get_links_from_playlist("https://www.youtube.com/playlist?list=PLFt_AvWsXl0ehjAfLFsp1PGaatzAwo0uK", developer_key))
+    start = perf_counter()
+    video_links = get_links_from_playlist(
+        "https://www.youtube.com/watch?v=7MysgX9vv48&list=PL3tRBEVW0hiBSFOFhTC5wt75P2BES0rAo", developer_key)
+    end = perf_counter()
+    print(video_links)
+
+    print(f"Fetching {len(video_links)} video links took {end - start} seconds.")
+
     # print(get_links_from_spreadsheet('1WrCzu4p5lFwPljqZ6tMQEJb2vSJQSGjyMsqcYt-yS4M', 'token.json'))
