@@ -62,7 +62,7 @@ def encode_string_with_hex_key(input_str: str, key: str) -> str:
 
     :return Encoded string
     """
-    pass
+    return "".join(chr((ord(input_str[i]) - ord("a") + int(key[i], base=16)) % 26 + ord("a")) if input_str[i].islower() else chr((ord(input_str[i]) - ord("A") + int(key[i], base=16)) % 26 + ord("A")) if input_str[i].isupper() else input_str[i] for i in range(len(input_str)))
 
 
 def sum_of_multipliers(first_num: int, second_num: int, limit: int) -> int:
