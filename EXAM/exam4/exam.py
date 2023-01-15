@@ -106,7 +106,7 @@ def count_the_dumplings(day: int) -> int:
     count_the_dumplings(3) => 4
     count_the_dumplings(30) ==> 536870912
     """
-    return 2 ** (day - 1) if day > 0 else 0
+    return count_the_dumplings(0) + 2 ** (day - 1) if day > 0 else 0
 
 
 def prime_factorization(number: int) -> int:
