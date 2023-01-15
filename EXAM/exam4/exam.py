@@ -87,7 +87,7 @@ def sum_of_multipliers(first_num: int, second_num: int, limit: int) -> int:
     :param limit: limit
     :return: sum of multiplies
     """
-    pass
+    return sum(set(list(range(first_num, limit + 1, first_num)) + list(range(second_num, limit + 1, second_num))))
 
 
 def count_the_dumplings(day: int) -> int:
@@ -95,7 +95,7 @@ def count_the_dumplings(day: int) -> int:
     Count the dumplings.
 
     You are the production engineer of new dumpling factory.
-    Each day the factory has to double it's dumpling production.
+    Each day the factory has to double its dumpling production.
     Your manager asked you how many dumplings are we making on day X.
     As a lazy software engineer you decided to write a recursive program to count it.
     This function CANNOT contain any while/for loops.
@@ -106,7 +106,7 @@ def count_the_dumplings(day: int) -> int:
     count_the_dumplings(3) => 4
     count_the_dumplings(30) ==> 536870912
     """
-    pass
+    return 2 ** (day - 1) if day > 0 else 0
 
 
 def prime_factorization(number: int) -> int:
