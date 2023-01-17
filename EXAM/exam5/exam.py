@@ -260,7 +260,7 @@ class Monster:
             return True
         return False
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         """
         Return string representation.
 
@@ -371,7 +371,7 @@ class Witcher:
 
         Each value should be in the list once, so there can be max 3 objects in the result.
         """
-        return sorted(map(lambda x: x.__repr__(), self.killed_monsters))
+        return sorted(set(map(lambda x: x.species.__repr__(), self.killed_monsters)))
 
     def hunt_most_expensive(self, village: Village) -> bool:
         """
@@ -387,8 +387,7 @@ class Witcher:
             return False
         monster: Monster = max(village.monsters, key=lambda x: x.bounty)
         monster.slay()
-        if monster.species not in self.killed_monsters:
-            self.killed_monsters.append(monster.species)
+        self.killed_monsters.append(monster)
         village.monsters.remove(monster)
         if village.pay(monster.bounty):
             self.money += monster.bounty
