@@ -371,7 +371,7 @@ class Witcher:
 
         Each value should be in the list once, so there can be max 3 objects in the result.
         """
-        return sorted(set(map(lambda x: str(x.species.__repr__()), self.killed_monsters)))
+        return sorted(set(map(lambda x: x.species.name, self.killed_monsters)))
 
     def hunt_most_expensive(self, village: Village) -> bool:
         """
