@@ -155,6 +155,9 @@ class Car:
         self.make = make
         self.engine_size = engine_size
 
+    def __repr__(self):
+        return f"{self.color} {self.make} {self.engine_size}"
+
 
 class Service:
     """Represent car service model."""
@@ -216,7 +219,7 @@ class Service:
 
         :return: car (cars) with the biggest engine size.
         """
-        return [car for car in self.queue if car.engine_size == max(self.queue, key=lambda x: x.engine_size)]
+        return [car for car in self.queue if car.engine_size == max(map(lambda x: x.engine_size, self.queue))]
 
 
 class Species(Enum):
@@ -413,9 +416,17 @@ if __name__ == '__main__':
     print(service.get_service_cars())  # [car]
 
     car2 = Car("blue", "honda", 1500)
+    car3 = Car("blue", "hyundai12", 123)
 
     print(service.can_add_to_service_queue(
         car2))  # False; since there is already car in service with the same make and color
+    service.add_car_to_service_queue(car2)
+
+    print(service.can_add_to_service_queue(car3))
+    service.add_car_to_service_queue(car3)
+
+    print(service.get_service_cars())
+    print(service.get_the_car_with_the_biggest_engine())
 
     # Witcher
     tallinn = Village("Tallinn", 7)
