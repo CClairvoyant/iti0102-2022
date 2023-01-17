@@ -214,7 +214,7 @@ class Service:
         """
         Return a list of cars (car) with the biggest engine size.
 
-        :return: car (cars) with the biggest engine size
+        :return: car (cars) with the biggest engine size.
         """
         return [car for car in self.queue if car.engine_size == max(self.queue, key=lambda x: x.engine_size)]
 
