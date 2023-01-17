@@ -56,7 +56,7 @@ def prettify_string(input_string: str) -> str:
     no new space should be added."
     """
     return re.sub(r"(.*?)\s*([,:;-])\s*(.*?)", "\\1\\2 \\3", re.sub(r"(\w)(.*?)\s*([.!?]|$)\s*", lambda match: (
-            match.group(1).upper() + match.group(2) + match.group(3) + " "), input_string).strip())
+        match.group(1).upper() + match.group(2) + match.group(3) + " "), input_string).strip())
 
 
 def get_max_nums(nums: list) -> list:
@@ -155,9 +155,6 @@ class Car:
         self.make = make
         self.engine_size = engine_size
 
-    def __repr__(self):
-        return f"{self.color} {self.make} {self.engine_size}"
-
 
 class Service:
     """Represent car service model."""
@@ -235,19 +232,21 @@ class Monster:
 
     def __init__(self, species: Species, bounty: int):
         """Initialize monster."""
-        pass
+        self.species = species
+        self.bounty = bounty
+        self.alive = True
 
     def get_species(self) -> Species:
         """Return the species of the monster."""
-        pass
+        return self.species
 
     def get_bounty(self) -> int:
         """Return the bounty for this monster."""
-        pass
+        return self.bounty
 
     def is_alive(self) -> bool:
         """Whether the monster is alive."""
-        pass
+        return self.alive
 
     def slay(self) -> bool:
         """
@@ -256,7 +255,10 @@ class Monster:
         If monster is already dead, return False.
         Otherwise kill the monster and return True.
         """
-        pass
+        if self.alive:
+            self.alive = False
+            return True
+        return False
 
     def __repr__(self) -> str:
         """
@@ -264,7 +266,7 @@ class Monster:
 
         "A {species} worth {bounty} coins"
         """
-        pass
+        return f"A {self.species.__str__().removeprefix('Species.')} worth {self.bounty} coins"
 
 
 class Village:
@@ -279,15 +281,19 @@ class Village:
 
     def __init__(self, name: str, initial_population: int):
         """Initialize village."""
-        pass
+        self.name = name
+        self.population = initial_population
+        self.money = 100
+        self.age = 0
+        self.monsters = []
 
     def get_name(self) -> str:
         """Return name of the village."""
-        pass
+        return self.name
 
     def get_population(self) -> int:
         """Return population of the village."""
-        pass
+        return self.population
 
     def get_monsters(self) -> list:
         """
@@ -295,15 +301,15 @@ class Village:
 
         If there are no population, no monsters are not bothering the village.
         """
-        pass
+        return self.monsters if self.population else []
 
     def add_monster(self, monster: Monster) -> None:
         """Add monster to the village."""
-        pass
+        self.monsters.append(monster)
 
     def add_money(self, amount) -> None:
         """Add money to the village."""
-        pass
+        self.money += amount
 
     def advance_day(self) -> None:
         """
@@ -311,7 +317,10 @@ class Village:
 
         The age of the village is increased by one.
         """
-        pass
+        self.age += 1
+        self.population -= len(self.monsters)
+        if self.population < 0:
+            self.population = 0
 
     def pay(self, amount: int) -> bool:
         """
@@ -320,7 +329,10 @@ class Village:
         If the village does not have enough money, return False.
         Otherwise spend the amount and return True.
         """
-        pass
+        if amount > self.money:
+            return False
+        self.money -= amount
+        return True
 
     def __repr__(self) -> str:
         """
@@ -328,7 +340,7 @@ class Village:
 
         "{name}, population {population}, age {age}"
         """
-        pass
+        return f"{self.name}, population {self.population}, age {self.age}"
 
 
 class Witcher:
@@ -340,15 +352,18 @@ class Witcher:
 
     def __init__(self, name: str, school: str):
         """Initialize witcher."""
-        pass
+        self.name = name
+        self.school = school
+        self.money = 0
+        self.killed_monsters = []
 
     def get_money(self) -> int:
         """Return the amount of money the witcher has."""
-        pass
+        return self.money
 
     def get_slain(self) -> list:
         """Return a list of slain monsters in the order they are slain."""
-        pass
+        return self.killed_monsters
 
     def get_hunted_species(self) -> list:
         """
@@ -356,7 +371,7 @@ class Witcher:
 
         Each value should be in the list once, so there can be max 3 objects in the result.
         """
-        pass
+        return sorted(map(lambda x: x.__repr__(), self.killed_monsters))
 
     def hunt_most_expensive(self, village: Village) -> bool:
         """
@@ -368,7 +383,17 @@ class Witcher:
         Otherwise return False.
         The monster is slain even if there is no money to pay.
         """
-        pass
+        if not (village.population or village.monsters):
+            return False
+        monster: Monster = max(village.monsters, key=lambda x: x.bounty)
+        monster.slay()
+        if monster.species not in self.killed_monsters:
+            self.killed_monsters.append(monster.species)
+        village.monsters.remove(monster)
+        if village.pay(monster.bounty):
+            self.money += monster.bounty
+            return True
+        return False
 
     def __repr__(self) -> str:
         """
@@ -376,7 +401,7 @@ class Witcher:
 
         "{name} of {school} school with {number of monsters} monsters slain"
         """
-        pass
+        return f"{self.name} of {self.school} school with {len(self.killed_monsters)} monsters slain"
 
 
 if __name__ == '__main__':
